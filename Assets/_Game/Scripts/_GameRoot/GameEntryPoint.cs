@@ -62,6 +62,11 @@ namespace GameRoot
             {
                 return;
             }
+            else if (initialEditorScene == Scenes.OBSTACLE_COURSE_MODE)
+            {
+                G.SceneProvider.OpenObstacleCourseMode();
+                return;
+            }
 
             // For an unregistered scene. For example, from assets.
             else if (initialEditorScene != Scenes.BOOT)

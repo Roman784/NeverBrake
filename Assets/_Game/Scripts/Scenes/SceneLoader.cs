@@ -37,7 +37,7 @@ namespace GameRoot
 
             yield return LoadScene(enterParams.SceneName);
 
-            var sceneEntryPoint = Object.FindFirstObjectByType<TEntryPoint>();
+            var sceneEntryPoint = Object.FindAnyObjectByType<TEntryPoint>();
             yield return sceneEntryPoint.Run(enterParams);
             
             yield return _uiRoot.HideLoadingScreen();

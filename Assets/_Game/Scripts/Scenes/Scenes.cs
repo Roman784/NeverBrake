@@ -4,5 +4,6 @@ namespace GameRoot
     {
         public const string BOOT = "Boot";
         public const string LEVEL_MENU = "LevelMenu";
+        public const string OBSTACLE_COURSE_MODE = "ObstacleCourseMode";
     }
 }
