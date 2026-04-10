@@ -1,0 +1,77 @@
+using Audio;
+using CMS;
+using Cysharp.Threading.Tasks;
+using GameState;
+using R3;
+using System;
+using System.Collections;
+using UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Utils;
+
+namespace GameRoot
+{
+    public sealed class GameEntryPoint : SceneEntryPoint
+    {
+        private async void Start()
+        {
+            var enterParams = new SceneEnterParams(Scenes.BOOT);
+            await Run(enterParams);
+        }
+
+        // Application initializing: loading data and setting up.
+        public override async UniTask Run<T>(T _)
+        {
+            SetAppSettings();
+
+            G.CMSProvider = new ScriptableObjectCMSProvider();
+            var gameStateProvider = new JsonGameStateProvider();
+
+            await G.CMSProvider.LoadRootCMS();
+            await gameStateProvider.LoadGameState();
+
+            G.Repository = new Repository(gameStateProvider);
+            G.UIRoot = CreateUIRoot();
+            G.SceneProvider = new SceneProvider(G.UIRoot);
+            G.AudioProvider = new AudioProvider();
+
+            StartGame();
+        }
+
+        private void SetAppSettings()
+        {
+            Application.targetFrameRate = 60;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
+        private UIRoot CreateUIRoot()
+        {
+            var createdUIRoot = Instantiate(G.RootCMS.UICMS.Root);
+            DontDestroyOnLoad(createdUIRoot.gameObject);
+            return createdUIRoot;
+        }
+
+        // Starts the first scene the player will see.
+        private void StartGame()
+        {
+#if UNITY_EDITOR
+            var initialEditorScene = GameAutostarter.InitialEditorScene;
+
+            if (initialEditorScene == Scenes.LEVEL_MENU)
+            {
+                return;
+            }
+
+            // For an unregistered scene. For example, from assets.
+            else if (initialEditorScene != Scenes.BOOT)
+            {
+                SceneManager.LoadScene(initialEditorScene);
+                return;
+            }
+#endif
+
+            //G.SceneProvider.OpenLevelMenu();
+        }
+    }
+}
