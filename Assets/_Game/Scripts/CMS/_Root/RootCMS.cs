@@ -11,5 +11,6 @@ namespace CMS
         public AudioCMS AudioCMS;
         public UICMS UICMS;
         public InitialGameStateCMS InitialGameStateCMS;
+        public CarsCMS CarsCMS;
     }
 }
