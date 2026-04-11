@@ -17,13 +17,13 @@ namespace Gameplay
                 .AddTo(this);
         }
 
-        public override float GetHorizontalInput()
+        public override int GetHorizontalInput()
         {
             if (_leftButton.IsPointerOver)
-                return -1f;
+                return -1;
             if (_rightButton.IsPointerOver)
-                return 1f;
-            return 0f;
+                return 1;
+            return 0;
         }
     }
 }

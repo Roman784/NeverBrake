@@ -8,6 +8,6 @@ namespace Gameplay
         protected Subject<Unit> _jumpSignalSubj = new();
         public Observable<Unit> JumpSignal => _jumpSignalSubj;
         
-        public abstract float GetHorizontalInput();
+        public abstract int GetHorizontalInput();
     }
 }

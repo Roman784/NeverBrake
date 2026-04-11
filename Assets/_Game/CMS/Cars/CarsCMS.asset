@@ -13,3 +13,34 @@ MonoBehaviour:
   m_Name: CarsCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarsCMS
   InputsCMS: {fileID: 11400000, guid: 1a48096d2338a024cad15fa9ca12df60, type: 2}
+  ControllerFeatures:
+    MovementSpeed: 20
+    MinTurningSpeed: 90
+    MaxTurningSpeed: 360
+    TurningAcceleration: 1
+    TurningAccelerationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Grip: 2
+  Prefab: {fileID: 7850197662570666827, guid: 723f327b5906ec34480636e35d63e8fa, type: 3}

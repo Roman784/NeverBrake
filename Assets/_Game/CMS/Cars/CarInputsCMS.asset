@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45029f6ffb792040a98bc21f92e245d, type: 3}
   m_Name: CarInputsCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarInputsCMS
-  KeyboarInput: {fileID: 0}
-  MobileInput: {fileID: 0}
+  KeyboarInput: {fileID: 218822941580760497, guid: fce7c0d934295fa4da59ab6bf7fec2e2, type: 3}
+  MobileInput: {fileID: 8336931902263727980, guid: b87f3c78fad7c174fa633052de1f0b54, type: 3}

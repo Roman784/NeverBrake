@@ -8,16 +8,20 @@ namespace ObstacleCourseMode
     public class ObstacleCourseModeEntryPoint : SceneEntryPoint<ObstacleCourseModeEnterParams>
     {
         [SerializeField] private ObstacleCourseModeView _view;
+        [SerializeField] private CameraTracker _camera;
 
         private ObstacleCourseModePresenter _presenter;
 
         protected override async UniTask Run(ObstacleCourseModeEnterParams enterParams)
         {
-            G.CarInputFactory = new CarInputFactory();
-
             // ========== Car ==========
 
+            var prefab = G.RootCMS.CarsCMS.Prefab;
+            var car = CarFactory.Create(prefab, Vector3.zero, Quaternion.identity);
 
+            // ========== Camera ==========
+
+            _camera.SetTraget(car.transform);
 
             // ========== MVP ==========
 
