@@ -14,7 +14,7 @@ namespace Gameplay
         private void LateUpdate()
         {
             var trackPosition = _target.position + Vector3.up * 10;
-            trackPosition.y = 10f;
+            trackPosition.y = 5f;
             
             transform.position = trackPosition;
         }
