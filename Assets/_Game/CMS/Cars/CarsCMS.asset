@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarsCMS
   InputsCMS: {fileID: 11400000, guid: 1a48096d2338a024cad15fa9ca12df60, type: 2}
   ControllerFeatures:
-    MovementSpeed: 20
+    MovementSpeed: 500
     MinTurningSpeed: 90
     MaxTurningSpeed: 360
     TurningAcceleration: 1
@@ -43,4 +43,4 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     Grip: 2
-  Prefab: {fileID: 7850197662570666827, guid: 723f327b5906ec34480636e35d63e8fa, type: 3}
+  Prefab: {fileID: -1642605613554031101, guid: 723f327b5906ec34480636e35d63e8fa, type: 3}

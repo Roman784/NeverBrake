@@ -13,27 +13,6 @@ namespace CMS
 
         [Space]
 
-        public CarControllerFeatures ControllerFeatures;
-
-        [Space]
-
-        public CarBinder Prefab;
-    }
-
-    [Serializable]
-    public class CarControllerFeatures
-    {
-        public float MovementSpeed;
-
-        [Space]
-
-        public float MinTurningSpeed;
-        public float MaxTurningSpeed;
-        public float TurningAcceleration;
-        public AnimationCurve TurningAccelerationCurve;
-
-        [Space]
-
-        public float Grip;
+        public Car Prefab;
     }
 }

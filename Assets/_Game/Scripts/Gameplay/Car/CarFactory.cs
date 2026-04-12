@@ -6,25 +6,20 @@ namespace Gameplay
 {
     public static class CarFactory
     {
-        private static CarsCMS CarsCMS => G.RootCMS.CarsCMS;
-
-        public static CarBinder Create(CarBinder prefab, Vector3 position, Quaternion rotation)
+        public static Car Create(Car prefab, Vector3 position, Quaternion rotation)
         {
-            var binder = Object.Instantiate(prefab, position, rotation);
-            var viewModel = new CarViewModel(
-                features: CarsCMS.ControllerFeatures);
+            var createdCar = Object.Instantiate(prefab, position, rotation);
             var input = CreateInput();
 
-            binder.Init(viewModel, input);
+            createdCar.Initialize(input);
 
-            return binder;
+            return createdCar;
         }
 
         private static CarInput CreateInput()
         {
             var prefab = GetInputPrefab();
-            var cteatedInput = Object.Instantiate(prefab);
-            return cteatedInput;
+            return Object.Instantiate(prefab);
         }
 
         private static CarInput GetInputPrefab()

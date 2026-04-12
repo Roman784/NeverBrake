@@ -4,51 +4,73 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class CarController : IDisposable
+    [RequireComponent(typeof(Rigidbody))]
+    public class CarController : MonoBehaviour
     {
-        private readonly CarViewModel _viewModel;
-        private readonly Transform _transform;
-        private readonly CarInput _input;
+        [SerializeField] private float _movementSpeed;
 
-        private readonly CompositeDisposable _disposables = new();
+        [Space]
 
-        public CarController(
-            CarViewModel viewModel, 
-            Transform transform,
-            CarInput input)
+        [SerializeField] private float _minTurningSpeed;
+        [SerializeField] private float _maxTurningSpeed;
+        [SerializeField] private float _turningAcceleration;
+        [SerializeField] private AnimationCurve _turningAccelerationCurve;
+
+        [Space]
+
+        [SerializeField] private float _grip;
+
+        private Rigidbody _rigidbody;
+        private CarInput _input;
+
+        private float _turningTime;
+        private int _previousTurningDirection;
+
+        public float TurningSpeed => CalculateTurningSpeed();
+
+        public void Initialize(CarInput input)
         {
-            _viewModel = viewModel;
-            _transform = transform;
+            _rigidbody = GetComponent<Rigidbody>();
             _input = input;
-
-            _input.JumpSignal
-                .Subscribe(_ => Jump())
-                .AddTo(_disposables);
         }
 
-        public void Dispose()
+        public void Handle(float deltaTime)
         {
-            _disposables.Dispose();
-        }
-
-        public void Update(float deltaTime)
-        {
-            if (_viewModel.IsCrashed) return;
-
             var horizontalInput = _input.GetHorizontalInput();
 
-            _viewModel.Move(deltaTime);
-            _viewModel.Turn(horizontalInput, deltaTime);
-
-            _transform.position += _viewModel.MovementDirection * _viewModel.MovementSpeed * deltaTime;
-            _transform.rotation = Quaternion.LookRotation(_viewModel.TurningDirection);
+            Move(deltaTime);
+            Turn(horizontalInput, deltaTime);
         }
 
-        private void Jump()
+        private void Move(float deltaTime)
         {
-            if (_viewModel.IsCrashed) return;
+            var force = transform.forward * _movementSpeed * deltaTime;
 
+            if (_rigidbody.linearVelocity.magnitude < _movementSpeed * 2f)
+                _rigidbody.AddForce(force, ForceMode.Force);
 
+            var lateralVelocity = Vector3.Project(_rigidbody.linearVelocity, transform.right);
+            _rigidbody.AddForce(-lateralVelocity * _grip * deltaTime, ForceMode.Force);
+        }
+
+        private void Turn(int direction, float deltaTime)
+        {
+            direction = Mathf.Clamp(direction, -1, 1);
+            if (direction == 0 || _previousTurningDirection != direction) _turningTime = 0;
+            else _turningTime += deltaTime;
+
+            _previousTurningDirection = direction;
+
+            var angle = transform.rotation.eulerAngles.y;
+            angle += direction * TurningSpeed * deltaTime;
+
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
+
+        private float CalculateTurningSpeed()
+        {
+            var t = _turningAccelerationCurve.Evaluate(_turningTime * _turningAcceleration);
+            return Mathf.Lerp(_minTurningSpeed, _maxTurningSpeed, t);
         }
     }
 }
