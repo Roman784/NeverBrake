@@ -314,7 +314,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 0
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
@@ -343,7 +343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf72e6ab181941429dc10c41ffe5685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarController
-  _movementSpeed: 500
+  _forwardAcceleration: 500
+  _maxVelocity: 20
+  _lateralFriction: 2
   _minTurningSpeed: 90
   _maxTurningSpeed: 360
   _turningAcceleration: 1
@@ -371,7 +373,51 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _grip: 2
+  _jumpHeight: 2
+  _jumpDuration: 0.5
+  _jumpHeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.4065156
+      outSlope: 6.4065156
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.040582288
+    - serializedVersion: 3
+      time: 0.19517565
+      value: 0.97412366
+      inSlope: 0.30263296
+      outSlope: 0.30263296
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11092832
+    - serializedVersion: 3
+      time: 0.5993425
+      value: 0.8817847
+      inSlope: -0.9367955
+      outSlope: -0.9367955
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07142341
+      outWeight: 0.24508004
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.4739923
+      outSlope: -2.4739923
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0965766
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _boostImpulse: 100
 --- !u!1 &8725825405446823360
 GameObject:
   m_ObjectHideFlags: 0

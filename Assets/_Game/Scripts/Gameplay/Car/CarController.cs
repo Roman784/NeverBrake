@@ -1,13 +1,17 @@
 using R3;
 using System;
+using System.Collections;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay
 {
     [RequireComponent(typeof(Rigidbody))]
     public class CarController : MonoBehaviour
     {
-        [SerializeField] private float _movementSpeed;
+        [SerializeField] private float _forwardAcceleration;
+        [SerializeField] private float _maxVelocity;
+        [SerializeField] private float _lateralFriction;
 
         [Space]
 
@@ -18,13 +22,19 @@ namespace Gameplay
 
         [Space]
 
-        [SerializeField] private float _grip;
+        [SerializeField] private float _jumpHeight;
+        [SerializeField] private float _jumpDuration;
+        [SerializeField] private AnimationCurve _jumpHeightCurve;
+
+        [Space]
+
+        [SerializeField] private float _boostImpulse;
 
         private Rigidbody _rigidbody;
         private CarInput _input;
 
-        private float _turningTime;
-        private int _previousTurningDirection;
+        private float _turnInputDuration;
+        private int _lastTurnDirection;
 
         public float TurningSpeed => CalculateTurningSpeed();
 
@@ -34,42 +44,86 @@ namespace Gameplay
             _input = input;
         }
 
-        public void Handle(float deltaTime)
+        public void ProcessInput(float deltaTime)
         {
             var horizontalInput = _input.GetHorizontalInput();
+            var shouldJump = _input.ShouldJump();
 
-            Move(deltaTime);
-            Turn(horizontalInput, deltaTime);
+            LimitMaxSpeed();
+            ApplyMovementForces(deltaTime);
+            ApplyTurning(horizontalInput, deltaTime);
+
+            if (shouldJump)
+                Jump();
         }
 
-        private void Move(float deltaTime)
+        private void ApplyMovementForces(float deltaTime)
         {
-            var force = transform.forward * _movementSpeed * deltaTime;
+            ApplyForwardAcceleration(deltaTime);
+            SuppressLateralVelocity(deltaTime);
+        }
 
-            if (_rigidbody.linearVelocity.magnitude < _movementSpeed * 2f)
-                _rigidbody.AddForce(force, ForceMode.Force);
+        private void LimitMaxSpeed()
+        {
+            _rigidbody.maxLinearVelocity = _maxVelocity;
+        }
 
+        private void ApplyForwardAcceleration(float deltaTime)
+        {
+            var force = transform.forward * _forwardAcceleration * deltaTime;
+            _rigidbody.AddForce(force, ForceMode.Force);
+        }
+
+        private void SuppressLateralVelocity(float deltaTime)
+        {
             var lateralVelocity = Vector3.Project(_rigidbody.linearVelocity, transform.right);
-            _rigidbody.AddForce(-lateralVelocity * _grip * deltaTime, ForceMode.Force);
+            _rigidbody.AddForce(-lateralVelocity * _lateralFriction * deltaTime, ForceMode.Force);
         }
 
-        private void Turn(int direction, float deltaTime)
+        private void ApplyTurning(int direction, float deltaTime)
         {
-            direction = Mathf.Clamp(direction, -1, 1);
-            if (direction == 0 || _previousTurningDirection != direction) _turningTime = 0;
-            else _turningTime += deltaTime;
+            if (direction == 0 || _lastTurnDirection != direction) _turnInputDuration = 0;
+            else _turnInputDuration += deltaTime;
 
-            _previousTurningDirection = direction;
+            _lastTurnDirection = direction;
 
             var angle = transform.rotation.eulerAngles.y;
             angle += direction * TurningSpeed * deltaTime;
 
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+        }
+
+        private void Jump()
+        {
+            StartCoroutine(JumpRoutine());
+            ApplyBoostImpulse();
+        }
+
+        private IEnumerator JumpRoutine()
+        {
+            var initialY = 0f;
+            for (float time = 0f; time < _jumpDuration; time += Time.deltaTime)
+            {
+                var progress = time / _jumpDuration;
+                var y = _jumpHeight * _jumpHeightCurve.Evaluate(progress);
+                
+                var newPosition = transform.position;
+                newPosition.y = initialY + y;
+
+                transform.position = newPosition;
+
+                yield return null;
+            }
+        }
+
+        private void ApplyBoostImpulse()
+        {
+            _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
         }
 
         private float CalculateTurningSpeed()
         {
-            var t = _turningAccelerationCurve.Evaluate(_turningTime * _turningAcceleration);
+            var t = _turningAccelerationCurve.Evaluate(_turnInputDuration * _turningAcceleration);
             return Mathf.Lerp(_minTurningSpeed, _maxTurningSpeed, t);
         }
     }

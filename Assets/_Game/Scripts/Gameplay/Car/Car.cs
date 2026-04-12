@@ -19,7 +19,7 @@ namespace Gameplay
         {
             if (_isCrashed) return;
 
-            _controller.Handle(Time.fixedDeltaTime);
+            _controller.ProcessInput(Time.fixedDeltaTime);
         }
 
         public void Crash()
