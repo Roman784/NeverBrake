@@ -530,6 +530,8 @@ GameObject:
   - component: {fileID: 3292857911012589410}
   - component: {fileID: -1642605613554031101}
   - component: {fileID: 7296389268005444467}
+  - component: {fileID: 2772314438794171973}
+  - component: {fileID: 4501153501164644226}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -596,10 +598,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 0
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!114 &-1642605613554031101
 MonoBehaviour:
@@ -703,6 +705,37 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _boostImpulse: 100
+--- !u!114 &2772314438794171973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063906916910455070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ee3d4913e70a8489110b86f68b1e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarCollisionHandler
+  _surfaceChecker: {fileID: 4501153501164644226}
+--- !u!114 &4501153501164644226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063906916910455070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a45f296a74b914495748833240c01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Physics.SurfaceChecker
+  _groundStartingPoints:
+  - {x: 0, y: 0.1, z: 0}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _checkingDistance: 0.2
 --- !u!1 &7445542909506656829
 GameObject:
   m_ObjectHideFlags: 0

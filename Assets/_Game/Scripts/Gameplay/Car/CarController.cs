@@ -36,19 +36,28 @@ namespace Gameplay
         [SerializeField] private float _boostImpulse;
 
         private Rigidbody _rigidbody;
+
         private CarView _view;
+        private CarCollisionHandler _collisionHandler;
         private CarInput _input;
 
         private float _turnInputDuration;
         private int _lastHorizontalInput;
         private float _wheelsAngle;
 
+        private bool _inJump;
+
         public float TurningSpeed => CalculateTurningSpeed();
 
-        public void Initialize(CarView view, CarInput input)
+        public void Initialize(
+            CarView view, 
+            CarCollisionHandler collisionHandler, 
+            CarInput input)
         {
             _rigidbody = GetComponent<Rigidbody>();
+
             _view = view;
+            _collisionHandler = collisionHandler;
             _input = input;
         }
 
@@ -61,7 +70,7 @@ namespace Gameplay
             ApplyMovementForces(deltaTime);
             ApplyTurning(horizontalInput, deltaTime);
 
-            if (shouldJump)
+            if (shouldJump && !_inJump && _collisionHandler.OnGround)
                 Jump();
         }
 
@@ -117,13 +126,15 @@ namespace Gameplay
 
         private void Jump()
         {
+            _inJump = true;
             StartCoroutine(JumpRoutine());
             ApplyBoostImpulse();
         }
 
         private IEnumerator JumpRoutine()
         {
-            var initialY = 0f;
+            _rigidbody.useGravity = false;
+            var initialY = transform.position.y;
             for (float time = 0f; time < _jumpDuration; time += Time.deltaTime)
             {
                 var progress = time / _jumpDuration;
@@ -137,11 +148,21 @@ namespace Gameplay
                 yield return null;
             }
 
-            transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
+            FinishJump();
+        }
+
+        private void FinishJump()
+        {
+            _inJump = false;
+            var velocity = _rigidbody.linearVelocity;
+            velocity.y = 0f;
+            _rigidbody.linearVelocity = velocity;
+            _rigidbody.useGravity = true;
         }
 
         private void ApplyBoostImpulse()
         {
+            _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
         }
 
