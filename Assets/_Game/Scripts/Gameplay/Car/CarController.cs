@@ -22,6 +22,11 @@ namespace Gameplay
 
         [Space]
 
+        [SerializeField] private float _wheelsTurningSpeed;
+        [SerializeField] private float _maxWheelsTurning;
+
+        [Space]
+
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpDuration;
         [SerializeField] private AnimationCurve _jumpHeightCurve;
@@ -31,16 +36,19 @@ namespace Gameplay
         [SerializeField] private float _boostImpulse;
 
         private Rigidbody _rigidbody;
+        private CarView _view;
         private CarInput _input;
 
         private float _turnInputDuration;
-        private int _lastTurnDirection;
+        private int _lastHorizontalInput;
+        private float _wheelsAngle;
 
         public float TurningSpeed => CalculateTurningSpeed();
 
-        public void Initialize(CarInput input)
+        public void Initialize(CarView view, CarInput input)
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _view = view;
             _input = input;
         }
 
@@ -80,17 +88,31 @@ namespace Gameplay
             _rigidbody.AddForce(-lateralVelocity * _lateralFriction * deltaTime, ForceMode.Force);
         }
 
-        private void ApplyTurning(int direction, float deltaTime)
+        private void ApplyTurning(int horizontalInput, float deltaTime)
         {
-            if (direction == 0 || _lastTurnDirection != direction) _turnInputDuration = 0;
+            if (horizontalInput == 0 || _lastHorizontalInput != horizontalInput) _turnInputDuration = 0;
             else _turnInputDuration += deltaTime;
 
-            _lastTurnDirection = direction;
+            _lastHorizontalInput = horizontalInput;
 
+            ApplyBodyTurning(horizontalInput, deltaTime);
+            ApplyWheelsTurning(horizontalInput, deltaTime);
+        }
+
+        private void ApplyBodyTurning(int horizontalInput, float deltaTime)
+        {
+            var step = horizontalInput * TurningSpeed;
             var angle = transform.rotation.eulerAngles.y;
-            angle += direction * TurningSpeed * deltaTime;
+            angle += step * deltaTime;
 
             _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+        }
+
+        private void ApplyWheelsTurning(int horizontalInput, float deltaTime)
+        {
+            var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
+            _wheelsAngle = Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
+            _view.ApplyWheelsTurning(_wheelsAngle);
         }
 
         private void Jump()
@@ -114,6 +136,8 @@ namespace Gameplay
 
                 yield return null;
             }
+
+            transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
         }
 
         private void ApplyBoostImpulse()

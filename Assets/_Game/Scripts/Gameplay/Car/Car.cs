@@ -5,6 +5,8 @@ namespace Gameplay
     [RequireComponent(typeof(CarController))]
     public class Car : MonoBehaviour
     {
+        [SerializeField] private CarView _view;
+        
         private CarController _controller;
 
         private bool _isCrashed;
@@ -12,7 +14,8 @@ namespace Gameplay
         public void Initialize(CarInput input)
         {
             _controller = GetComponent<CarController>();
-            _controller.Initialize(input);
+
+            _controller.Initialize(_view, input);
         }
 
         private void FixedUpdate()
