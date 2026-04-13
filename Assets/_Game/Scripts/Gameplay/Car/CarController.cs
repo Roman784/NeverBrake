@@ -72,6 +72,8 @@ namespace Gameplay
 
             if (shouldJump && !_inJump && _collisionHandler.OnGround)
                 Jump();
+
+            _view.SetActiveTireTracks(!_inJump);
         }
 
         private void ApplyMovementForces(float deltaTime)

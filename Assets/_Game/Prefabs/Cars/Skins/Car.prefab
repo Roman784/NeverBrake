@@ -433,7 +433,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: bebb2a4c046c65d42ac3924335035e08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -456,7 +456,7 @@ TrailRenderer:
   m_SortingLayer: 1
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Time: 5
+  m_Time: 1e+20
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -513,7 +513,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.2
+  m_MinVertexDistance: 0.5
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
@@ -787,6 +787,9 @@ MonoBehaviour:
   - {fileID: 3316790922417937346}
   - {fileID: 1276332290874540021}
   - {fileID: 5678310600416705124}
+  _tireTracks:
+  - {fileID: 2139931660122818666}
+  - {fileID: 4261410168104442305}
 --- !u!1 &8642004319870031730
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,7 +961,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: bebb2a4c046c65d42ac3924335035e08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -981,7 +984,7 @@ TrailRenderer:
   m_SortingLayer: 1
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Time: 5
+  m_Time: 1e+20
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -1038,7 +1041,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.2
+  m_MinVertexDistance: 0.5
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
