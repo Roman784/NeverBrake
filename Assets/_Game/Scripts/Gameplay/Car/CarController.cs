@@ -30,6 +30,7 @@ namespace Gameplay
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpDuration;
         [SerializeField] private AnimationCurve _jumpHeightCurve;
+        [SerializeField] private float _jumpCooldown;
 
         [Space]
 
@@ -44,7 +45,7 @@ namespace Gameplay
         private float _turnInputDuration;
         private int _lastHorizontalInput;
         private float _wheelsAngle;
-
+        private float _nextJumpTime;
         private bool _inJump;
 
         public float TurningSpeed => CalculateTurningSpeed();
@@ -70,7 +71,7 @@ namespace Gameplay
             ApplyMovementForces(deltaTime);
             ApplyTurning(horizontalInput, deltaTime);
 
-            if (shouldJump && !_inJump && _collisionHandler.OnGround)
+            if (shouldJump && CanJump())
                 Jump();
 
             _view.SetActiveTireTracks(!_inJump);
@@ -126,6 +127,14 @@ namespace Gameplay
             _view.ApplyWheelsTurning(_wheelsAngle);
         }
 
+        private bool CanJump()
+        {
+            return
+                !_inJump &&
+                _nextJumpTime < Time.time &&
+                _collisionHandler.OnGround;
+        }
+
         private void Jump()
         {
             _inJump = true;
@@ -156,10 +165,12 @@ namespace Gameplay
         private void FinishJump()
         {
             _inJump = false;
-            var velocity = _rigidbody.linearVelocity;
-            velocity.y = 0f;
-            _rigidbody.linearVelocity = velocity;
+            //_nextJumpTime = Time.time + _jumpCooldown;
             _rigidbody.useGravity = true;
+            var velocity = _rigidbody.linearVelocity; velocity.y = 0f;
+            _rigidbody.linearVelocity = velocity;
+
+            _view.PlayLandingAnimation();
         }
 
         private void ApplyBoostImpulse()
@@ -167,6 +178,7 @@ namespace Gameplay
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
 
+            _view.PlayBoostAnimation();
             _view.PlayBoostVFX();
         }
 

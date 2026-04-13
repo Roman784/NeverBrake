@@ -29,12 +29,13 @@ namespace VisualEffects
             return vfx;
         }
 
-        public void Play(bool instantDestroy = false)
+        public void Play(bool destroy = true)
         {
-            _effect.Play(instantDestroy);
+            _effect.Play(destroy);
             
-            if (instantDestroy)
-                Observable.Timer(TimeSpan.FromSeconds(_effect.main.duration))
+            if (destroy)
+                Observable.Timer(
+                    TimeSpan.FromSeconds(_effect.main.duration + _effect.main.startLifetime.constantMax))
                     .Subscribe(_ => Destroy())
                     .AddTo(gameObject);
         }

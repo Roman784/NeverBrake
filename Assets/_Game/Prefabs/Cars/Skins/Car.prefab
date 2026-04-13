@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 3785024654329826154}
   - component: {fileID: 3292857911012589410}
   - component: {fileID: -1642605613554031101}
+  - component: {fileID: 1802685339030046095}
   - component: {fileID: 7296389268005444467}
   - component: {fileID: 2772314438794171973}
   - component: {fileID: 4501153501164644226}
@@ -647,7 +648,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6b1289d08e3f443a2ca23a73582afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Car
-  _view: {fileID: 1321411778198108099}
+  _view: {fileID: 1802685339030046095}
+--- !u!114 &1802685339030046095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063906916910455070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8123de3a33b57ea439b89032313d40ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarView
+  _root: {fileID: 3984503822071258649}
+  _wheels:
+  - {fileID: 9031309002356099017}
+  - {fileID: 3316790922417937346}
+  - {fileID: 1276332290874540021}
+  - {fileID: 5678310600416705124}
+  _tireTracks:
+  - {fileID: 2139931660122818666}
+  - {fileID: 4261410168104442305}
+  _boostVFXPoint: {fileID: 4958051441815068910}
+  _boostVFXPrefab: {fileID: 6274685203801075039, guid: ae5e9afa7a3b0d744b20a6fd224235b9, type: 3}
+  _collisionVFXPrefab: {fileID: 9004367569648579983, guid: 7b18e359a4821c54499970ea5016755e, type: 3}
 --- !u!114 &7296389268005444467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,6 +761,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _jumpCooldown: 0.5
   _boostImpulse: 100
 --- !u!114 &2772314438794171973
 MonoBehaviour:
@@ -780,7 +806,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3984503822071258649}
-  - component: {fileID: 1321411778198108099}
   m_Layer: 0
   m_Name: Skin
   m_TagString: Untagged
@@ -805,29 +830,6 @@ Transform:
   - {fileID: 73879132636233850}
   m_Father: {fileID: 7977483954321272944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1321411778198108099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445542909506656829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8123de3a33b57ea439b89032313d40ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarView
-  _wheels:
-  - {fileID: 9031309002356099017}
-  - {fileID: 3316790922417937346}
-  - {fileID: 1276332290874540021}
-  - {fileID: 5678310600416705124}
-  _tireTracks:
-  - {fileID: 2139931660122818666}
-  - {fileID: 4261410168104442305}
-  _boostVFXPoint: {fileID: 4958051441815068910}
-  _boostVFXPrefab: {fileID: 6274685203801075039, guid: ae5e9afa7a3b0d744b20a6fd224235b9, type: 3}
-  _collisionVFXPrefab: {fileID: 9004367569648579983, guid: 7b18e359a4821c54499970ea5016755e, type: 3}
 --- !u!1 &8642004319870031730
 GameObject:
   m_ObjectHideFlags: 0
