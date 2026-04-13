@@ -30,7 +30,6 @@ namespace Gameplay
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpDuration;
         [SerializeField] private AnimationCurve _jumpHeightCurve;
-        [SerializeField] private float _jumpCooldown;
 
         [Space]
 
@@ -39,7 +38,7 @@ namespace Gameplay
         private Rigidbody _rigidbody;
 
         private CarView _view;
-        private CarCollisionHandler _collisionHandler;
+        private CarCollisionRegister _collisionHandler;
         private CarInput _input;
 
         private float _turnInputDuration;
@@ -52,7 +51,7 @@ namespace Gameplay
 
         public void Initialize(
             CarView view, 
-            CarCollisionHandler collisionHandler, 
+            CarCollisionRegister collisionHandler, 
             CarInput input)
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -60,6 +59,12 @@ namespace Gameplay
             _view = view;
             _collisionHandler = collisionHandler;
             _input = input;
+        }
+
+        public void Stop()
+        {
+            _rigidbody.isKinematic = true;
+            _rigidbody.linearVelocity = Vector3.zero;
         }
 
         public void ProcessInput(float deltaTime)
@@ -165,7 +170,6 @@ namespace Gameplay
         private void FinishJump()
         {
             _inJump = false;
-            //_nextJumpTime = Time.time + _jumpCooldown;
             _rigidbody.useGravity = true;
             var velocity = _rigidbody.linearVelocity; velocity.y = 0f;
             _rigidbody.linearVelocity = velocity;

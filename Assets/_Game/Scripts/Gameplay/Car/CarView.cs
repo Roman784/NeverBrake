@@ -18,6 +18,7 @@ namespace Gameplay
         [SerializeField] private Transform _boostVFXPoint;
         [SerializeField] private VFX _boostVFXPrefab;
         [SerializeField] private VFX _collisionVFXPrefab;
+        [SerializeField] private VFX _crashVFXPrefab;
 
         private Sequence _landingSeq;
         private Sequence _boostSeq;
@@ -70,6 +71,11 @@ namespace Gameplay
         {
             var rotation = Quaternion.LookRotation(normal);
             VFX.Create(_collisionVFXPrefab, position, rotation).Play();
+        }
+
+        public void PlayCrashEffect(Vector3 position)
+        {
+            VFX.Create(_crashVFXPrefab, position).Play();
         }
     }
 }

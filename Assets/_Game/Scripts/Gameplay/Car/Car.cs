@@ -1,28 +1,34 @@
-using UnityEngine;
 using R3;
+using UnityEngine;
+using Utils;
+using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 namespace Gameplay
 {
     [RequireComponent(typeof(CarController))]
-    [RequireComponent(typeof(CarCollisionHandler))]
+    [RequireComponent(typeof(CarCollisionRegister))]
     public class Car : MonoBehaviour
     {
         [SerializeField] private CarView _view;
+
+        [Space]
+
+        [SerializeField] private LayerMask _crashObstacleMask;
         
         private CarController _controller;
-        private CarCollisionHandler _collisionHandler;
+        private CarCollisionRegister _collisionRegister;
 
         private bool _isCrashed;
 
         public void Initialize(CarInput input)
         {
             _controller = GetComponent<CarController>();
-            _collisionHandler = GetComponent<CarCollisionHandler>();
+            _collisionRegister = GetComponent<CarCollisionRegister>();
 
-            _controller.Initialize(_view, _collisionHandler, input);
+            _controller.Initialize(_view, _collisionRegister, input);
 
-            _collisionHandler.CollidedSignal
-                .Subscribe(collision => _view.PlayCollisionVFX(collision.contacts[0].point, collision.contacts[0].normal))
+            _collisionRegister.CollidedSignal
+                .Subscribe(collision => HandleCollision(collision))
                 .AddTo(gameObject);
         }
 
@@ -33,8 +39,25 @@ namespace Gameplay
             _controller.ProcessInput(Time.fixedDeltaTime);
         }
 
-        public void Crash()
+        private void HandleCollision(Collision collision)
         {
+            if (_isCrashed) return;
+
+            var contact = collision.contacts[0];
+
+            if (_crashObstacleMask.Contains(collision.collider.gameObject.layer))
+            {
+                _view.PlayCrashEffect(contact.point);
+                Crash();
+                return;
+            }
+
+            _view.PlayCollisionVFX(contact.point, contact.normal);
+        }
+
+        private void Crash()
+        {
+            _controller.Stop();
             _isCrashed = true;
         }
     }

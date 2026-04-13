@@ -1,10 +1,11 @@
 using Physics;
 using R3;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay
 {
-    public class CarCollisionHandler : MonoBehaviour
+    public class CarCollisionRegister : MonoBehaviour
     {
         [SerializeField] private LayerMask _obstacleMask;
         [SerializeField] private SurfaceChecker _surfaceChecker;
@@ -16,7 +17,7 @@ namespace Gameplay
 
         private void OnCollisionEnter(Collision collision)
         {
-            if ((_obstacleMask.value & (1 << collision.gameObject.layer)) != 0)
+            if (_obstacleMask.Contains(collision.gameObject.layer))
             {
                 _collidedSignalSubj.OnNext(collision);
             }
