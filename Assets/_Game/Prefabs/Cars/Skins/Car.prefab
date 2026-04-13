@@ -749,6 +749,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ee3d4913e70a8489110b86f68b1e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarCollisionHandler
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
   _surfaceChecker: {fileID: 4501153501164644226}
 --- !u!114 &4501153501164644226
 MonoBehaviour:
@@ -824,6 +827,7 @@ MonoBehaviour:
   - {fileID: 4261410168104442305}
   _boostVFXPoint: {fileID: 4958051441815068910}
   _boostVFXPrefab: {fileID: 6274685203801075039, guid: ae5e9afa7a3b0d744b20a6fd224235b9, type: 3}
+  _collisionVFXPrefab: {fileID: 9004367569648579983, guid: 7b18e359a4821c54499970ea5016755e, type: 3}
 --- !u!1 &8642004319870031730
 GameObject:
   m_ObjectHideFlags: 0

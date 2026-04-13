@@ -1,4 +1,5 @@
 using UnityEngine;
+using R3;
 
 namespace Gameplay
 {
@@ -19,6 +20,10 @@ namespace Gameplay
             _collisionHandler = GetComponent<CarCollisionHandler>();
 
             _controller.Initialize(_view, _collisionHandler, input);
+
+            _collisionHandler.CollidedSignal
+                .Subscribe(collision => _view.PlayCollisionVFX(collision.contacts[0].point, collision.contacts[0].normal))
+                .AddTo(gameObject);
         }
 
         private void FixedUpdate()

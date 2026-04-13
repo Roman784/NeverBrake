@@ -12,6 +12,7 @@ namespace Gameplay
 
         [SerializeField] private Transform _boostVFXPoint;
         [SerializeField] private VFX _boostVFXPrefab;
+        [SerializeField] private VFX _collisionVFXPrefab;
 
         public void ApplyWheelsTurning(float angle)
         {
@@ -32,6 +33,12 @@ namespace Gameplay
         public void PlayBoostVFX()
         {
             VFX.Create(_boostVFXPrefab, _boostVFXPoint).Play();
+        }
+
+        public void PlayCollisionVFX(Vector3 position, Vector3 normal)
+        {
+            var rotation = Quaternion.LookRotation(normal);
+            VFX.Create(_collisionVFXPrefab, position, rotation).Play();
         }
     }
 }
