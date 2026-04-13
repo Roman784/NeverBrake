@@ -63,8 +63,9 @@ namespace Gameplay
 
         public void Stop()
         {
-            _rigidbody.isKinematic = true;
             _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+            _rigidbody.isKinematic = true;
         }
 
         public void ProcessInput(float deltaTime)

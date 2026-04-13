@@ -890,9 +890,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 780479080}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80a5e04b284ee745b14c4f817640bcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2957c3b742d14614ea1f2b02453ba433, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CameraTracker
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Camera
+  _camera: {fileID: 1246484289}
 --- !u!1 &889350896
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,13 +2,9 @@ using Audio;
 using CMS;
 using Cysharp.Threading.Tasks;
 using GameState;
-using R3;
-using System;
-using System.Collections;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils;
 
 namespace GameRoot
 {

@@ -1,3 +1,4 @@
+using GameRoot;
 using R3;
 using UnityEngine;
 using Utils;
@@ -48,11 +49,13 @@ namespace Gameplay
             if (_crashObstacleMask.Contains(collision.collider.gameObject.layer))
             {
                 _view.PlayCrashEffect(contact.point);
+                G.Camera.Shaker.StrongShake();
                 Crash();
                 return;
             }
 
             _view.PlayCollisionVFX(contact.point, contact.normal);
+            G.Camera.Shaker.WeakShake();
         }
 
         private void Crash()
