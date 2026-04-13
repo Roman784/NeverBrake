@@ -1,4 +1,5 @@
 using UnityEngine;
+using VisualEffects;
 
 namespace Gameplay
 {
@@ -6,6 +7,11 @@ namespace Gameplay
     {
         [SerializeField] private Transform[] _wheels;
         [SerializeField] private TrailRenderer[] _tireTracks;
+
+        [Space]
+
+        [SerializeField] private Transform _boostVFXPoint;
+        [SerializeField] private VFX _boostVFXPrefab;
 
         public void ApplyWheelsTurning(float angle)
         {
@@ -21,6 +27,11 @@ namespace Gameplay
             {
                 tireTrack.emitting = value;
             }
+        }
+
+        public void PlayBoostVFX()
+        {
+            VFX.Create(_boostVFXPrefab, _boostVFXPoint).Play();
         }
     }
 }

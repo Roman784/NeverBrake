@@ -166,6 +166,8 @@ namespace Gameplay
         {
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
+
+            _view.PlayBoostVFX();
         }
 
         private float CalculateTurningSpeed()
