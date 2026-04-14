@@ -41,6 +41,7 @@ namespace Gameplay
         private CarCollisionRegister _collisionHandler;
         private CarInput _input;
 
+        private bool _isStopped;
         private float _turnInputDuration;
         private int _lastHorizontalInput;
         private float _wheelsAngle;
@@ -63,13 +64,18 @@ namespace Gameplay
 
         public void Stop()
         {
+            _isStopped = true;
+            StopAllCoroutines();
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;
+            _view.SetActiveTireTracks(false);
         }
 
         public void ProcessInput(float deltaTime)
         {
+            if (_isStopped) return;
+
             var horizontalInput = _input.GetHorizontalInput();
             var shouldJump = _input.ShouldJump();
 

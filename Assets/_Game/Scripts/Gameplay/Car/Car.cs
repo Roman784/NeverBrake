@@ -48,9 +48,16 @@ namespace Gameplay
 
             if (_crashObstacleMask.Contains(collision.collider.gameObject.layer))
             {
-                _view.PlayCrashEffect(contact.point);
+                _view.PlayCrashVFX(contact.point);
                 G.Camera.Shaker.StrongShake();
                 Crash();
+                return;
+            }
+            else if (collision.collider.TryGetComponent<FinishPortal>(out var portal))
+            {
+                portal.GetComponent<Collider>().enabled = false;
+                _controller.Stop();
+                _view.PlayPortalSuctionAnimation(portal.CenterPosition);
                 return;
             }
 

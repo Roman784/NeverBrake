@@ -22,5 +22,13 @@ namespace Gameplay
                 _collidedSignalSubj.OnNext(collision);
             }
         }
+
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if (_obstacleMask.Contains(other.gameObject.layer))
+        //    {
+        //        _collidedSignalSubj.OnNext(other);
+        //    }
+        //}
     }
 }
