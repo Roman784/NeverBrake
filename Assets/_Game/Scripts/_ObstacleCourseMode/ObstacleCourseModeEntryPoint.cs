@@ -9,6 +9,7 @@ namespace ObstacleCourseMode
     {
         [SerializeField] private ObstacleCourseModeView _view;
         [SerializeField] private Gameplay.Camera _camera;
+        [SerializeField] private Transform _carSpawnPoint;
 
         private ObstacleCourseModePresenter _presenter;
 
@@ -19,7 +20,7 @@ namespace ObstacleCourseMode
             // ========== Car ==========
 
             var prefab = G.RootCMS.CarsCMS.Prefab;
-            var car = CarFactory.Create(prefab, Vector3.zero, Quaternion.identity);
+            var car = CarFactory.Create(prefab, _carSpawnPoint.position, _carSpawnPoint.rotation);
 
             // ========== Camera ==========
 

@@ -765,7 +765,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _jumpCooldown: 0.5
   _boostImpulse: 100
 --- !u!114 &2772314438794171973
 MonoBehaviour:
