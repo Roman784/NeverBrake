@@ -55,7 +55,6 @@ namespace Gameplay
             }
 
             _view.PlayCollisionVFX(contact.point, contact.normal);
-            G.Camera.Shaker.WeakShake();
         }
 
         private void Crash()

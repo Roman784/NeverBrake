@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7587749076711900864}
   - component: {fileID: 6723345682208715485}
   - component: {fileID: 4795743762115071436}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: WallTile_SmoothedFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
