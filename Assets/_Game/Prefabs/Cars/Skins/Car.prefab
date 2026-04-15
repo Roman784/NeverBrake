@@ -796,6 +796,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Physics.SurfaceChecker
   _groundStartingPoints:
   - {x: 0, y: 0.1, z: 0}
+  - {x: 0, y: 0.1, z: 0.75}
+  - {x: 0, y: 0.1, z: -1}
   _groundMask:
     serializedVersion: 2
     m_Bits: 64

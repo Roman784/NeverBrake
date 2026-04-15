@@ -74,6 +74,8 @@ namespace Gameplay
             seq.Join(_root.DOScale(0, 2f).SetEase(Ease.InQuad));
             seq.Join(_root.DORotate(Vector3.up * 360 * 3, 2f, RotateMode.FastBeyond360));
 
+            transform.rotation = Quaternion.identity;
+
             return seq;
         }
 

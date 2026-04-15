@@ -14,6 +14,12 @@ namespace Gameplay
 
         public Observable<Collision> CollidedSignal => _collidedSignalSubj;
         public bool OnGround => _surfaceChecker.CheckGround(out var _);
+        public float GetGroundHeight()
+        {
+            if (_surfaceChecker.TryGetGround(out var hit))
+                return hit.point.y;
+            return transform.position.y;
+        }
 
         private void OnCollisionEnter(Collision collision)
         {

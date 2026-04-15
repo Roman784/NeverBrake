@@ -38,7 +38,7 @@ namespace Gameplay
         private Rigidbody _rigidbody;
 
         private CarView _view;
-        private CarCollisionRegister _collisionHandler;
+        private CarCollisionRegister _collisionRegister;
         private CarInput _input;
 
         private bool _isStopped;
@@ -52,13 +52,13 @@ namespace Gameplay
 
         public void Initialize(
             CarView view, 
-            CarCollisionRegister collisionHandler, 
+            CarCollisionRegister collisionRegister, 
             CarInput input)
         {
             _rigidbody = GetComponent<Rigidbody>();
 
             _view = view;
-            _collisionHandler = collisionHandler;
+            _collisionRegister = collisionRegister;
             _input = input;
         }
 
@@ -70,6 +70,8 @@ namespace Gameplay
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;
             _view.SetActiveTireTracks(false);
+            transform.position = new Vector3(
+                transform.position.x, _collisionRegister.GetGroundHeight(), transform.position.z);
         }
 
         public void ProcessInput(float deltaTime)
@@ -144,7 +146,7 @@ namespace Gameplay
             return
                 !_inJump &&
                 _nextJumpTime < Time.time &&
-                _collisionHandler.OnGround;
+                _collisionRegister.OnGround;
         }
 
         private void Jump()
