@@ -74,7 +74,26 @@ namespace Gameplay
             seq.Join(_root.DOScale(0, 2f).SetEase(Ease.InQuad));
             seq.Join(_root.DORotate(Vector3.up * 360 * 3, 2f, RotateMode.FastBeyond360));
 
-            transform.rotation = Quaternion.identity;
+            transform.rotation = Quaternion.LookRotation(transform.forward); // Need.
+
+            return seq;
+        }
+
+        public Tween PlayFallingIntoWaterAnimation()
+        {
+            _boostSeq?.Kill(true);
+            _landingSeq?.Kill(true);
+            _root.DOKill(true);
+
+            var rotation = Vector3.right * 60;
+            var position = transform.position + transform.forward / 2f;
+            position.y -= 2f;
+
+            var seq = DOTween.Sequence();
+            seq.Append(transform.DOMove(position, 0.75f).SetEase(Ease.InQuad));
+            seq.Join(_root.DOLocalRotate(rotation, 0.75f).SetEase(Ease.OutQuad));
+
+            transform.rotation = Quaternion.LookRotation(transform.forward); // Need.
 
             return seq;
         }

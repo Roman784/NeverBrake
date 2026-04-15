@@ -4,7 +4,6 @@ namespace Physics
 {
     public class SurfaceChecker : MonoBehaviour
     {
-        [Header("Ground")]
         [SerializeField] private Vector3[] _groundStartingPoints;
         [SerializeField] private LayerMask _groundMask;
 
@@ -12,29 +11,53 @@ namespace Physics
 
         [SerializeField] private float _checkingDistance;
 
-        public bool CheckGround(out RaycastHit hit)
+        public bool CheckGround(out RaycastHit hit, out int missedRays)
         {
             return TryGetSurface(
-                _groundStartingPoints, Vector3.down, _checkingDistance, _groundMask, out hit);
+                _groundStartingPoints, Vector3.down, _checkingDistance, _groundMask, out hit, out missedRays);
         }
 
-        public bool TryGetGround(out RaycastHit hit)
+        public bool TryGetGround(out RaycastHit hit, out int missedRays)
         {
             return TryGetSurface(
-                _groundStartingPoints, Vector3.down, float.MaxValue, _groundMask, out hit);
+                _groundStartingPoints, Vector3.down, float.MaxValue, _groundMask, out hit, out missedRays);
         }
 
         private bool TryGetSurface(
-            Vector3[] startingPoints, Vector3 direction, float distance, LayerMask mask, out RaycastHit hit)
+            Vector3[] startingPoints,
+            Vector3 direction,
+            float distance,
+            LayerMask mask,
+            out RaycastHit hit,
+            out int missedRays)
         {
+            hit = default;
+            missedRays = 0;
+
+            bool hasHit = false;
+            float closestDistance = float.MaxValue;
+
             foreach (var startPoint in startingPoints)
             {
                 var origin = transform.position + startPoint;
-                return UnityEngine.Physics.Raycast(origin, direction, out hit, distance, mask);
+
+                if (UnityEngine.Physics.Raycast(origin, direction, out var currentHit, distance, mask))
+                {
+                    hasHit = true;
+
+                    if (currentHit.distance < closestDistance)
+                    {
+                        closestDistance = currentHit.distance;
+                        hit = currentHit;
+                    }
+                }
+                else
+                {
+                    missedRays++;
+                }
             }
 
-            hit = default;
-            return false;
+            return hasHit;
         }
 
         private void OnDrawGizmos()

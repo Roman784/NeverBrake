@@ -146,7 +146,7 @@ namespace Gameplay
             return
                 !_inJump &&
                 _nextJumpTime < Time.time &&
-                _collisionRegister.OnGround;
+                _collisionRegister.IsAnyPartOnGround();
         }
 
         private void Jump()

@@ -1,40 +1,76 @@
 using Physics;
 using R3;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using Utils;
 
 namespace Gameplay
 {
     public class CarCollisionRegister : MonoBehaviour
     {
-        [SerializeField] private LayerMask _obstacleMask;
+        [SerializeField] private string _wallTag = "Wall";
+        [SerializeField] private string _trapTag = "Trap";
+        [SerializeField] private string _waterTag = "Water";
+        [SerializeField] private string _finishTag = "Finish";
+
+        [Space]
+
         [SerializeField] private SurfaceChecker _surfaceChecker;
 
-        private Subject<Collision> _collidedSignalSubj = new();
+        private bool _canRegister;
 
-        public Observable<Collision> CollidedSignal => _collidedSignalSubj;
-        public bool OnGround => _surfaceChecker.CheckGround(out var _);
+        private Subject<Collision> _collidedWithWallSignalSubj = new();
+        private Subject<Collision> _collidedWithTrapSignalSubj = new();
+        private Subject<Collision> _collidedWithWaterSignalSubj = new();
+        private Subject<Collider> _collidedWithFinishSignalSubj = new();
+
+        public Observable<Collision> CollidedWithWallSignal => _collidedWithWallSignalSubj;
+        public Observable<Collision> CollidedWithTrapSignal => _collidedWithTrapSignalSubj;
+        public Observable<Collision> CollidedWithWaterSignal => _collidedWithWaterSignalSubj;
+        public Observable<Collider> CollidedWithFinishignal => _collidedWithFinishSignalSubj;
+        
+        public void Enabled() => _canRegister = true;
+        public void Disable() => _canRegister = false;
+
+        public bool AreAllPartsOnGround()
+        {
+            if (_surfaceChecker.CheckGround(out var _, out var missedRays))
+                return missedRays == 0;
+            return false;
+        }
+
+        public bool IsAnyPartOnGround()
+        {
+            return _surfaceChecker.CheckGround(out var _, out var _);
+        }
+
         public float GetGroundHeight()
         {
-            if (_surfaceChecker.TryGetGround(out var hit))
+            if (_surfaceChecker.TryGetGround(out var hit, out var _))
                 return hit.point.y;
             return transform.position.y;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (_obstacleMask.Contains(collision.gameObject.layer))
-            {
-                _collidedSignalSubj.OnNext(collision);
-            }
+            if (!_canRegister) return;
+
+            if (collision.collider.CompareTag(_wallTag))
+                _collidedWithWallSignalSubj.OnNext(collision);
+
+            else if (collision.collider.CompareTag(_trapTag))
+                _collidedWithTrapSignalSubj.OnNext(collision);
+
+            else if (collision.collider.CompareTag(_waterTag))
+                _collidedWithWaterSignalSubj.OnNext(collision);
         }
 
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    if (_obstacleMask.Contains(other.gameObject.layer))
-        //    {
-        //        _collidedSignalSubj.OnNext(other);
-        //    }
-        //}
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!_canRegister) return;
+
+            if (other.CompareTag(_finishTag))
+                _collidedWithFinishSignalSubj.OnNext(other);
+        }
     }
 }

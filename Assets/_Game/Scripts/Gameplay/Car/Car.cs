@@ -21,6 +21,7 @@ namespace Gameplay
         private CarCollisionRegister _collisionRegister;
 
         private bool _isCrashed;
+        private bool _isFinished;
 
         public void Initialize(CarInput input)
         {
@@ -29,9 +30,23 @@ namespace Gameplay
 
             _controller.Initialize(_view, _collisionRegister, input);
 
-            _collisionRegister.CollidedSignal
-                .Subscribe(collision => HandleCollision(collision))
+            _collisionRegister.CollidedWithWallSignal
+                .Subscribe(collision => HandleCollisionWithWall(collision))
                 .AddTo(gameObject);
+
+            _collisionRegister.CollidedWithTrapSignal
+                .Subscribe(collision => HandleCollisionWithTrap(collision))
+                .AddTo(gameObject);
+
+            _collisionRegister.CollidedWithWaterSignal
+                .Subscribe(collision => HandleCollisionWithWater(collision))
+                .AddTo(gameObject);
+
+            _collisionRegister.CollidedWithFinishignal
+                .Subscribe(collieder => HandleCollisionWithFinish(collieder))
+                .AddTo(gameObject);
+
+            _collisionRegister.Enabled();
         }
 
         private void FixedUpdate()
@@ -41,39 +56,58 @@ namespace Gameplay
             _controller.ProcessInput(Time.fixedDeltaTime);
         }
 
-        private void HandleCollision(Collision collision)
+        private void HandleCollisionWithWall(Collision collision)
         {
             if (_isCrashed) return;
 
             var contact = collision.contacts[0];
+            _view.PlayCollisionVFX(contact.point, contact.normal);
+        }
 
-            if (_crashObstacleMask.Contains(collision.collider.gameObject.layer))
-            {
-                _view.PlayCrashVFX(contact.point)
+        private void HandleCollisionWithTrap(Collision collision)
+        {
+            if (_isCrashed) return;
+
+            Crash();
+
+            _view.PlayCrashVFX(collision.contacts[0].point)
                     .Subscribe(_ => G.SceneProvider.RestartScene())
                     .AddTo(gameObject);
-                G.Camera.Shaker.StrongShake();
-                G.Camera.Zoom();
-                Crash();
-                return;
-            }
-            else if (collision.collider.TryGetComponent<FinishPortal>(out var portal))
+
+            G.Camera.Shaker.StrongShake();
+            G.Camera.Zoom();
+        }
+
+        private void HandleCollisionWithWater(Collision collision)
+        {
+            if (_isCrashed) return;
+
+            Crash();
+            _view.PlayFallingIntoWaterAnimation()
+                .OnComplete(() => G.SceneProvider.RestartScene());
+            G.Camera.Zoom();
+        }
+
+        private void HandleCollisionWithFinish(Collider collider)
+        {
+            if (_isCrashed) return;
+            if (collider.TryGetComponent<FinishPortal>(out var portal))
             {
-                portal.GetComponent<Collider>().enabled = false;
+                _collisionRegister.Disable();
                 _controller.Stop();
                 _view.PlayPortalSuctionAnimation(portal.CenterPosition)
                     .OnComplete(() => G.SceneProvider.RestartScene());
                 G.Camera.Zoom();
                 return;
             }
-
-            _view.PlayCollisionVFX(contact.point, contact.normal);
         }
 
         private void Crash()
         {
-            _controller.Stop();
             _isCrashed = true;
+            _controller.Stop();
+            _collisionRegister.Disable();
+            _view.SetActiveTireTracks(false);
         }
     }
 }
