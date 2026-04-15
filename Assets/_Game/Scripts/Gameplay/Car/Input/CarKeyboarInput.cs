@@ -21,5 +21,10 @@ namespace Gameplay
                 Input.GetKey(KeyCode.W) || 
                 Input.GetKey(KeyCode.UpArrow);
         }
+
+        public override bool ShouldStartMoving()
+        {
+            return ShouldJump() || GetHorizontalInput() != 0;
+        }
     }
 }

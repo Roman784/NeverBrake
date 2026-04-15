@@ -7,5 +7,6 @@ namespace Gameplay
     {
         public abstract int GetHorizontalInput();
         public abstract bool ShouldJump();
+        public abstract bool ShouldStartMoving();
     }
 }

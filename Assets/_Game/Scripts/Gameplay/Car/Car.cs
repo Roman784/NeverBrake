@@ -16,10 +16,12 @@ namespace Gameplay
         [Space]
 
         [SerializeField] private LayerMask _crashObstacleMask;
-        
+
         private CarController _controller;
         private CarCollisionRegister _collisionRegister;
+        private CarInput _input;
 
+        private bool _isLaunched;
         private bool _isCrashed;
         private bool _isFinished;
 
@@ -27,6 +29,7 @@ namespace Gameplay
         {
             _controller = GetComponent<CarController>();
             _collisionRegister = GetComponent<CarCollisionRegister>();
+            _input = input;
 
             _controller.Initialize(_view, _collisionRegister, input);
 
@@ -51,7 +54,15 @@ namespace Gameplay
 
         private void FixedUpdate()
         {
-            if (_isCrashed) return;
+            if (_isCrashed || _isFinished) return;
+
+            if (!_isLaunched && 
+                _input.ShouldStartMoving() &&
+                _collisionRegister.IsAnyPartOnGround())
+            {
+                _isLaunched = true;
+                _controller.Launch();
+            }
 
             _controller.ProcessInput(Time.fixedDeltaTime);
         }

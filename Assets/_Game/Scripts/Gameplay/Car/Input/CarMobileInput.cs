@@ -23,5 +23,10 @@ namespace Gameplay
         {
             return _jumpButton.IsPointerOver;
         }
+
+        public override bool ShouldStartMoving()
+        {
+            return ShouldJump() || GetHorizontalInput() != 0;
+        }
     }
 }

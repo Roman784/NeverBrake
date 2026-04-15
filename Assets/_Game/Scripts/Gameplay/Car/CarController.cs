@@ -60,6 +60,15 @@ namespace Gameplay
             _view = view;
             _collisionRegister = collisionRegister;
             _input = input;
+
+            _isStopped = true;
+            _view.SetActiveTireTracks(false);
+        }
+
+        public void Launch()
+        {
+            _isStopped = false;
+            _view.SetActiveTireTracks(true);
         }
 
         public void Stop()

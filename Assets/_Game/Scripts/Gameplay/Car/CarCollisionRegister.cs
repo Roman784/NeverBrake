@@ -34,6 +34,8 @@ namespace Gameplay
 
         public bool AreAllPartsOnGround()
         {
+            if (!_canRegister) return false;
+
             if (_surfaceChecker.CheckGround(out var _, out var missedRays))
                 return missedRays == 0;
             return false;
@@ -41,6 +43,8 @@ namespace Gameplay
 
         public bool IsAnyPartOnGround()
         {
+            if (!_canRegister) return false;
+
             return _surfaceChecker.CheckGround(out var _, out var _);
         }
 
