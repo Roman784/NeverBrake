@@ -393,6 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Camera
   _camera: {fileID: 1246484289}
+  _zoomStrenght: 48
 --- !u!1 &889350896
 GameObject:
   m_ObjectHideFlags: 0

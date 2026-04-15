@@ -53,6 +53,7 @@ namespace Gameplay
                     .Subscribe(_ => G.SceneProvider.RestartScene())
                     .AddTo(gameObject);
                 G.Camera.Shaker.StrongShake();
+                G.Camera.Zoom();
                 Crash();
                 return;
             }
@@ -62,6 +63,7 @@ namespace Gameplay
                 _controller.Stop();
                 _view.PlayPortalSuctionAnimation(portal.CenterPosition)
                     .OnComplete(() => G.SceneProvider.RestartScene());
+                G.Camera.Zoom();
                 return;
             }
 
