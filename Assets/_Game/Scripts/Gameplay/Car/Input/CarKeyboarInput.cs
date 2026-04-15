@@ -17,9 +17,9 @@ namespace Gameplay
         public override bool ShouldJump()
         {
             return
-                Input.GetKey(KeyCode.Space) ||
-                Input.GetKey(KeyCode.W) || 
-                Input.GetKey(KeyCode.UpArrow);
+                Input.GetKeyDown(KeyCode.Space) ||
+                Input.GetKeyDown(KeyCode.W) || 
+                Input.GetKeyDown(KeyCode.UpArrow);
         }
 
         public override bool ShouldStartMoving()
