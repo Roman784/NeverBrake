@@ -8,6 +8,8 @@ namespace VisualEffects
     {
         [SerializeField] private ParticleSystem _effect;
 
+        public float Duration => _effect.main.duration + _effect.main.startLifetime.constantMax;
+
         public static VFX Create(
             VFX prefab,
             Transform parent,
@@ -35,7 +37,7 @@ namespace VisualEffects
             
             if (destroy)
                 Observable.Timer(
-                    TimeSpan.FromSeconds(_effect.main.duration + _effect.main.startLifetime.constantMax))
+                    TimeSpan.FromSeconds(Duration))
                     .Subscribe(_ => Destroy())
                     .AddTo(gameObject);
         }

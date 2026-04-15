@@ -1,4 +1,5 @@
 using DG.Tweening;
+using R3;
 using UnityEngine;
 using VisualEffects;
 
@@ -62,7 +63,7 @@ namespace Gameplay
             _boostSeq.Append(_root.DOScale(1f, 0.4f).SetEase(Ease.InQuad));
         }
 
-        public void PlayPortalSuctionAnimation(Vector3 portalCenter)
+        public Tween PlayPortalSuctionAnimation(Vector3 portalCenter)
         {
             _boostSeq?.Kill(true);
             _landingSeq?.Kill(true);
@@ -72,6 +73,8 @@ namespace Gameplay
             seq.Append(transform.DOMove(portalCenter, 0.75f).SetEase(Ease.OutQuad));
             seq.Join(_root.DOScale(0, 2f).SetEase(Ease.InQuad));
             seq.Join(_root.DORotate(Vector3.up * 360 * 3, 2f, RotateMode.FastBeyond360));
+
+            return seq;
         }
 
         public void PlayBoostVFX()
@@ -85,9 +88,12 @@ namespace Gameplay
             VFX.Create(_collisionVFXPrefab, position, rotation).Play();
         }
 
-        public void PlayCrashVFX(Vector3 position)
+        public Observable<Unit> PlayCrashVFX(Vector3 position)
         {
-            VFX.Create(_crashVFXPrefab, position).Play();
+            var effect = VFX.Create(_crashVFXPrefab, position);
+            effect.Play();
+
+            return Observable.Timer(System.TimeSpan.FromSeconds(effect.Duration));
         }
     }
 }

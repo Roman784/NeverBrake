@@ -1,4 +1,5 @@
 using ObstacleCourseMode;
+using System;
 using UI;
 
 namespace GameRoot
@@ -8,9 +9,7 @@ namespace GameRoot
         private readonly SceneLoader _sceneLoader;
 
         private SceneEnterParams _currentSceneParams;
-        private SceneEnterParams _previousSceneParams;
-
-        public string CurrentSceneName => _currentSceneParams?.SceneName ?? "";
+        private Action _currentSceneOpenAction;
 
         public SceneProvider(UIRoot uiRoot)
         {
@@ -20,18 +19,26 @@ namespace GameRoot
         public void OpenObstacleCourseMode()
         {
             var enterParams = new ObstacleCourseModeEnterParams();
-            OpenScene<ObstacleCourseModeEntryPoint, ObstacleCourseModeEnterParams>(enterParams);
+            _currentSceneOpenAction = CreateSceneOpenAction<
+                ObstacleCourseModeEntryPoint, ObstacleCourseModeEnterParams>(enterParams);
+            _currentSceneOpenAction.Invoke();
         }
 
-        private void OpenScene<TEntryPoint, TEnterParams>(TEnterParams enterParams)
+        public void RestartScene()
+        {
+            _currentSceneOpenAction?.Invoke();
+        }
+
+        private Action CreateSceneOpenAction<TEntryPoint, TEnterParams>(TEnterParams enterParams)
             where TEntryPoint : SceneEntryPoint
             where TEnterParams : SceneEnterParams
         {
-            _previousSceneParams = _currentSceneParams;
-            _currentSceneParams = enterParams;
-
-            _sceneLoader.LoadAndRunScene
-                <TEntryPoint, TEnterParams>(enterParams);
+            return () =>
+            {
+                _currentSceneParams = enterParams;
+                _sceneLoader.LoadAndRunScene
+                    <TEntryPoint, TEnterParams>(enterParams);
+            };
         }
     }
 }

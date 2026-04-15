@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GameRoot;
 using R3;
 using UnityEngine;
@@ -48,7 +49,9 @@ namespace Gameplay
 
             if (_crashObstacleMask.Contains(collision.collider.gameObject.layer))
             {
-                _view.PlayCrashVFX(contact.point);
+                _view.PlayCrashVFX(contact.point)
+                    .Subscribe(_ => G.SceneProvider.RestartScene())
+                    .AddTo(gameObject);
                 G.Camera.Shaker.StrongShake();
                 Crash();
                 return;
@@ -57,7 +60,8 @@ namespace Gameplay
             {
                 portal.GetComponent<Collider>().enabled = false;
                 _controller.Stop();
-                _view.PlayPortalSuctionAnimation(portal.CenterPosition);
+                _view.PlayPortalSuctionAnimation(portal.CenterPosition)
+                    .OnComplete(() => G.SceneProvider.RestartScene());
                 return;
             }
 
