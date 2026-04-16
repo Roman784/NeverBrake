@@ -29,7 +29,6 @@ namespace Gameplay
                 _car.View.PlayCrashVFX(_collision.contacts[0].point)
                     .Subscribe(_ => G.SceneProvider.RestartScene());
 
-            G.Camera.Shaker.StrongShake();
             G.Camera.Zoom();
         }
 

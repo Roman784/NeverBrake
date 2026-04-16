@@ -72,7 +72,7 @@ namespace GameRoot
             }
 #endif
 
-            //G.SceneProvider.OpenLevelMenu();
+            G.SceneProvider.OpenObstacleCourseMode();
         }
     }
 }

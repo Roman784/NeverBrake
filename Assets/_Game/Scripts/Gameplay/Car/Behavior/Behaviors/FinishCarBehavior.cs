@@ -25,6 +25,7 @@ namespace Gameplay
                 _car.CollisionRegister.Disable();
                 _car.Controller.Stop();
 
+                _car.View.SetActiveTireTracks(false);
                 _portalSuctionTween =
                     _car.View.PlayPortalSuctionAnimation(portal.CenterPosition)
                         .OnComplete(() => G.SceneProvider.RestartScene());

@@ -10,6 +10,15 @@ namespace Gameplay
         [SerializeField] private PointerDetector _rightButton;
         [SerializeField] private PointerDetector _jumpButton;
 
+        private bool _jumpRequested;
+
+        private void Start()
+        {
+            _jumpButton.OnPointerEnterSignal
+                .Subscribe(_ => _jumpRequested = true)
+                .AddTo(this);
+        }
+
         public override int GetHorizontalInput()
         {
             if (_leftButton.IsPointerOver)
@@ -21,7 +30,12 @@ namespace Gameplay
 
         public override bool ShouldJump()
         {
-            return _jumpButton.IsPointerOver;
+            if (_jumpRequested)
+            {
+                _jumpRequested = false;
+                return true;
+            }
+            return false;
         }
 
         public override bool ShouldStartMoving()

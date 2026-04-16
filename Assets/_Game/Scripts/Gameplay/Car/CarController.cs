@@ -37,6 +37,7 @@ namespace Gameplay
 
         private Rigidbody _rigidbody;
 
+        private CarView _view;
         private CarCollisionRegister _collisionRegister;
 
         private float _turnInputDuration;
@@ -53,6 +54,7 @@ namespace Gameplay
         {
             _rigidbody = GetComponent<Rigidbody>();
 
+            _view = view;
             _collisionRegister = collisionRegister;
         }
 
@@ -128,6 +130,7 @@ namespace Gameplay
         {
             var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
             _wheelsAngle = Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
+            _view.ApplyWheelsTurning(_wheelsAngle);
         }
 
         private IEnumerator JumpRoutine()

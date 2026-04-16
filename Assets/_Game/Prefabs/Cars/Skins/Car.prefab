@@ -140,7 +140,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -289,7 +289,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -402,7 +402,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -558,6 +558,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7977483954321272944}
+  - component: {fileID: 5852215750782131467}
   - component: {fileID: 3785024654329826154}
   - component: {fileID: 3292857911012589410}
   - component: {fileID: -1642605613554031101}
@@ -588,6 +589,29 @@ Transform:
   - {fileID: 3984503822071258649}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5852215750782131467
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063906916910455070}
+  m_Material: {fileID: 13400000, guid: c75588a3116bb5341b07525f6d420bda, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Height: 1.28
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!65 &3785024654329826154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -605,7 +629,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.64, y: 0.5, z: 1.28}
   m_Center: {x: 0, y: 0.275, z: 0}
@@ -618,8 +642,8 @@ Rigidbody:
   m_GameObject: {fileID: 6063906916910455070}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0.5
-  m_AngularDamping: 5
+  m_LinearDamping: 1
+  m_AngularDamping: 10
   m_CenterOfMass: {x: 0, y: 0, z: -0.5}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -805,7 +829,7 @@ MonoBehaviour:
     m_Bits: 64
   _groudDistance: 0.5
   _waterStartingPoints:
-  - {x: 0, y: 0.1, z: -1}
+  - {x: 0, y: 0.1, z: -0.5}
   _waterMask:
     serializedVersion: 2
     m_Bits: 16
@@ -952,7 +976,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -1208,7 +1232,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30

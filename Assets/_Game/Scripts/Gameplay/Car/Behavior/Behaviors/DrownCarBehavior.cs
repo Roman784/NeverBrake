@@ -19,6 +19,7 @@ namespace Gameplay
                 _car.View.PlayFallingIntoWaterAnimation()
                 .OnComplete(() => G.SceneProvider.RestartScene());
             
+            G.Camera.Shaker.StrongShake();
             G.Camera.Zoom();
         }
 
