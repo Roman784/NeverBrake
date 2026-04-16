@@ -37,73 +37,65 @@ namespace Gameplay
 
         private Rigidbody _rigidbody;
 
-        private CarView _view;
         private CarCollisionRegister _collisionRegister;
-        private CarInput _input;
 
-        private bool _isStopped;
         private float _turnInputDuration;
         private int _lastHorizontalInput;
         private float _wheelsAngle;
-        private float _nextJumpTime;
-        private bool _inJump;
 
-        public float TurningSpeed => CalculateTurningSpeed();
+        private Subject<Unit> _jumpCompletedSignalSubj = new();
+
+        private float TurningSpeed => CalculateTurningSpeed();
 
         public void Initialize(
             CarView view, 
-            CarCollisionRegister collisionRegister, 
-            CarInput input)
+            CarCollisionRegister collisionRegister)
         {
             _rigidbody = GetComponent<Rigidbody>();
 
-            _view = view;
             _collisionRegister = collisionRegister;
-            _input = input;
-
-            _isStopped = true;
-            _view.SetActiveTireTracks(false);
-        }
-
-        public void Launch()
-        {
-            _isStopped = false;
-            _view.SetActiveTireTracks(true);
         }
 
         public void Stop()
         {
-            _isStopped = true;
             StopAllCoroutines();
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _rigidbody.isKinematic = true;
-            _view.SetActiveTireTracks(false);
             transform.position = new Vector3(
                 transform.position.x, _collisionRegister.GetGroundHeight(), transform.position.z);
         }
 
-        public void ProcessInput(float deltaTime)
+        public void ApplyMovement(float deltaTime)
         {
-            if (_isStopped) return;
-
-            var horizontalInput = _input.GetHorizontalInput();
-            var shouldJump = _input.ShouldJump();
-
             LimitMaxSpeed();
-            ApplyMovementForces(deltaTime);
-            ApplyTurning(horizontalInput, deltaTime);
-
-            if (shouldJump && CanJump())
-                Jump();
-
-            _view.SetActiveTireTracks(!_inJump);
-        }
-
-        private void ApplyMovementForces(float deltaTime)
-        {
             ApplyForwardAcceleration(deltaTime);
             SuppressLateralVelocity(deltaTime);
+        }
+
+        public void ApplyTurning(int horizontalInput, float deltaTime)
+        {
+            if (horizontalInput == 0 || _lastHorizontalInput != horizontalInput) _turnInputDuration = 0;
+            else _turnInputDuration += deltaTime;
+
+            _lastHorizontalInput = horizontalInput;
+
+            ApplyBodyTurning(horizontalInput, deltaTime);
+            ApplyWheelsTurning(horizontalInput, deltaTime);
+        }
+
+        public Observable<Unit> Jump()
+        {
+            StartCoroutine(JumpRoutine());
+
+            _jumpCompletedSignalSubj = new Subject<Unit>();
+            return _jumpCompletedSignalSubj;
+        }
+
+        public void ApplyBoostImpulse()
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
         }
 
         private void LimitMaxSpeed()
@@ -123,17 +115,6 @@ namespace Gameplay
             _rigidbody.AddForce(-lateralVelocity * _lateralFriction * deltaTime, ForceMode.Force);
         }
 
-        private void ApplyTurning(int horizontalInput, float deltaTime)
-        {
-            if (horizontalInput == 0 || _lastHorizontalInput != horizontalInput) _turnInputDuration = 0;
-            else _turnInputDuration += deltaTime;
-
-            _lastHorizontalInput = horizontalInput;
-
-            ApplyBodyTurning(horizontalInput, deltaTime);
-            ApplyWheelsTurning(horizontalInput, deltaTime);
-        }
-
         private void ApplyBodyTurning(int horizontalInput, float deltaTime)
         {
             var step = horizontalInput * TurningSpeed;
@@ -147,22 +128,6 @@ namespace Gameplay
         {
             var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
             _wheelsAngle = Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
-            _view.ApplyWheelsTurning(_wheelsAngle);
-        }
-
-        private bool CanJump()
-        {
-            return
-                !_inJump &&
-                _nextJumpTime < Time.time &&
-                _collisionRegister.IsAnyPartOnGround();
-        }
-
-        private void Jump()
-        {
-            _inJump = true;
-            StartCoroutine(JumpRoutine());
-            ApplyBoostImpulse();
         }
 
         private IEnumerator JumpRoutine()
@@ -182,26 +147,17 @@ namespace Gameplay
                 yield return null;
             }
 
-            FinishJump();
+            CompleteJump();
         }
 
-        private void FinishJump()
+        private void CompleteJump()
         {
-            _inJump = false;
             _rigidbody.useGravity = true;
             var velocity = _rigidbody.linearVelocity; velocity.y = 0f;
             _rigidbody.linearVelocity = velocity;
 
-            _view.PlayLandingAnimation();
-        }
-
-        private void ApplyBoostImpulse()
-        {
-            _rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
-
-            _view.PlayBoostAnimation();
-            _view.PlayBoostVFX();
+            _jumpCompletedSignalSubj.OnNext(Unit.Default);
+            _jumpCompletedSignalSubj.OnCompleted();
         }
 
         private float CalculateTurningSpeed()

@@ -20,10 +20,12 @@ namespace Gameplay
         private CarController _controller;
         private CarCollisionRegister _collisionRegister;
         private CarInput _input;
+        private CarBehaviorHandler _behaviorHandler;
 
-        private bool _isLaunched;
-        private bool _isCrashed;
-        private bool _isFinished;
+        public CarView View => _view;
+        public CarController Controller => _controller;
+        public CarCollisionRegister CollisionRegister => _collisionRegister;
+        public CarInput Input => _input;
 
         public void Initialize(CarInput input)
         {
@@ -31,94 +33,27 @@ namespace Gameplay
             _collisionRegister = GetComponent<CarCollisionRegister>();
             _input = input;
 
-            _controller.Initialize(_view, _collisionRegister, input);
+            _behaviorHandler = new CarBehaviorHandler(this);
 
-            _collisionRegister.CollidedWithWallSignal
-                .Subscribe(collision => HandleCollisionWithWall(collision))
-                .AddTo(gameObject);
-
-            _collisionRegister.CollidedWithTrapSignal
-                .Subscribe(collision => HandleCollisionWithTrap(collision))
-                .AddTo(gameObject);
-
-            _collisionRegister.CollidedWithWaterSignal
-                .Subscribe(collision => HandleCollisionWithWater(collision))
-                .AddTo(gameObject);
-
-            _collisionRegister.CollidedWithFinishignal
-                .Subscribe(collieder => HandleCollisionWithFinish(collieder))
-                .AddTo(gameObject);
+            _controller.Initialize(_view, _collisionRegister);
 
             _collisionRegister.Enabled();
+            _behaviorHandler.SetIdleBehaviour();
+        }
+
+        private void Update()
+        {
+            _behaviorHandler?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
-            if (_isCrashed || _isFinished) return;
-
-            if (!_isLaunched && 
-                _input.ShouldStartMoving() &&
-                _collisionRegister.IsAnyPartOnGround())
-            {
-                _isLaunched = true;
-                _controller.Launch();
-            }
-
-            _controller.ProcessInput(Time.fixedDeltaTime);
+            _behaviorHandler?.FixedUpdate(Time.fixedDeltaTime);
         }
 
-        private void HandleCollisionWithWall(Collision collision)
+        private void OnDestroy()
         {
-            if (_isCrashed) return;
-
-            var contact = collision.contacts[0];
-            _view.PlayCollisionVFX(contact.point, contact.normal);
-        }
-
-        private void HandleCollisionWithTrap(Collision collision)
-        {
-            if (_isCrashed) return;
-
-            Crash();
-
-            _view.PlayCrashVFX(collision.contacts[0].point)
-                    .Subscribe(_ => G.SceneProvider.RestartScene())
-                    .AddTo(gameObject);
-
-            G.Camera.Shaker.StrongShake();
-            G.Camera.Zoom();
-        }
-
-        private void HandleCollisionWithWater(Collision collision)
-        {
-            if (_isCrashed) return;
-
-            Crash();
-            _view.PlayFallingIntoWaterAnimation()
-                .OnComplete(() => G.SceneProvider.RestartScene());
-            G.Camera.Zoom();
-        }
-
-        private void HandleCollisionWithFinish(Collider collider)
-        {
-            if (_isCrashed) return;
-            if (collider.TryGetComponent<FinishPortal>(out var portal))
-            {
-                _collisionRegister.Disable();
-                _controller.Stop();
-                _view.PlayPortalSuctionAnimation(portal.CenterPosition)
-                    .OnComplete(() => G.SceneProvider.RestartScene());
-                G.Camera.Zoom();
-                return;
-            }
-        }
-
-        private void Crash()
-        {
-            _isCrashed = true;
-            _controller.Stop();
-            _collisionRegister.Disable();
-            _view.SetActiveTireTracks(false);
+            _behaviorHandler?.Dispose();
         }
     }
 }

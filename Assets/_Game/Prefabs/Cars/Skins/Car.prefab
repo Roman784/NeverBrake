@@ -778,9 +778,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ee3d4913e70a8489110b86f68b1e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarCollisionHandler
-  _obstacleMask:
-    serializedVersion: 2
-    m_Bits: 384
+  _wallTag: Wall
+  _trapTag: Trap
+  _waterTag: Water
+  _finishTag: Finish
   _surfaceChecker: {fileID: 4501153501164644226}
 --- !u!114 &4501153501164644226
 MonoBehaviour:
@@ -797,11 +798,19 @@ MonoBehaviour:
   _groundStartingPoints:
   - {x: 0, y: 0.1, z: 0}
   - {x: 0, y: 0.1, z: 0.75}
-  - {x: 0, y: 0.1, z: -1}
+  - {x: 0.5, y: 0.1, z: -1}
+  - {x: -0.5, y: 0.1, z: -1}
   _groundMask:
     serializedVersion: 2
     m_Bits: 64
-  _checkingDistance: 0.2
+  _groudDistance: 0.5
+  _waterStartingPoints:
+  - {x: 0, y: 0.1, z: -1}
+  _waterMask:
+    serializedVersion: 2
+    m_Bits: 16
+  _waterTag: Water
+  _waterDistance: 0.35
 --- !u!1 &7445542909506656829
 GameObject:
   m_ObjectHideFlags: 0

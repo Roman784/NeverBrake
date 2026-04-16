@@ -32,25 +32,21 @@ namespace Gameplay
         public void Enabled() => _canRegister = true;
         public void Disable() => _canRegister = false;
 
-        public bool AreAllPartsOnGround()
+        public bool OnGround()
         {
             if (!_canRegister) return false;
-
-            if (_surfaceChecker.CheckGround(out var _, out var missedRays))
-                return missedRays == 0;
-            return false;
+            return _surfaceChecker.CheckGround(out var _);
         }
 
-        public bool IsAnyPartOnGround()
+        public bool OnWater()
         {
             if (!_canRegister) return false;
-
-            return _surfaceChecker.CheckGround(out var _, out var _);
+            return _surfaceChecker.CheckWater(out var _);
         }
 
         public float GetGroundHeight()
         {
-            if (_surfaceChecker.TryGetGround(out var hit, out var _))
+            if (_surfaceChecker.TryGetGround(out var hit))
                 return hit.point.y;
             return transform.position.y;
         }

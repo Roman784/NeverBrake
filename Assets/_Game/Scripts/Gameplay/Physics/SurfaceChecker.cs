@@ -4,72 +4,68 @@ namespace Physics
 {
     public class SurfaceChecker : MonoBehaviour
     {
+        [Header("Ground")]
         [SerializeField] private Vector3[] _groundStartingPoints;
         [SerializeField] private LayerMask _groundMask;
+        [SerializeField] private float _groudDistance;
 
-        [Space]
+        [Header("Water")]
+        [SerializeField] private Vector3[] _waterStartingPoints;
+        [SerializeField] private LayerMask _waterMask;
+        [SerializeField] private string _waterTag = "Water"; 
+        [SerializeField] private float _waterDistance;
 
-        [SerializeField] private float _checkingDistance;
-
-        public bool CheckGround(out RaycastHit hit, out int missedRays)
+        public bool CheckGround(out RaycastHit hit)
         {
             return TryGetSurface(
-                _groundStartingPoints, Vector3.down, _checkingDistance, _groundMask, out hit, out missedRays);
+                _groundStartingPoints, Vector3.down, _groudDistance, _groundMask, out hit);
         }
 
-        public bool TryGetGround(out RaycastHit hit, out int missedRays)
+        public bool CheckWater(out RaycastHit hit)
+        {
+            var combinedMask = _groundMask | _waterMask;
+            TryGetSurface(_waterStartingPoints, Vector3.down, _waterDistance, combinedMask, out hit);
+            return hit.collider != null && hit.collider.CompareTag(_waterTag);
+        }
+
+        public bool TryGetGround(out RaycastHit hit)
         {
             return TryGetSurface(
-                _groundStartingPoints, Vector3.down, float.MaxValue, _groundMask, out hit, out missedRays);
+                _groundStartingPoints, Vector3.down, float.MaxValue, _groundMask, out hit);
         }
 
         private bool TryGetSurface(
-            Vector3[] startingPoints,
-            Vector3 direction,
-            float distance,
-            LayerMask mask,
-            out RaycastHit hit,
-            out int missedRays)
+            Vector3[] startingPoints, 
+            Vector3 direction, 
+            float distance, 
+            LayerMask mask, 
+            out RaycastHit hit)
         {
-            hit = default;
-            missedRays = 0;
-
-            bool hasHit = false;
-            float closestDistance = float.MaxValue;
-
             foreach (var startPoint in startingPoints)
             {
-                var origin = transform.position + startPoint;
-
-                if (UnityEngine.Physics.Raycast(origin, direction, out var currentHit, distance, mask))
-                {
-                    hasHit = true;
-
-                    if (currentHit.distance < closestDistance)
-                    {
-                        closestDistance = currentHit.distance;
-                        hit = currentHit;
-                    }
-                }
-                else
-                {
-                    missedRays++;
-                }
+                var origin = transform.TransformPoint(startPoint);
+                if (UnityEngine.Physics.Raycast(origin, direction, out hit, distance, mask))
+                    return true;
             }
 
-            return hasHit;
+            hit = default;
+            return false;
         }
 
         private void OnDrawGizmos()
         {
-            if (_groundStartingPoints == null) return;
-
-            Gizmos.color = Color.red;
-
             foreach (var startPoint in _groundStartingPoints)
             {
-                var origin = transform.position + startPoint;
-                Gizmos.DrawRay(origin, Vector3.down * _checkingDistance);
+                Gizmos.color = Color.red;
+                var origin = transform.TransformPoint(startPoint);
+                Gizmos.DrawRay(origin, Vector3.down * _groudDistance);
+            }
+
+            foreach (var startPoint in _waterStartingPoints)
+            {
+                Gizmos.color = Color.blue;
+                var origin = transform.TransformPoint(startPoint);
+                Gizmos.DrawRay(origin, Vector3.down * _waterDistance);
             }
         }
     }
