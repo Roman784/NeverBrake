@@ -1,3 +1,4 @@
+using LevelMenu;
 using ObstacleCourseMode;
 using System;
 using UI;
@@ -16,9 +17,17 @@ namespace GameRoot
             _sceneLoader = new SceneLoader(uiRoot);
         }
 
-        public void OpenObstacleCourseMode()
+        public void OpenLevelMenu()
         {
-            var enterParams = new ObstacleCourseModeEnterParams();
+            var enterParams = new LevelMenuEnterParams();
+            _currentSceneOpenAction = CreateSceneOpenAction<
+                LevelMenuEntryPoint, LevelMenuEnterParams>(enterParams);
+            _currentSceneOpenAction.Invoke();
+        }
+
+        public void OpenObstacleCourseMode(int number)
+        {
+            var enterParams = new ObstacleCourseModeEnterParams(number);
             _currentSceneOpenAction = CreateSceneOpenAction<
                 ObstacleCourseModeEntryPoint, ObstacleCourseModeEnterParams>(enterParams);
             _currentSceneOpenAction.Invoke();

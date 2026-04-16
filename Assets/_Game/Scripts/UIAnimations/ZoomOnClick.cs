@@ -1,0 +1,72 @@
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace UI
+{
+    public class ZoomOnClick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+    {
+        [SerializeField] private Transform _target;
+        [SerializeField] private float _zoomScale = 0.9f;
+        [SerializeField] private float _duration = 0.15f;
+        [SerializeField] private Ease _ease = Ease.OutBack;
+
+        private Vector3 _initialScale;
+        private Tween _currentTween;
+
+        private void Awake()
+        {
+            _initialScale = _target.localScale;
+        }
+
+        private void OnValidate()
+        {
+            if (_target == null)
+                _target = transform;
+        }
+
+        private void OnDisable()
+        {
+            _target.localScale = _initialScale;
+            _currentTween?.Kill();
+        }
+
+        private void Update()
+        {
+#if (UNITY_IOS || UNITY_ANDROID || UNITY_WEBGL) && !UNITY_EDITOR
+            if (UnityEngine.Device.Application.isMobilePlatform && 
+                Input.touchCount == 0 && _target.localScale != _initialScale)
+            {
+                ZoomOut();
+            }
+#endif
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            ZoomIn();
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            ZoomOut();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ZoomOut();
+        }
+
+        public void ZoomIn()
+        {
+            _currentTween?.Kill();
+            _currentTween = _target.DOScale(_initialScale * _zoomScale, _duration).SetEase(_ease);
+        }
+
+        public void ZoomOut()
+        {
+            _currentTween?.Kill();
+            _currentTween = _target.DOScale(_initialScale, _duration).SetEase(_ease);
+        }
+    }
+}

@@ -56,11 +56,12 @@ namespace GameRoot
 
             if (initialEditorScene == Scenes.LEVEL_MENU)
             {
+                G.SceneProvider.OpenLevelMenu();
                 return;
             }
             else if (initialEditorScene == Scenes.OBSTACLE_COURSE_MODE)
             {
-                G.SceneProvider.OpenObstacleCourseMode();
+                G.SceneProvider.OpenObstacleCourseMode(0);
                 return;
             }
 
@@ -72,7 +73,7 @@ namespace GameRoot
             }
 #endif
 
-            G.SceneProvider.OpenObstacleCourseMode();
+            G.SceneProvider.OpenObstacleCourseMode(0);
         }
     }
 }

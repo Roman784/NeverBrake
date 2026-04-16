@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SmallPortal 1
-  m_Shader: {fileID: -6465566751694194690, guid: 303474d86f0a1344daad4f7d02231a2c, type: 3}
+  m_Name: UIPortal
+  m_Shader: {fileID: -6465566751694194690, guid: e08ccaaf2e6d9494a87fa2240a129bba, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -68,6 +68,7 @@ Material:
     - _Speed: 0.2
     - _TwirlSpeed: 0.2
     - _TwirlStrenght: 12
+    - _XRMotionVectorsPass: 1
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.9056604, g: 0, b: 0.6962012, a: 1}
