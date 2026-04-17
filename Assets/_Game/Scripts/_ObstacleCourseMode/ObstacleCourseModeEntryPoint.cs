@@ -28,7 +28,14 @@ namespace ObstacleCourseMode
 
             // ========== Car ==========
 
-            var prefab = G.RootCMS.CarsCMS.GetCarCMS(enterParams.CarId).Prefab;
+            var carId = enterParams.CarId;
+            if (!G.RootCMS.CarsCMS.IsCarExist(carId))
+            {
+                G.SceneProvider.OpenLevelMenu();
+                return;
+            }
+
+            var prefab = G.RootCMS.CarsCMS.GetCarCMS(carId).Prefab;
             var car = CarFactory.Create(prefab, level.CarSpawnPosition, level.CarSpawnRotation);
 
             // ========== Camera ==========

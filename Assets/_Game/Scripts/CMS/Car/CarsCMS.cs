@@ -14,6 +14,8 @@ namespace CMS
         public CarCMS[] AllCarsCMS;
         public CarInputsCMS InputsCMS;
 
+        public bool IsCarExist(int id) => AllCarsCMS.Any(c => c.Id == id);
+
         public CarCMS GetCarCMS(int id)
         {
             return AllCarsCMS.FirstOrDefault(l => l.Id == id);

@@ -1,5 +1,5 @@
-﻿using DG.Tweening;
-using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,31 +22,38 @@ namespace GameRoot
         {
             DOTween.KillAll(true);
             Coroutines.StopAll();
-            Coroutines.Start(
-                LoadAndRunSceneRoutine<TEntryPoint, TEnterParams>(enterParams));
+
+            LoadAndRunSceneAsync<TEntryPoint, TEnterParams>(enterParams).Forget();
         }
 
         // Sequential loading and starting of a new scene.
-        private IEnumerator LoadAndRunSceneRoutine<TEntryPoint, TEnterParams>(TEnterParams enterParams)
+        private async UniTask LoadAndRunSceneAsync<TEntryPoint, TEnterParams>(TEnterParams enterParams)
             where TEntryPoint : SceneEntryPoint
             where TEnterParams : SceneEnterParams
         {
-            yield return _uiRoot.ShowLoadingScreen();
+            await _uiRoot.ShowLoadingScreen();
 
             _uiRoot.ClearAllContainers();
 
-            yield return LoadScene(enterParams.SceneName);
+            await LoadSceneAsync(enterParams.SceneName);
 
             var sceneEntryPoint = Object.FindAnyObjectByType<TEntryPoint>();
-            yield return sceneEntryPoint.Run(enterParams);
-            
-            yield return _uiRoot.HideLoadingScreen();
+
+            if (sceneEntryPoint == null)
+            {
+                Debug.LogError($"EntryPoint of type {typeof(TEntryPoint)} not found");
+                return;
+            }
+
+            await sceneEntryPoint.Run(enterParams);
+
+            await _uiRoot.HideLoadingScreen();
         }
 
-        private IEnumerator LoadScene(string sceneName)
+        private async UniTask LoadSceneAsync(string sceneName)
         {
-            yield return SceneManager.LoadSceneAsync(sceneName);
-            yield return null;
+            await SceneManager.LoadSceneAsync(sceneName);
+            await UniTask.Yield();
         }
     }
 }
