@@ -25,9 +25,9 @@ namespace GameRoot
             _currentSceneOpenAction.Invoke();
         }
 
-        public void OpenObstacleCourseMode(int number)
+        public void OpenObstacleCourseMode(int number, int carId)
         {
-            var enterParams = new ObstacleCourseModeEnterParams(number);
+            var enterParams = new ObstacleCourseModeEnterParams(number, carId);
             _currentSceneOpenAction = CreateSceneOpenAction<
                 ObstacleCourseModeEntryPoint, ObstacleCourseModeEnterParams>(enterParams);
             _currentSceneOpenAction.Invoke();

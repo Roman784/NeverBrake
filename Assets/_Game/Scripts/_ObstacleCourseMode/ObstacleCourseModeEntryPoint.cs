@@ -28,7 +28,7 @@ namespace ObstacleCourseMode
 
             // ========== Car ==========
 
-            var prefab = G.RootCMS.CarsCMS.Prefab;
+            var prefab = G.RootCMS.CarsCMS.GetCarCMS(enterParams.CarId).Prefab;
             var car = CarFactory.Create(prefab, level.CarSpawnPosition, level.CarSpawnRotation);
 
             // ========== Camera ==========
@@ -36,7 +36,7 @@ namespace ObstacleCourseMode
             var camera = level.Camera;
             G.Camera = camera;
 
-            camera.Tracker.SetTraget(car.transform);
+            camera.Tracker.SetTarget(car.transform);
 
             // ========== MVP ==========
 

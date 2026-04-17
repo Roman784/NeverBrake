@@ -106,7 +106,7 @@ namespace LevelMenu
         private void OpenSelectedLevel()
         {
             var number = _model.GetSelectedLevelNumber();
-            G.SceneProvider.OpenObstacleCourseMode(number);
+            G.SceneProvider.OpenObstacleCourseMode(number, 0);
         }
 
         private void OpenSettings()

@@ -12,7 +12,7 @@ namespace Gameplay
             _transform = transform;
         }
 
-        public void SetTraget(Transform target)
+        public void SetTarget(Transform target)
         {
             _target = target;
         }

@@ -7,5 +7,6 @@ namespace GameState
     {
         public AudioGameState Audio;
         public LevelsGameState Levels;
+        public CarsGameState Cars;
     }
 }
