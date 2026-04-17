@@ -1,0 +1,42 @@
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+
+namespace CMS
+{
+    [CreateAssetMenu(fileName = "LevelsCMS",
+                     menuName = "CMS/Levels/New Levels CMS",
+                     order = 0)]
+    public class LevelsCMS : ScriptableObject
+    {
+        public LevelCMS DebugLevelCMS;
+        public LevelCMS[] AllLevelsCMS;
+
+        public int LevelCount => AllLevelsCMS.Length;
+        public bool IsLevelExist(int number) => GetLevelCMS(number) != null;
+
+        public LevelCMS GetLevelCMS(int number)
+        {
+            if (number <= 0) return DebugLevelCMS;
+            return AllLevelsCMS.FirstOrDefault(l => l.Number == number);
+        }
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            SetLevelNumbers();
+#endif
+        }
+
+        private void SetLevelNumbers()
+        {
+            if (AllLevelsCMS == null) return;
+            for (int i = 0; i < AllLevelsCMS.Length; i++)
+            {
+                var number = i + 1;
+                AllLevelsCMS[i].SetNumber(number);
+                EditorUtility.SetDirty(AllLevelsCMS[i]);
+            }
+        }
+    }
+}

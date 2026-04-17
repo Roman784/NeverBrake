@@ -19,7 +19,7 @@ namespace LevelMenu
 
         public LevelMenuModel()
         {
-            LevelsCount = 100; // TODO: From CMS.
+            LevelsCount = G.RootCMS.LevelsCMS.LevelCount;
             LastPassedLevelNumber = Repository.GetLastPassedLevelNumber();
         }
 

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UIPortal
-  m_Shader: {fileID: -6465566751694194690, guid: 303474d86f0a1344daad4f7d02231a2c, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 37d8afdb58268d74ea92e9131271e2c8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

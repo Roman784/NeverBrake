@@ -8,23 +8,35 @@ namespace ObstacleCourseMode
     public class ObstacleCourseModeEntryPoint : SceneEntryPoint<ObstacleCourseModeEnterParams>
     {
         [SerializeField] private ObstacleCourseModeView _view;
-        [SerializeField] private Gameplay.Camera _camera;
-        [SerializeField] private Transform _carSpawnPoint;
 
         private ObstacleCourseModePresenter _presenter;
 
         protected override async UniTask Run(ObstacleCourseModeEnterParams enterParams)
         {
-            G.Camera = _camera;
+            // ========== Level ==========
+
+            var levelNumber = enterParams.LevelNumber;
+            if (!G.RootCMS.LevelsCMS.IsLevelExist(levelNumber))
+            {
+                G.SceneProvider.OpenLevelMenu();
+                return;
+            }
+
+            var levelCMS = G.RootCMS.LevelsCMS.GetLevelCMS(levelNumber);
+            var levelPrefab = levelCMS.LevelPrefab;
+            var level = Instantiate(levelPrefab);
 
             // ========== Car ==========
 
             var prefab = G.RootCMS.CarsCMS.Prefab;
-            var car = CarFactory.Create(prefab, _carSpawnPoint.position, _carSpawnPoint.rotation);
+            var car = CarFactory.Create(prefab, level.CarSpawnPosition, level.CarSpawnRotation);
 
             // ========== Camera ==========
 
-            _camera.Tracker.SetTraget(car.transform);
+            var camera = level.Camera;
+            G.Camera = camera;
+
+            camera.Tracker.SetTraget(car.transform);
 
             // ========== MVP ==========
 

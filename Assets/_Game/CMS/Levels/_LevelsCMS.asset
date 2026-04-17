@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd7c5d7e36dc624d9d3f816699c8168, type: 3}
+  m_Name: _LevelsCMS
+  m_EditorClassIdentifier: Assembly-CSharp::CMS.LevelsCMS
+  DebugLevelCMS: {fileID: 11400000, guid: db617d2dc507c4d479eb96b81f40d352, type: 2}
+  AllLevelsCMS:
+  - {fileID: 11400000, guid: d4266b8395846c14d8ccbf55d60c86b8, type: 2}
