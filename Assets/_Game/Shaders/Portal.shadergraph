@@ -426,20 +426,6 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "54fa7cc649274ebda6ea8899f58be5a2"
-                },
-                "m_SlotId": -713241712
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "6472009b4c7a40998929f8ae8c2101fa"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
                     "m_Id": "e13342e003db4e07afb779e96f660fe2"
                 },
                 "m_SlotId": 0
@@ -1336,7 +1322,7 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0,
+    "m_NormalMapSpace": 1,
     "m_EnableGlobalMipBias": true,
     "m_MipSamplingMode": 0
 }
@@ -1998,9 +1984,9 @@
     "m_ShaderOutputName": "Specular",
     "m_StageCapability": 2,
     "m_Value": {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
     },
     "m_DefaultValue": {
         "x": 0.5,
@@ -3788,7 +3774,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"4ebface537ad5724bbfa26a358e41684\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"0e8f1519bf98fc043b0b7d0c92e3a765\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 0

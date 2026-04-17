@@ -13,6 +13,10 @@ namespace LevelMenu
         [SerializeField] private GameObject _portalBackgroundView;
         [SerializeField] private GameObject _fadeView;
 
+        [SerializeField] private GameObject _statsView;
+        [SerializeField] private TMP_Text _bestScoreView;
+        [SerializeField] private TMP_Text _deathCountView;
+
         private Subject<Unit> _pressedSignalSubj = new();
         private RectTransform _rectTransform;
 
@@ -32,6 +36,20 @@ namespace LevelMenu
         public void SetNumber(int number)
         {
             _numberView.text = number.ToString();
+        }
+
+        public void SetStats(bool active, float bestScore = 0, int deathCount = 0)
+        {
+            _bestScoreView.text = bestScore.ToString();
+            _deathCountView.text = deathCount.ToString();
+
+            var bestScoreTransform = _bestScoreView.GetComponent<RectTransform>();
+            var deathCountTransform = _deathCountView.GetComponent<RectTransform>();
+
+            bestScoreTransform.sizeDelta = new Vector2(_bestScoreView.preferredWidth, bestScoreTransform.sizeDelta.y);
+            deathCountTransform.sizeDelta = new Vector2(_deathCountView.preferredWidth, deathCountTransform.sizeDelta.y);
+
+            _statsView.SetActive(active);
         }
 
         public void Lock()

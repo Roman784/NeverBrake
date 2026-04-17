@@ -17,7 +17,7 @@ namespace LevelMenu
         {
             var model = new LevelMenuModel(
                 levelsCount: 100,
-                lastPassedLevelNumber: 30);
+                lastPassedLevelNumber: 0);
             _presenter = new LevelMenuPresenter(_view, model);
 
             _presenter.CreateLevelButtons();
@@ -26,6 +26,12 @@ namespace LevelMenu
             _presenter.ScrollCountainerToLastOpenedLevel();
 
             await UniTask.Yield();
+        }
+
+        private void Update()
+        {
+            Canvas.ForceUpdateCanvases();
+
         }
 
         private void OnDestroy()

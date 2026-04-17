@@ -12,10 +12,19 @@ namespace LevelMenu
         [SerializeField] private LevelButton _levelButtonPrefab;
         [SerializeField] private LineRenderer _pathLine;
 
+        private Subject<Unit> _playButtonPressedSignalSubj = new();
+        private Subject<Unit> _settingsButtonPressedSignalSubj = new();
+        private Subject<Unit> _skinsButtonPressedSignalSubj = new();
         private Subject<Unit> _exitButtonPressedSignalSubj = new();
 
+        public Observable<Unit> PlayButtonPressedSignal => _playButtonPressedSignalSubj;
+        public Observable<Unit> SettingsButtonPressedSignal => _settingsButtonPressedSignalSubj;
+        public Observable<Unit> SkinsButtonPressedSignal => _skinsButtonPressedSignalSubj;
         public Observable<Unit> ExitButtonPressedSignal => _exitButtonPressedSignalSubj;
 
+        public void PressPlayButton() => _playButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void PressSettingsButton() => _settingsButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void PressSkinsButton() => _skinsButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressExitButton() => _exitButtonPressedSignalSubj.OnNext(Unit.Default);
 
         public LevelButton CreateLevelButton()

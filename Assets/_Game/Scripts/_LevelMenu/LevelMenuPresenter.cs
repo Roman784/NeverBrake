@@ -24,6 +24,15 @@ namespace LevelMenu
 
         private void SetupSubscriptions()
         {
+            _view.PlayButtonPressedSignal
+                .Subscribe(_ => OpenSelectedLevel());
+
+            _view.SettingsButtonPressedSignal
+                .Subscribe(_ => OpenSettings());
+
+            _view.SkinsButtonPressedSignal
+                .Subscribe(_ => OpenSkinsMenu());
+
             _view.ExitButtonPressedSignal
                 .Subscribe(_ => ExitFromMneu());
         }
@@ -44,9 +53,15 @@ namespace LevelMenu
                 createdButton.SetNumber(number);
 
                 if (!_model.IsLevelUnlocked(number))
+                {
                     createdButton.Lock();
+                    createdButton.SetStats(false);
+                }
                 else
+                {
                     createdButton.Unlock();
+                    createdButton.SetStats(true, 2.38f, 8000);
+                }
 
                 if (number == _model.LastPassedLevelNumber + 1)
                     SelectLevelButton(createdButton);
@@ -84,9 +99,20 @@ namespace LevelMenu
             button.Select();
         }
 
-        private void OpenLevel(int number)
+        private void OpenSelectedLevel()
         {
+            var number = _model.GetSelectedLevelNumber();
             G.SceneProvider.OpenObstacleCourseMode(number);
+        }
+
+        private void OpenSettings()
+        {
+
+        }
+
+        public void OpenSkinsMenu()
+        {
+
         }
 
         private void ExitFromMneu()

@@ -26,9 +26,9 @@ namespace LevelMenu
         public bool IsLevelUnlocked(int number) => number <= LastPassedLevelNumber + 1;
         public void AddLevelButtonNumber(LevelButton button, int number) => _numbersMap[button] = number;
 
-        public int GetLevelNumber(LevelButton button)
+        public int GetSelectedLevelNumber()
         {
-            if (_numbersMap.TryGetValue(button, out var number))
+            if (_numbersMap.TryGetValue(SelectedLevelButton, out var number))
                 return number;
             return 1;
         }

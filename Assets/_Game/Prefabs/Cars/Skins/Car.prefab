@@ -170,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 2443728272427717167}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 2801099984458402943}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -559,7 +559,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7977483954321272944}
   - component: {fileID: 5852215750782131467}
-  - component: {fileID: 3785024654329826154}
   - component: {fileID: 3292857911012589410}
   - component: {fileID: -1642605613554031101}
   - component: {fileID: 1802685339030046095}
@@ -569,7 +568,7 @@ GameObject:
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -608,31 +607,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.3
   m_Height: 1.28
   m_Direction: 2
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!65 &3785024654329826154
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6063906916910455070}
-  m_Material: {fileID: 13400000, guid: c75588a3116bb5341b07525f6d420bda, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.64, y: 0.5, z: 1.28}
-  m_Center: {x: 0, y: 0.275, z: 0}
 --- !u!54 &3292857911012589410
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -860,7 +838,7 @@ Transform:
   m_GameObject: {fileID: 7445542909506656829}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
