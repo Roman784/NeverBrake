@@ -16,3 +16,13 @@ MonoBehaviour:
     Audio:
       SoundVolume: 1
       MusicVolume: 1
+    Levels:
+      LevelsData:
+      - Number: 1
+        IsPassed: 1
+        BestTime: 326
+        DeathCount: 543
+      - Number: 2
+        IsPassed: 1
+        BestTime: 23321
+        DeathCount: 32

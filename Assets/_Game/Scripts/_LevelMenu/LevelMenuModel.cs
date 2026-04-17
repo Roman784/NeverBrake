@@ -1,5 +1,6 @@
 using Gameplay;
 using GameRoot;
+using GameState;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,21 +11,24 @@ namespace LevelMenu
     {
         public int LevelsCount { get; private set; }
         public int LastPassedLevelNumber { get; private set; }
-
         public LevelButton SelectedLevelButton { get; set; }
 
         private Dictionary<LevelButton, int> _numbersMap = new();
 
-        public LevelMenuModel(
-            int levelsCount,
-            int lastPassedLevelNumber)
+        private LevelsRepository Repository => G.Repository.Levels;
+
+        public LevelMenuModel()
         {
-            LevelsCount = levelsCount;
-            LastPassedLevelNumber = lastPassedLevelNumber;
+            LevelsCount = 100; // TODO: From CMS.
+            LastPassedLevelNumber = Repository.GetLastPassedLevelNumber();
         }
 
+        public bool IsLevelPassed(int number) => number == LastPassedLevelNumber;
         public bool IsLevelUnlocked(int number) => number <= LastPassedLevelNumber + 1;
         public void AddLevelButtonNumber(LevelButton button, int number) => _numbersMap[button] = number;
+
+        public float GetLevelBestTime(int number) => Repository.GetBestTime(number) / 100f;
+        public int GetLevelDeathCount(int number) => Repository.GetDeathCount(number);
 
         public int GetSelectedLevelNumber()
         {

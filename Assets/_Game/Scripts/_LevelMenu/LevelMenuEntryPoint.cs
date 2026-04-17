@@ -15,9 +15,7 @@ namespace LevelMenu
 
         protected override async UniTask Run(LevelMenuEnterParams enterParams)
         {
-            var model = new LevelMenuModel(
-                levelsCount: 100,
-                lastPassedLevelNumber: 0);
+            var model = new LevelMenuModel();
             _presenter = new LevelMenuPresenter(_view, model);
 
             _presenter.CreateLevelButtons();

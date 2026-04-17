@@ -38,10 +38,10 @@ namespace LevelMenu
             _numberView.text = number.ToString();
         }
 
-        public void SetStats(bool active, float bestScore = 0, int deathCount = 0)
+        public void SetStats(bool active, string bestScore = "", string deathCount = "")
         {
-            _bestScoreView.text = bestScore.ToString();
-            _deathCountView.text = deathCount.ToString();
+            _bestScoreView.text = bestScore;
+            _deathCountView.text = deathCount;
 
             var bestScoreTransform = _bestScoreView.GetComponent<RectTransform>();
             var deathCountTransform = _deathCountView.GetComponent<RectTransform>();

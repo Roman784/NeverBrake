@@ -6,5 +6,6 @@ namespace GameState
     public class GameState
     {
         public AudioGameState Audio;
+        public LevelsGameState Levels;
     }
 }

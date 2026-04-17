@@ -2,5 +2,21 @@
     "Audio": {
         "SoundVolume": 1.0,
         "MusicVolume": 1.0
+    },
+    "Levels": {
+        "LevelsData": [
+            {
+                "Number": 1,
+                "IsPassed": true,
+                "BestTime": 326,
+                "DeathCount": 543
+            },
+            {
+                "Number": 2,
+                "IsPassed": false,
+                "BestTime": 23321,
+                "DeathCount": 32
+            }
+        ]
     }
 }
