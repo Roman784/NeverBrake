@@ -4,9 +4,14 @@ namespace Utils
 {
     public static class NumberFormatter
     {
-        public static string FormatMoney(int money)
+        public static string ToCoinsFormat(this int coins)
         {
-            return $"${FormatCurrency(money)}";
+            return FormatCoins(coins);
+        }
+
+        public static string FormatCoins(int coins)
+        {
+            return $"{FormatCurrency(coins)}";
         }
 
         private static string FormatCurrency(int currency)

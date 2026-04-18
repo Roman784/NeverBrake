@@ -1,4 +1,5 @@
 using GameRoot;
+using UnityEngine;
 
 namespace UI
 {
@@ -8,5 +9,14 @@ namespace UI
 
         private UICMS CMS => G.RootCMS.UICMS;
 
+        public GachaPopUp OpenGachaPopUp(GachaPoolData poolData)
+        {
+            var createdPopUp = G.PopUpFactory.Create(CMS.GachaPopUpPrefab);
+            createdPopUp.Open(poolData);
+
+            Debug.Log(createdPopUp);
+
+            return createdPopUp;
+        }
     }
 }

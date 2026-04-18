@@ -22,10 +22,7 @@
     "Cars": {
         "SelectedCarId": 0,
         "UnlockedCarIds": [
-            0,
-            2,
-            3,
-            5
+            0
         ]
     }
 }

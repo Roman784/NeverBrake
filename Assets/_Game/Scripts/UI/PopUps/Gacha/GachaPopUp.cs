@@ -14,266 +14,174 @@ using Random = UnityEngine.Random;
 
 namespace UI
 {
+    [RequireComponent(typeof(GachaCapsulesLayout))]
     public class GachaPopUp : PopUp
     {
-        //[Space]
+        [Space]
 
         //[SerializeField] private WalletHUD _walletHUD;
 
-        //[Space]
+        [Space]
 
-        //[SerializeField] private GachaCapsulesLayout _capsulesLayout;
-        //[SerializeField] private GachaCapsule _capsulePrefab;
-        //[SerializeField] private int _maxCapsulesCount;
-        //[SerializeField] private int _maxSpinCirclesCount;
-        //[SerializeField] private float _spinDuration;
+        [SerializeField] private GachaCapsule _capsulePrefab;
+        [SerializeField] private int _maxCapsulesCount;
+        [SerializeField] private int _maxSpinCirclesCount;
+        [SerializeField] private float _spinDuration;
 
-        //[Space]
+        [Space]
 
-        //[SerializeField] private TMP_Text _spinCostView;
-        //[SerializeField] private Button _spinBtn;
-        //[SerializeField] private Button _closeBtn;
-        //[SerializeField] private Button _takeBtn;
+        [SerializeField] private TMP_Text _spinCostView;
+        [SerializeField] private Button _spinBtn;
+        [SerializeField] private Button _closeBtn;
 
-        //[Space]
+        [Space]
 
-        //[SerializeField] private GameObject _noMoreWeaponsView;
+        [SerializeField] private GameObject _noMoreView;
 
-        //private bool _canSpin;
-        //private Coroutine _spinRoutine;
+        private GachaCapsulesLayout _capsulesLayout;
+        private GachaCapsule[] _capsules;
+        private Dictionary<int, GachaCapsule> _capsulesByIdMap = new();
+        private Coroutine _spinRoutine;
 
-        //private GachaConfigs GachaConfigs => G.Configs.GachaConfigs;
-        //private int SpinCost => GachaConfigs.SpinCost;
+        private Subject<int> _itemReceivedSignalSubj = new();
+        public Observable<int> ItemReceivedSignal => _itemReceivedSignalSubj;
 
-        //public override void Open()
-        //{
-        //    _walletHUD.Init(G.Wallet);
-        //    SetSpinCost(SpinCost);
-        //    SetUpRoulette();
+        public void Open(GachaPoolData poolData)
+        {
+            _capsulesLayout = GetComponent<GachaCapsulesLayout>();
 
-        //    _takeBtn.onClick.AddListener(() =>
-        //    {
-        //        _capsulesLayout.ClearContainer();
-        //        SetUpRoulette();
-        //    });
+            //_walletHUD.Init(G.Wallet);
+            SetSpinCost();
 
-        //    base.Open();
-        //}
+            poolData.Shuffle();
 
-        //public override void Close()
-        //{
-        //    Coroutines.Stop(_spinRoutine);
-        //    base.Close();
-        //}
+            _capsules = CreateCapsules(poolData.Items).ToArray();
 
-        //private void SetSpinCost(int cost)
-        //{
-        //    var formattetCost = NumberFormatter.FormatMoney(cost);
-        //    _spinCostView.text = $"Spin {formattetCost}"; // TODO: Loc.
-        //}
+            _capsulesLayout.ClearContainer();
+            _capsulesLayout.LayOutCapsules(_capsules);
 
-        //private void SetUpRoulette()
-        //{
-        //    var targetWeaponsMap = GetTargetWeaponsMap();
+            var hasAnyCapsules = _capsules.Length > 0;
+            _spinBtn.gameObject.SetActive(hasAnyCapsules);
+            _noMoreView.SetActive(!hasAnyCapsules);
 
-        //    var capsulesCount = targetWeaponsMap.Values.Sum(w => w?.Count ?? 0);
-        //    var capsules = CreateCapsules(capsulesCount);
-            
-        //    EnableButton(_closeBtn);
-        //    DisableButton(_takeBtn);
+            SetupSubscriptions(poolData.Items);
 
-        //    _noMoreWeaponsView.SetActive(capsulesCount == 0);
-        //    if (capsulesCount == 0)
-        //    {
-        //        DisableButton(_spinBtn);
-        //        return;
-        //    }
-        //    else
-        //        EnableButton(_spinBtn);
-            
-        //    SetCapsuleRarities(capsules, targetWeaponsMap);
+            base.Open();
+        }
 
-        //    _capsulesLayout.LayOutCapsules(capsules);
+        public override void Close()
+        {
+            Coroutines.Stop(_spinRoutine);
+            base.Close();
+        }
 
-        //    _spinBtn.onClick.AddListener(() =>
-        //    {
-        //        var targetRarity = CalculateRarity(targetWeaponsMap);
-        //        Spin(capsules, targetWeaponsMap, targetRarity, SpinCost);
-        //    });
+        private void SetupSubscriptions(IEnumerable<GachaPoolItemData> itemsData)
+        {
+            _spinBtn.onClick.AddListener(() => TrySpin(itemsData));
+            _closeBtn.onClick.AddListener(() => Close());
+        }
 
-        //    _canSpin = true;
-        //}
+        private void SetSpinCost()
+        {
+            var cost = G.RootCMS.GachaCMS.SpinCost;
+            var formattetCost = NumberFormatter.FormatCoins(cost);
+            _spinCostView.text = formattetCost;
+        }
 
-        //private Dictionary<Rarity, List<WeaponConfigs>> GetTargetWeaponsMap()
-        //{
-        //    var allWeapons = G.Configs.WeaponsConfigs.Weapons;
-        //    var unlockedWeaponIds = G.Repository.WeaponsCollection.GetUnlockedIds();
+        private IEnumerable<GachaCapsule> CreateCapsules(IEnumerable<GachaPoolItemData> itemsData)
+        {
+            var capsules = new List<GachaCapsule>();
+            foreach (var data in itemsData)
+            {
+                var createdCapsule = Instantiate(_capsulePrefab);
+                createdCapsule.SetRarity(data.Rarity);
+                createdCapsule.SetReward(data.Reward);
 
-        //    var targetWeaponsMap = new Dictionary<Rarity, List<WeaponConfigs>>();
+                createdCapsule.OpenedSignal
+                    .Subscribe(_ => ReceiveItem(data.ItemId));
 
-        //    foreach (var weapon in allWeapons)
-        //    {
-        //        if (!targetWeaponsMap.ContainsKey(weapon.Rarity))
-        //            targetWeaponsMap[weapon.Rarity] = new List<WeaponConfigs>();
+                capsules.Add(createdCapsule);
+                _capsulesByIdMap[data.ItemId] = createdCapsule;
+            }
+            return capsules;
+        }
 
-        //        if (weapon.UnlockType == WeaponUnlockType.ForGacha && 
-        //            !unlockedWeaponIds.Contains(weapon.Id))
-        //            targetWeaponsMap[weapon.Rarity].Add(weapon);
-        //    }
+        private void ReceiveItem(int itemId)
+        {
+            _itemReceivedSignalSubj.OnNext(itemId);
+            _itemReceivedSignalSubj.OnCompleted();
 
-        //    return targetWeaponsMap;
-        //}
+            _closeBtn.gameObject.SetActive(true);
+        }
 
-        //private List<GachaCapsule> CreateCapsules(int count)
-        //{
-        //    var capsules = new List<GachaCapsule>();
+        private void TrySpin(IEnumerable<GachaPoolItemData> itemsData)
+        {
+            var randomItemId = GetRandomItemId(itemsData);
+            var targetCapsule = _capsulesByIdMap[randomItemId];
 
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        var createdCapsule = Instantiate(_capsulePrefab);
-        //        capsules.Add(createdCapsule);
-        //    }
+            // Wallet Check
 
-        //    return capsules;
-        //}
+            Spin(targetCapsule);
+        }
 
-        //private void SetCapsuleRarities(IReadOnlyList<GachaCapsule> capsules, 
-        //                                IReadOnlyDictionary<Rarity, List<WeaponConfigs>> targetWeaponsMap)
-        //{
-        //    var rng = new System.Random();
-        //    var shuffledCapsules = new List<GachaCapsule>(capsules)
-        //        .OrderBy(x => rng.Next()).ToList();
+        private int GetRandomItemId(IEnumerable<GachaPoolItemData> itemsData)
+        {
+            var itemIdByWeights = itemsData
+                    .Select(i => (i.ItemId, RarityWeightMapper.GetWeight(i.Rarity)))
+                    .ToArray();
+            return WeightedRandom.Get(itemIdByWeights);
+        }
 
-        //    var currentCapsuleIdx = 0;
-        //    foreach (var targetWeaponItem in targetWeaponsMap)
-        //    {
-        //        var rarity = targetWeaponItem.Key;
-        //        var count = currentCapsuleIdx + targetWeaponItem.Value.Count;
+        private void Spin(GachaCapsule targetCapsule)
+        {
+            _spinBtn.gameObject.SetActive(false);
+            _closeBtn.gameObject.SetActive(false);
 
-        //        for (; currentCapsuleIdx < count; currentCapsuleIdx++)
-        //        {
-        //            shuffledCapsules[currentCapsuleIdx].SetRarity(rarity);
-        //        }
-        //    }
-        //}
+            Coroutines.Stop(_spinRoutine);
+            _spinRoutine = Coroutines.Start(
+                SpinRoutine(_capsules, targetCapsule, () =>
+                {
+                    HideCapsulesWithout(targetCapsule);
+                    SelectCapsule(targetCapsule);
+                }));
+        }
 
-        //private void Spin(IReadOnlyList<GachaCapsule> capsules,
-        //                  IReadOnlyDictionary<Rarity, List<WeaponConfigs>> targetWeaponsMap,
-        //                  Rarity targetRarity,
-        //                  int cost)
-        //{
-        //    if (!_canSpin) return;
+        private IEnumerator SpinRoutine(IReadOnlyList<GachaCapsule> capsules, GachaCapsule targetCapsule, Action onComplete)
+        {
+            var targetCapsuleIdx = capsules.ToList().IndexOf(targetCapsule);
+            var targetAngle = 360 * (_maxSpinCirclesCount - targetCapsuleIdx * (1f / capsules.Count()));
+            var time = 0f;
 
-        //    var targetCapsule = GetRandomCapsule(capsules, targetRarity);
-        //    if (targetCapsule == null) return;
+            do
+            {
+                yield return null;
 
-        //    var targetWeapon = GetRandomWeapon(targetWeaponsMap[targetRarity]);
+                time += Time.deltaTime;
+                time = Mathf.Clamp(time, 0f, _spinDuration);
 
-        //    if (targetWeapon == null) return;
-        //    if (!G.Wallet.TrySpendMoney(cost)) return;
+                var progress = 1f - Mathf.Pow(1 - (time / _spinDuration), 3);
+                var offset = targetAngle * progress;
 
-        //    G.Repository.WeaponsCollection.AddUnlockedId(targetWeapon.Id);
+                _capsulesLayout.LayOutCapsules(capsules, offset);
+            }
+            while (time < _spinDuration);
 
-        //    _canSpin = false;
-        //    DisableButton(_spinBtn);
-        //    DisableButton(_closeBtn);
+            onComplete?.Invoke();
+        }
 
-        //    Coroutines.Stop(_spinRoutine);
-        //    _spinRoutine = Coroutines.Start(SpinRoutine(capsules, targetCapsule, () =>
-        //    {
-        //        HideCapsulesWithout(capsules, targetCapsule);
-        //        targetCapsule.Activate(targetWeapon);
+        private void HideCapsulesWithout(GachaCapsule without)
+        {
+            foreach (var capsule in _capsules)
+            {
+                if (capsule != without)
+                    capsule.transform.DOScale(0, 0.4f).SetEase(Ease.InBack);
+            }
+        }
 
-        //        targetCapsule.OpenedSignal.Subscribe(_ =>
-        //        {
-        //            DOVirtual.DelayedCall(1, () =>
-        //                EnableButton(_takeBtn));
-        //        });
-        //    }));
-        //}
-
-        //private GachaCapsule GetRandomCapsule(IReadOnlyList<GachaCapsule> capsules, Rarity rarity)
-        //{
-        //    var rng = new System.Random();
-        //    var shuffledCapsules = new List<GachaCapsule>(capsules)
-        //        .OrderBy(x => rng.Next()).ToList();
-
-        //    foreach (var capsule in shuffledCapsules)
-        //    {
-        //        if (capsule.Rarity == rarity)
-        //            return capsule;
-        //    }
-        //    return null;
-        //}
-
-        //private WeaponConfigs GetRandomWeapon(IReadOnlyList<WeaponConfigs> targetWeapons)
-        //{
-        //    return targetWeapons[Random.Range(0, targetWeapons.Count())];
-        //}
-
-        //private IEnumerator SpinRoutine(IReadOnlyList<GachaCapsule> capsules, GachaCapsule targetCapsule, Action onComplete)
-        //{
-        //    var targetCapsuleIdx = capsules.ToList().IndexOf(targetCapsule);
-        //    var targetAngle = 360 * (_maxSpinCirclesCount - targetCapsuleIdx * (1f / capsules.Count()));
-        //    var time = 0f;
-
-        //    do
-        //    {
-        //        yield return null;
-
-        //        time += Time.deltaTime;
-        //        time = Mathf.Clamp(time, 0f, _spinDuration);
-
-        //        var progress = 1f - Mathf.Pow(1 - (time / _spinDuration), 3);
-        //        var offset = targetAngle * progress;
-
-        //        _capsulesLayout.LayOutCapsules(capsules, offset);
-        //    } 
-        //    while (time < _spinDuration);
-
-        //    onComplete?.Invoke();
-        //}
-
-        //private void HideCapsulesWithout(IReadOnlyList<GachaCapsule> capsules, GachaCapsule without)
-        //{
-        //    foreach (var capsule in capsules)
-        //    {
-        //        if (capsule != without)
-        //            capsule.transform.DOScale(0, 0.4f).SetEase(Ease.InBack);
-        //    }
-        //}
-
-        //private Rarity CalculateRarity(IReadOnlyDictionary<Rarity, List<WeaponConfigs>> targetWeaponsMap)
-        //{
-        //    var chancesMap = new Dictionary<Rarity, float>(GachaConfigs.GetChancesMap());
-        //    var totalEmptyChance = 0f;
-
-        //    foreach (var rarity in default(Rarity).ToArray())
-        //    {
-        //        if (targetWeaponsMap.ContainsKey(rarity) && targetWeaponsMap[rarity].Count != 0) continue;
-        //        if (!chancesMap.ContainsKey(rarity)) continue;
-
-        //        totalEmptyChance += chancesMap[rarity];
-        //        chancesMap.Remove(rarity);
-        //    }
-
-        //    chancesMap = chancesMap.ToDictionary(
-        //        pair => pair.Key,
-        //        pair => pair.Value + totalEmptyChance / chancesMap.Values.Count);
-
-        //    return GachaConfigs.CalculateRarity(chancesMap);
-        //}
-
-        //private void EnableButton(Button button)
-        //{
-        //    button.enabled = enabled;
-        //    button.transform.DOScale(1, 0.2f).SetEase(Ease.OutQuad);
-        //}
-
-        //private void DisableButton(Button button)
-        //{
-        //    button.enabled = false;
-        //    button.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuad);
-        //}
+        private void SelectCapsule(GachaCapsule capsule)
+        {
+            capsule.transform.DOScale(1.5f, 0.5f).SetEase(Ease.InOutBack);
+            capsule.PressedSignal.Subscribe(_ => capsule.Open()).AddTo(capsule);
+        }
     }
 }

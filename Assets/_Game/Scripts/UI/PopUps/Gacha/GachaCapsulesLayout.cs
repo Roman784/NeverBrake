@@ -27,6 +27,8 @@ namespace UI
 
         public void LayOutCapsules(IReadOnlyList<GachaCapsule> capsules, float angleOffset = 0)
         {
+            if (capsules.Count == 0) return;
+
             InitAxisSize(capsules.Count());
             InitYOffset();
 

@@ -7,7 +7,7 @@ namespace UI
 {
     public abstract class PopUp : MonoBehaviour
     {
-        [SerializeField] protected CanvasGroup _view;
+        [SerializeField] protected CanvasGroup _rootView;
 
         [Space]
 
@@ -25,24 +25,24 @@ namespace UI
 
         public virtual PopUp SetInitialViewState()
         {
-            _view.transform.localScale = Vector3.one * _initialScale;
+            _rootView.transform.localScale = Vector3.one * _initialScale;
             return this;
         }
 
         public virtual void Open()
         {
-            _openTween = _view.transform
+            _openTween = _rootView.transform
                 .DOScale(1, _openTweenData.Duration)
                 .SetEase(_openTweenData.Ease);
         }
 
         public virtual void Close()
         {
-            _view.DOFade(0, _closeTweenData.Duration)
+            _rootView.DOFade(0, _closeTweenData.Duration)
                 .SetEase(_closeTweenData.Ease)
                 .OnComplete(() =>
                 {
-                    _view.gameObject.SetActive(false);
+                    _rootView.gameObject.SetActive(false);
 
                     _closeSignalSubj.OnNext(Unit.Default);
                     _closeSignalSubj.OnCompleted();

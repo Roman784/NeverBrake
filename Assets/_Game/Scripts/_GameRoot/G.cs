@@ -16,6 +16,8 @@ namespace GameRoot
         public static UIRoot UIRoot;
         public static SceneProvider SceneProvider;
         public static AudioProvider AudioProvider;
+        public static PopUpsProvider PopUpsProvider;
+        public static PopUpFactory PopUpFactory;
 
         // ========== GAMEPLAY ==========
 

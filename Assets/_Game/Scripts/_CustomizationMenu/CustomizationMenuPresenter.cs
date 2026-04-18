@@ -1,5 +1,8 @@
+using GameRoot;
 using R3;
 using System;
+using System.Linq;
+using UI;
 using UnityEngine;
 
 namespace CustomizationMenu
@@ -88,7 +91,18 @@ namespace CustomizationMenu
 
         private void OpenGachaPopUp()
         {
+            var poolData = new GachaPoolData();
+            poolData.Items = 
+                _model.GetLockedCarIds()
+                .Select(id => new GachaPoolItemData()
+                {
+                    ItemId = id,
+                    Rarity = _model.GetCarRarity(id),
+                    Reward = _model.GetCarPreview(id)
+                })
+                .ToArray();
 
+            G.PopUpsProvider.OpenGachaPopUp(poolData);
         }
 
         private void OpenSettingsPopUp()

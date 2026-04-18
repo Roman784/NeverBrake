@@ -13,5 +13,6 @@ namespace CMS
         public InitialGameStateCMS InitialGameStateCMS;
         public LevelsCMS LevelsCMS;
         public CarsCMS CarsCMS;
+        public GachaCMS GachaCMS;
     }
 }

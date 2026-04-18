@@ -31,6 +31,8 @@ namespace GameRoot
             G.UIRoot = CreateUIRoot();
             G.SceneProvider = new SceneProvider(G.UIRoot);
             G.AudioProvider = new AudioProvider();
+            G.PopUpsProvider = new PopUpsProvider();
+            G.PopUpFactory = new PopUpFactory();
 
             StartGame();
         }

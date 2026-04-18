@@ -34,7 +34,7 @@ namespace UI
 
         [Space]
 
-        [SerializeField] private Image _awardView;
+        [SerializeField] private Image _rewardView;
 
         private RectTransform _rectTransform;
         private Subject<Unit> _pressedSignalSubj = new();
@@ -47,7 +47,7 @@ namespace UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _awardView.gameObject.SetActive(false);
+            _rewardView.gameObject.SetActive(false);
         }
 
         public void Press() => _pressedSignalSubj.OnNext(Unit.Default);
@@ -65,6 +65,12 @@ namespace UI
             }
         }
 
+        public void SetReward(Sprite sprite)
+        {
+            _rewardView.sprite = sprite;
+            _rewardView.SetNativeSize();
+        }
+
         public void SetFade(float t)
         {
             foreach (var view in _fadeViews)
@@ -75,7 +81,7 @@ namespace UI
             }
         }
 
-        public void Open(Sprite awardSprite)
+        public void Open()
         {
             transform.DOKill();
             Sequence seq = DOTween.Sequence();
@@ -91,10 +97,7 @@ namespace UI
 
             seq.JoinCallback(() =>
             {
-                _awardView.gameObject.SetActive(true);
-
-                _awardView.sprite = awardSprite;
-                _awardView.SetNativeSize();
+                _rewardView.gameObject.SetActive(true);
 
                 _openedSignalSubj.OnNext(Unit.Default);
                 _openedSignalSubj.OnCompleted();

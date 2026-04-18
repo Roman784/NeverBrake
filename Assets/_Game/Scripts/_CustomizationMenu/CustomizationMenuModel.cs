@@ -1,8 +1,10 @@
+using CMS;
 using GameRoot;
 using GameState;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utils;
 
 namespace CustomizationMenu
 {
@@ -11,8 +13,7 @@ namespace CustomizationMenu
         public int SelectedCarId { get; set; }
 
         private List<int> _unlockedCarIds;
-
-        private Dictionary<int, Sprite> _carPreviewsMap = new();
+        private CarCMS[] _allCarsCMS;
         private Dictionary<CarPreviewItem, int> _carPreviewItemsMap = new();
 
         private CarsRepository Repository => G.Repository.Cars;
@@ -24,29 +25,13 @@ namespace CustomizationMenu
             _unlockedCarIds = new List<int>(
                 Repository.GetUnlockedCarIds());
 
-            FillCarPreviewsMap();
+            _allCarsCMS = G.RootCMS.CarsCMS.AllCarsCMS;
         }
 
-        private void FillCarPreviewsMap()
-        {
-            var allCarsCMS = G.RootCMS.CarsCMS.AllCarsCMS;
-            foreach (var carCMS in allCarsCMS)
-            {
-                _carPreviewsMap[carCMS.Id] = carCMS.Preview;
-            }
-        }
-
-        public IEnumerable<int> GetCarIds() => _carPreviewsMap.Keys;
+        public IEnumerable<int> GetCarIds() => _allCarsCMS.Select(c => c.Id);
         public bool IsSelectedCarUnlocked() => IsUnlocked(SelectedCarId);
         public bool IsUnlocked(int carId) => _unlockedCarIds.Contains(carId);
         public void SaveSelectedCarId() => Repository.SetSelectedCarId(SelectedCarId);
-        
-        public Sprite GetCarPreview(int carId)
-        {
-            if (_carPreviewsMap.ContainsKey(carId))
-                return _carPreviewsMap[carId];
-            return null;
-        }
 
         public int GetCarIdByPreviewItem(CarPreviewItem item)
         {
@@ -57,6 +42,27 @@ namespace CustomizationMenu
         public CarPreviewItem GetCarPreviewItem(int carId)
         {
             return _carPreviewItemsMap.FirstOrDefault(p => p.Value == carId).Key;
+        }
+
+        public IEnumerable<int> GetLockedCarIds()
+        {
+            return _allCarsCMS
+                .Where(c => !IsUnlocked(c.Id))
+                .Select(c => c.Id);
+        }
+
+        public Rarity GetCarRarity(int carId)
+        {
+            var carCMS = _allCarsCMS.FirstOrDefault(c => c.Id == carId);
+            if (carCMS != null) return carCMS.Rarity;
+            return Rarity.Common;
+        }
+
+        public Sprite GetCarPreview(int carId)
+        {
+            var carCMS = _allCarsCMS.FirstOrDefault(c => c.Id == carId);
+            if (carCMS != null) return carCMS.Preview;
+            return null;
         }
 
         public void AddCarPreviewItem(CarPreviewItem item, int carId)
