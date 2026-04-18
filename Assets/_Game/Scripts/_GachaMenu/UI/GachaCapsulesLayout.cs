@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Utils;
 
-namespace UI
+namespace GachaMenu
 {
     public class GachaCapsulesLayout : MonoBehaviour
     {
@@ -25,16 +25,18 @@ namespace UI
         private float _semiMinorCapsulesAxis;
         private float _yOffset;
 
-        public void LayOutCapsules(IReadOnlyList<GachaCapsule> capsules, float angleOffset = 0)
+        public void LayOutCapsules(IEnumerable<GachaCapsule> capsules, float angleOffset = 0)
         {
-            if (capsules.Count == 0) return;
+            if (capsules.Count() == 0) return;
 
             InitAxisSize(capsules.Count());
             InitYOffset();
 
-            for (int i = 0; i < capsules.Count; i++)
+            int i = 0;
+            foreach (var capsule in capsules)
             {
-                LayOutCapsule(capsules[i], capsules.Count(), i, angleOffset);
+                LayOutCapsule(capsule, capsules.Count(), i, angleOffset);
+                i++;
             }
 
             SortCapsulesRendering(capsules);

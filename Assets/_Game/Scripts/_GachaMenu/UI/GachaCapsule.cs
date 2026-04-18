@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 
-namespace UI
+namespace GachaMenu
 {
     [RequireComponent(typeof(RectTransform))]
     public class GachaCapsule : MonoBehaviour
@@ -34,8 +34,9 @@ namespace UI
 
         [Space]
 
-        [SerializeField] private Image _rewardView;
+        [SerializeField] private Image _rewardPreviewView;
 
+        private bool _isOpened;
         private RectTransform _rectTransform;
         private Subject<Unit> _pressedSignalSubj = new();
         private Subject<Unit> _openedSignalSubj = new();
@@ -47,7 +48,7 @@ namespace UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _rewardView.gameObject.SetActive(false);
+            _rewardPreviewView.gameObject.SetActive(false);
         }
 
         public void Press() => _pressedSignalSubj.OnNext(Unit.Default);
@@ -65,10 +66,10 @@ namespace UI
             }
         }
 
-        public void SetReward(Sprite sprite)
+        public void SetRewardPreview(Sprite sprite)
         {
-            _rewardView.sprite = sprite;
-            _rewardView.SetNativeSize();
+            _rewardPreviewView.sprite = sprite;
+            _rewardPreviewView.SetNativeSize();
         }
 
         public void SetFade(float t)
@@ -83,6 +84,9 @@ namespace UI
 
         public void Open()
         {
+            if (_isOpened) return;
+            _isOpened = true;
+
             transform.DOKill();
             Sequence seq = DOTween.Sequence();
 
@@ -97,7 +101,7 @@ namespace UI
 
             seq.JoinCallback(() =>
             {
-                _rewardView.gameObject.SetActive(true);
+                _rewardPreviewView.gameObject.SetActive(true);
 
                 _openedSignalSubj.OnNext(Unit.Default);
                 _openedSignalSubj.OnCompleted();

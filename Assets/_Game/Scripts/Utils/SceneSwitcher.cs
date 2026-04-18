@@ -25,6 +25,12 @@ namespace Utils
             EditorSceneManager.OpenScene("Assets/_Game/Scenes/CustomizationMenu.unity");
         }
 
+        [MenuItem("Scene/Gacha Menu")]
+        public static void OpenGachaMenu()
+        {
+            EditorSceneManager.OpenScene("Assets/_Game/Scenes/GachaMenu.unity");
+        }
+
         [MenuItem("Scene/Obstacle Course Mode")]
         public static void OpenObstacleCourseMode()
         {

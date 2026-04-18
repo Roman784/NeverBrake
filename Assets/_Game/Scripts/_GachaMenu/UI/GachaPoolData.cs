@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Utils;
 
-namespace UI
+namespace GachaMenu
 {
     public class GachaPoolData
     {
@@ -18,8 +18,8 @@ namespace UI
 
     public class GachaPoolItemData
     {
-        public int ItemId;
+        public int RewardId;
         public Rarity Rarity;
-        public Sprite Reward;
+        public Sprite RewardPreview;
     }
 }

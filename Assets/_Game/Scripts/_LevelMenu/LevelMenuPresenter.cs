@@ -30,8 +30,8 @@ namespace LevelMenu
             _view.SettingsButtonPressedSignal
                 .Subscribe(_ => OpenSettings());
 
-            _view.SkinsButtonPressedSignal
-                .Subscribe(_ => OpenSkinsMenu());
+            _view.CustomizationButtonPressedSignal
+                .Subscribe(_ => OpenCustomizationMenu());
 
             _view.ExitButtonPressedSignal
                 .Subscribe(_ => ExitFromMneu());
@@ -114,9 +114,9 @@ namespace LevelMenu
 
         }
 
-        public void OpenSkinsMenu()
+        public void OpenCustomizationMenu()
         {
-
+            G.SceneProvider.OpenCustomizationMenu();
         }
 
         private void ExitFromMneu()

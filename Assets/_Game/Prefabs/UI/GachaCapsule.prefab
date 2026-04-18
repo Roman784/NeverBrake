@@ -306,7 +306,7 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 57ca8ed7e10f8a84f8197c603066fe33, type: 2}
   - Rarity: 3
     Material: {fileID: 2100000, guid: 44deb9ca1cbd01544a5860431b288629, type: 2}
-  _rewardView: {fileID: 6058942366381237692}
+  _rewardPreviewView: {fileID: 6058942366381237692}
 --- !u!114 &4249889887615073658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,8 +352,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -4784881405203796690}
-        m_TargetAssemblyTypeName: UI.GachaCapsule, Assembly-CSharp
-        m_MethodName: Open
+        m_TargetAssemblyTypeName: GachaMenu.GachaCapsule, Assembly-CSharp
+        m_MethodName: Press
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 6058942366381237692}
   - component: {fileID: 8303207134720224218}
   m_Layer: 0
-  m_Name: RewardView
+  m_Name: RewardPreviewView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

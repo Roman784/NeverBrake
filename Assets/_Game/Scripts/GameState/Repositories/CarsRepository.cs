@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,10 +20,10 @@ namespace GameState
         public int GetSelectedCarId() => State.SelectedCarId;
         public IEnumerable<int> GetUnlockedCarIds() => UnlockedCarIds;
 
-        public void SetSelectedCarId(int carId)
+        public async UniTask SetSelectedCarId(int carId)
         {
             State.SelectedCarId = carId;
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
 
         public void AddUnlockedCar(int carId)

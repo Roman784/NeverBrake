@@ -66,6 +66,11 @@ namespace GameRoot
                 G.SceneProvider.OpenCustomizationMenu();
                 return;
             }
+            else if (initialEditorScene == Scenes.GACHA_MENU)
+            {
+                G.SceneProvider.OpenGachaMenu();
+                return;
+            }
             else if (initialEditorScene == Scenes.OBSTACLE_COURSE_MODE)
             {
                 G.SceneProvider.OpenObstacleCourseMode(0, 0);

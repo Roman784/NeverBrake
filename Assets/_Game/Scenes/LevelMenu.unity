@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 1478016009}
   - component: {fileID: 1478016010}
   m_Layer: 0
-  m_Name: SkinsBtn
+  m_Name: CustomizationBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1118,7 +1118,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7347453599883567274}
         m_TargetAssemblyTypeName: LevelMenu.LevelMenuView, Assembly-CSharp
-        m_MethodName: PressSkinsButton
+        m_MethodName: PressCustomizationButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

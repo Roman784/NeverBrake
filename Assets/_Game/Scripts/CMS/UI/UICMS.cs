@@ -10,8 +10,5 @@ namespace GameRoot
     {
         [Header("Root")]
         public UIRoot Root;
-
-        [Header("Pop Ups")]
-        public GachaPopUp GachaPopUpPrefab;
     }
 }

@@ -20,9 +20,18 @@
         ]
     },
     "Cars": {
-        "SelectedCarId": 0,
+        "SelectedCarId": 9,
         "UnlockedCarIds": [
-            0
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            1,
+            9
         ]
     }
 }
