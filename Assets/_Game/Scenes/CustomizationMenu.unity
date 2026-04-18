@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 627361869}
   - component: {fileID: 627361870}
   m_Layer: 0
-  m_Name: PlayBtn
+  m_Name: SelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -695,9 +695,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelMenu.LevelMenuView, Assembly-CSharp
-        m_MethodName: PressPlayButton
+      - m_Target: {fileID: 7347453599883567273}
+        m_TargetAssemblyTypeName: CustomizationMenu.CustomizationMenuView, Assembly-CSharp
+        m_MethodName: PressSelectButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

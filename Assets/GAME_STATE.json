@@ -13,10 +13,19 @@
             },
             {
                 "Number": 2,
-                "IsPassed": false,
+                "IsPassed": true,
                 "BestTime": 23321,
                 "DeathCount": 32
             }
+        ]
+    },
+    "Cars": {
+        "SelectedCarId": 5,
+        "UnlockedCarIds": [
+            0,
+            2,
+            3,
+            5
         ]
     }
 }

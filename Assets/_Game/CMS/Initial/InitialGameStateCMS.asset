@@ -26,3 +26,5 @@ MonoBehaviour:
         IsPassed: 1
         BestTime: 23321
         DeathCount: 32
+    Cars:
+      UnlockedCarIds: 00000000

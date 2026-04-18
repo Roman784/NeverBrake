@@ -17,6 +17,7 @@ namespace CustomizationMenu
             _presenter = new CustomizationMenuPresenter(_view, model);
 
             _presenter.CreateCarPreviewItems();
+            _presenter.ScrollToSelected();
 
             await UniTask.Yield();
         }

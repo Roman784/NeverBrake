@@ -37,9 +37,11 @@ namespace CustomizationMenu
 
         private readonly Subject<Unit> _scrollStartedSignalSubj = new();
         private readonly Subject<Unit> _scrollEndedSignalSubj = new();
+        private readonly Subject<Unit> _selectButtonPressedSignalSubj = new();
 
         public Observable<Unit> ScrollStartedSignal => _scrollStartedSignalSubj;
         public Observable<Unit> ScrollEndedSignal => _scrollEndedSignalSubj;
+        public Observable<Unit> SelectButtonPressedSignal => _selectButtonPressedSignalSubj;
 
         private void Awake()
         {
@@ -54,19 +56,15 @@ namespace CustomizationMenu
                 });
 
             _pointerDetector.OnPointerUpSignal
-                .Subscribe(_ => TrySnap());
-
-            _scrollStartedSignalSubj
-                .Subscribe(_ => _selectButtonView.alpha = 0.25f);
-
-            _scrollEndedSignalSubj
-                .Subscribe(_ => _selectButtonView.alpha = 1f);
+                .Subscribe(_ => TrySnapToNearest());
         }
+
+        public void PressSelectButton() => _selectButtonPressedSignalSubj.OnNext(Unit.Default);
 
         public void OnScrollChanged(Vector2 _)
         {
             UpdateItemTransforms();
-            TrySnap();
+            TrySnapToNearest();
         }
 
         public CarPreviewItem CreateItem()
@@ -78,28 +76,48 @@ namespace CustomizationMenu
             return item;
         }
 
+        public void ScrollTo(CarPreviewItem item, bool instant = true)
+        {
+            var index = _items.IndexOf(item);
+
+            if (instant)
+            {
+                var position = CalculateSnapPosition(index);
+                _scrollRect.content.anchoredPosition = new Vector2(position, 0f);
+                return;
+            }
+
+            SnapTo(index);
+        }
+
         public CarPreviewItem GetSelectedItem()
         {
             return _items[GetNearestItemIndex()];
         }
 
+        public void SetLockSelectButton(bool isLocked)
+        {
+            _selectButtonView.interactable = !isLocked;
+            _selectButtonView.alpha = isLocked ? 0.25f : 1f;
+        }
+
         // ==================== Snap ====================
 
-        private void TrySnap()
+        private void TrySnapToNearest()
         {
             if (_isSnapping) return;
             if (!_pointerDetector.IsPointerUp) return;
             if (Mathf.Abs(_scrollRect.velocity.x) >= SNAP_VELOCITY_THRESHOLD) return;
 
-            SnapToNearest();
+            int index = GetNearestItemIndex();
+            SnapTo(index);
         }
 
-        private void SnapToNearest()
+        private void SnapTo(int index)
         {
             _isSnapping = true;
             _scrollRect.velocity = Vector2.zero;
 
-            int index = GetNearestItemIndex();
             float targetX = CalculateSnapPosition(index);
 
             _snapTween?.Kill(false);

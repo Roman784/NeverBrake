@@ -16,9 +16,13 @@ namespace GameState
             _gameStateProvider = gameStateProvider;
         }
 
-        public bool IsCarUnlocked(int carId)
+        public int GetSelectedCarId() => State.SelectedCarId;
+        public IEnumerable<int> GetUnlockedCarIds() => UnlockedCarIds;
+
+        public void SetSelectedCarId(int carId)
         {
-            return UnlockedCarIds.Contains(carId);
+            State.SelectedCarId = carId;
+            _gameStateProvider.SaveGameState();
         }
 
         public void AddUnlockedCar(int carId)
