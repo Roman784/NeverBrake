@@ -59,6 +59,11 @@ namespace GameRoot
                 G.SceneProvider.OpenLevelMenu();
                 return;
             }
+            else if (initialEditorScene == Scenes.CUSTOMIZATION_MENU)
+            {
+                G.SceneProvider.OpenCustomizationMenu();
+                return;
+            }
             else if (initialEditorScene == Scenes.OBSTACLE_COURSE_MODE)
             {
                 G.SceneProvider.OpenObstacleCourseMode(0, 0);

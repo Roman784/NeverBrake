@@ -1,3 +1,4 @@
+using CustomizationMenu;
 using LevelMenu;
 using ObstacleCourseMode;
 using System;
@@ -22,6 +23,14 @@ namespace GameRoot
             var enterParams = new LevelMenuEnterParams();
             _currentSceneOpenAction = CreateSceneOpenAction<
                 LevelMenuEntryPoint, LevelMenuEnterParams>(enterParams);
+            _currentSceneOpenAction.Invoke();
+        }
+
+        public void OpenCustomizationMenu()
+        {
+            var enterParams = new CustomizationMenuEnterParams();
+            _currentSceneOpenAction = CreateSceneOpenAction<
+                CustomizationMenuEntryPoint, CustomizationMenuEnterParams>(enterParams);
             _currentSceneOpenAction.Invoke();
         }
 

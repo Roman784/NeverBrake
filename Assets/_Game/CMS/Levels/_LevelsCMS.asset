@@ -15,3 +15,9 @@ MonoBehaviour:
   DebugLevelCMS: {fileID: 11400000, guid: db617d2dc507c4d479eb96b81f40d352, type: 2}
   AllLevelsCMS:
   - {fileID: 11400000, guid: d4266b8395846c14d8ccbf55d60c86b8, type: 2}
+  - {fileID: 11400000, guid: f9b5262dbc2d7c143b2dc56888e7ba9a, type: 2}
+  - {fileID: 11400000, guid: 4f37c9dd56618f5458762635deccf4b0, type: 2}
+  - {fileID: 11400000, guid: 9182689feeaa455438c702c8cd35385a, type: 2}
+  - {fileID: 11400000, guid: c9704b72de6484340bfe77e95be78ee0, type: 2}
+  - {fileID: 11400000, guid: c62e59138b7ad064b96a6de7e18f76fa, type: 2}
+  - {fileID: 11400000, guid: 7ea6d74c05958dd4389f6a00c696dce2, type: 2}

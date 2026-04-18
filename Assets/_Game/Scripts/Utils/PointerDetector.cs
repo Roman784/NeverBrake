@@ -8,6 +8,7 @@ namespace Utils
     {
         private bool _isEnabled = true;
         private bool _isPointerOver = false;
+        private bool _isPointerUp = false;
 
         private Subject<PointerEventData> _onPointerClickSignalSubj = new();
         private Subject<PointerEventData> _onPointerEnterSignalSubj = new();
@@ -16,6 +17,7 @@ namespace Utils
         private Subject<PointerEventData> _onPointerUpSignalSubj = new();
 
         public bool IsPointerOver => _isPointerOver;
+        public bool IsPointerUp => _isPointerUp;
 
         public Observable<PointerEventData> OnPointerClickSignal => _onPointerClickSignalSubj;
         public Observable<PointerEventData> OnPointerEnterSignal => _onPointerEnterSignalSubj;
@@ -59,12 +61,14 @@ namespace Utils
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            _isPointerUp = false;
             if (!_isEnabled) return;
             _onPointerDownSignalSubj.OnNext(eventData);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            _isPointerUp = true;
             if (!_isEnabled) return;
             _onPointerUpSignalSubj.OnNext(eventData);
         }

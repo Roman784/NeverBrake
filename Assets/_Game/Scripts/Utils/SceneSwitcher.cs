@@ -19,6 +19,12 @@ namespace Utils
             EditorSceneManager.OpenScene("Assets/_Game/Scenes/LevelMenu.unity");
         }
 
+        [MenuItem("Scene/Customization Menu")]
+        public static void OpenCustomizationMenu()
+        {
+            EditorSceneManager.OpenScene("Assets/_Game/Scenes/CustomizationMenu.unity");
+        }
+
         [MenuItem("Scene/Obstacle Course Mode")]
         public static void OpenObstacleCourseMode()
         {
