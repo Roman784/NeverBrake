@@ -38,10 +38,14 @@ namespace CustomizationMenu
         private readonly Subject<Unit> _scrollStartedSignalSubj = new();
         private readonly Subject<Unit> _scrollEndedSignalSubj = new();
         private readonly Subject<Unit> _selectButtonPressedSignalSubj = new();
+        private readonly Subject<Unit> _gachaButtonPressedSignalSubj = new();
+        private readonly Subject<Unit> _settingsButtonPressedSignalSubj = new();
 
         public Observable<Unit> ScrollStartedSignal => _scrollStartedSignalSubj;
         public Observable<Unit> ScrollEndedSignal => _scrollEndedSignalSubj;
         public Observable<Unit> SelectButtonPressedSignal => _selectButtonPressedSignalSubj;
+        public Observable<Unit> GachaButtonPressedSignal => _gachaButtonPressedSignalSubj;
+        public Observable<Unit> SettingsButtonPressedSignal => _selectButtonPressedSignalSubj;
 
         private void Awake()
         {
@@ -60,6 +64,8 @@ namespace CustomizationMenu
         }
 
         public void PressSelectButton() => _selectButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void PressGachaButton() => _gachaButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void PressSettingsButton() => _settingsButtonPressedSignalSubj.OnNext(Unit.Default);
 
         public void OnScrollChanged(Vector2 _)
         {
@@ -93,12 +99,6 @@ namespace CustomizationMenu
         public CarPreviewItem GetSelectedItem()
         {
             return _items[GetNearestItemIndex()];
-        }
-
-        public void SetLockSelectButton(bool isLocked)
-        {
-            _selectButtonView.interactable = !isLocked;
-            _selectButtonView.alpha = isLocked ? 0.25f : 1f;
         }
 
         // ==================== Snap ====================

@@ -24,18 +24,21 @@ namespace CustomizationMenu
         private void SetupSubscriptions()
         {
             _view.SelectButtonPressedSignal
-                .Subscribe(_ => HandleSelectButtonPressed())
+                .Subscribe(_ => SaveSelectionAndLeave())
                 .AddTo(_disposables);
 
-            _view.ScrollStartedSignal
-                .Subscribe(_ => _view.SetLockSelectButton(true))
+            _view.GachaButtonPressedSignal
+                .Subscribe(_ => OpenGachaPopUp())
+                .AddTo(_disposables);
+
+            _view.SettingsButtonPressedSignal
+                .Subscribe(_ => OpenSettingsPopUp())
                 .AddTo(_disposables);
 
             _view.ScrollEndedSignal
                 .Subscribe(_ =>
                 {
                     SelectCarId(_view.GetSelectedItem());
-                    HandleSelectButtonLock();
                 })
                 .AddTo(_disposables);
         }
@@ -77,17 +80,20 @@ namespace CustomizationMenu
             _model.SelectedCarId = id;
         }
 
-        private void HandleSelectButtonLock()
+        private void SaveSelectionAndLeave()
         {
-            var isSelectedCarLocked = !_model.IsSelectedCarUnlocked();
-            _view.SetLockSelectButton(isSelectedCarLocked);
+            if (_model.IsSelectedCarUnlocked())
+                _model.SaveSelectedCarId();
         }
 
-        private void HandleSelectButtonPressed()
+        private void OpenGachaPopUp()
         {
-            if (!_model.IsSelectedCarUnlocked()) return;
 
-            _model.SaveSelectedCarId();
+        }
+
+        private void OpenSettingsPopUp()
+        {
+
         }
     }
 }

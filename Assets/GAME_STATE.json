@@ -20,7 +20,7 @@
         ]
     },
     "Cars": {
-        "SelectedCarId": 5,
+        "SelectedCarId": 0,
         "UnlockedCarIds": [
             0,
             2,
