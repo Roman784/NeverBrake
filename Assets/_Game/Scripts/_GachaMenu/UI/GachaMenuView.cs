@@ -1,3 +1,4 @@
+using Currency;
 using DG.Tweening;
 using GameRoot;
 using R3;
@@ -15,6 +16,10 @@ namespace GachaMenu
     [RequireComponent(typeof(GachaCapsulesLayout))]
     public class GachaMenuView : MonoBehaviour
     {
+        [SerializeField] private WalletView _walletView;
+
+        [Space]
+
         [SerializeField] private GachaCapsule _capsulePrefab;
         [SerializeField] private int _maxCapsulesCount;
         [SerializeField] private int _maxSpinCirclesCount;
@@ -57,10 +62,14 @@ namespace GachaMenu
         public void PressCustomizationButton() => _customizationButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressExitButton() => _exitButtonPressedSignalSubj.OnNext(Unit.Default);
 
+        public void BindWallet(Wallet wallet)
+        {
+            _walletView.Bind(wallet);
+        }
+
         public void SetSpinCost(int cost)
         {
-            var formattetCost = NumberFormatter.FormatCoins(cost);
-            _spinCostView.text = formattetCost;
+            _spinCostView.text = cost.ToCoinsFormat();
         }
 
         public GachaCapsule CreateCapsule(Rarity rarity, Sprite rewardPreview)

@@ -1,4 +1,5 @@
 using CMS;
+using Currency;
 using GameRoot;
 using GameState;
 using System.Collections.Generic;
@@ -10,13 +11,18 @@ namespace GachaMenu
 {
     public class GachaMenuModel
     {
+        public Wallet Wallet { get; private set; }
         public GachaPoolData Pool { get; private set; }
+        public int SpinCost { get; private set; }
         public int ReceivedRewardId { get; set; }
 
         private Dictionary<int, GachaCapsule> _capsulesByRewardIdMap = new();
 
         public GachaMenuModel(GachaPoolData pool)
         {
+            Wallet = G.Wallet;
+            SpinCost = G.RootCMS.GachaCMS.SpinCost;
+
             Pool = pool;
             ReceivedRewardId = -1;
         }

@@ -1,3 +1,4 @@
+using Currency;
 using DG.Tweening;
 using R3;
 using System.Collections.Generic;
@@ -9,6 +10,10 @@ namespace CustomizationMenu
 {
     public class CustomizationMenuView : MonoBehaviour
     {
+        [SerializeField] private WalletView _walletView;
+
+        [Space]
+
         [SerializeField] private RectTransform _rootCanvas;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private GridLayoutGroup _contentGrid;
@@ -66,6 +71,11 @@ namespace CustomizationMenu
         public void PressSelectButton() => _selectButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressGachaButton() => _gachaButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressSettingsButton() => _settingsButtonPressedSignalSubj.OnNext(Unit.Default);
+
+        public void BindWallet(Wallet wallet)
+        {
+            _walletView.Bind(wallet);
+        }
 
         public void OnScrollChanged(Vector2 _)
         {

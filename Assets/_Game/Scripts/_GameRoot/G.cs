@@ -1,5 +1,6 @@
 using Audio;
 using CMS;
+using Currency;
 using Gameplay;
 using GameState;
 using UI;
@@ -16,6 +17,7 @@ namespace GameRoot
         public static UIRoot UIRoot;
         public static SceneProvider SceneProvider;
         public static AudioProvider AudioProvider;
+        public static Wallet Wallet;
         public static PopUpsProvider PopUpsProvider;
         public static PopUpFactory PopUpFactory;
 

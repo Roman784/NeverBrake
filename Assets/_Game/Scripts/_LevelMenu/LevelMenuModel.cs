@@ -1,3 +1,4 @@
+using Currency;
 using Gameplay;
 using GameRoot;
 using GameState;
@@ -9,6 +10,7 @@ namespace LevelMenu
 {
     public class LevelMenuModel
     {
+        public Wallet Wallet { get; private set; }
         public int LevelsCount { get; private set; }
         public int LastPassedLevelNumber { get; private set; }
         public LevelButton SelectedLevelButton { get; set; }
@@ -19,6 +21,7 @@ namespace LevelMenu
 
         public LevelMenuModel()
         {
+            Wallet = G.Wallet;
             LevelsCount = G.RootCMS.LevelsCMS.LevelCount;
             LastPassedLevelNumber = Repository.GetLastPassedLevelNumber();
         }

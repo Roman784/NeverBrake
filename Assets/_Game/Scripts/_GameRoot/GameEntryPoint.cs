@@ -1,5 +1,6 @@
 using Audio;
 using CMS;
+using Currency;
 using Cysharp.Threading.Tasks;
 using GameState;
 using UI;
@@ -31,6 +32,7 @@ namespace GameRoot
             G.UIRoot = CreateUIRoot();
             G.SceneProvider = new SceneProvider(G.UIRoot);
             G.AudioProvider = new AudioProvider();
+            G.Wallet = new Wallet();
             G.PopUpsProvider = new PopUpsProvider();
             G.PopUpFactory = new PopUpFactory();
 

@@ -11,7 +11,7 @@ namespace Utils
 
         public static string FormatCoins(int coins)
         {
-            return $"{FormatCurrency(coins)}";
+            return $"{TextIcons.Coin} {FormatCurrency(coins)}";
         }
 
         private static string FormatCurrency(int currency)

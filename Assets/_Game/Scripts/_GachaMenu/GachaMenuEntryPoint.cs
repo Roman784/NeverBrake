@@ -36,9 +36,9 @@ namespace GachaMenu
             _presenter = new GachaMenuPresenter(_view, model);
 
             _presenter.RewardReceivedSignal
-                .Subscribe(id => SaveNewUnlockedCar(id));
+                .SubscribeAwait(async (id, ct) => await SaveNewUnlockedCar(id));
             _presenter.EquipReceivedRewardSignal
-                .Subscribe(id => EquipCarAndExit(id).Forget());
+                .SubscribeAwait(async (id, ct) => await EquipCarAndExit(id));
 
             await UniTask.Yield();
         }
@@ -57,9 +57,10 @@ namespace GachaMenu
                 .Where(c => !unlockedIds.Contains(c.Id));
         }
 
-        private void SaveNewUnlockedCar(int id)
+        private async UniTask SaveNewUnlockedCar(int id)
         {
             G.Repository.Cars.AddUnlockedCar(id);
+            await G.Wallet.Save();
         }
 
         private async UniTask EquipCarAndExit(int id)

@@ -1,4 +1,5 @@
 using CMS;
+using Currency;
 using GameRoot;
 using GameState;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace CustomizationMenu
 {
     public class CustomizationMenuModel
     {
+        public Wallet Wallet { get; private set; }
         public int SelectedCarId { get; set; }
 
         private List<int> _unlockedCarIds;
@@ -20,6 +22,7 @@ namespace CustomizationMenu
 
         public CustomizationMenuModel()
         {
+            Wallet = G.Wallet;
             SelectedCarId = Repository.GetSelectedCarId();
 
             _unlockedCarIds = new List<int>(

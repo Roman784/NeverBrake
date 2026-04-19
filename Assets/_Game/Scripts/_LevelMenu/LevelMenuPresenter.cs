@@ -19,6 +19,7 @@ namespace LevelMenu
             _view = view;
             _model = model;
 
+            _view.BindWallet(_model.Wallet);
             SetupSubscriptions();
         }
 

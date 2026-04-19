@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GameRoot;
 using R3;
 using System;
@@ -24,12 +25,15 @@ namespace GachaMenu
             _view = view;
             _model = model;
 
-            SetupSubscriptions();
+            _view.BindWallet(_model.Wallet);
+            _view.SetSpinCost(_model.SpinCost);
 
             if (_model.Pool.Items.Length == 0)
                 _view.ActiveNoMoreCapsulesLeftMode();
             else
                 CreateCapsules();
+
+            SetupSubscriptions();
         }
 
         public void Dispose()
@@ -40,7 +44,7 @@ namespace GachaMenu
         private void SetupSubscriptions()
         {
             _view.SpinButtonPressedSignal
-                .Subscribe(_ => TrySpin())
+                .Subscribe(_ => TrySpin().Forget())
                 .AddTo(_disposables);
 
             _view.EquipButtonPressedSignal
@@ -66,14 +70,15 @@ namespace GachaMenu
             _view.ClearContainerAndLayOutCapsules(_model.GetCapsules());
         }
 
-        private void TrySpin()
+        private async UniTask TrySpin()
         {
             var randomRwardId = _model.GetRandomRewardId();
             var targetCapsule = _model.GetCapsule(randomRwardId);
 
             if (targetCapsule == null) return;
 
-            // Wallet Check
+            var trySpendCoinsResult = await _model.Wallet.TrySpendCoins(_model.SpinCost, false);
+            if (!trySpendCoinsResult) return;
 
             _view.Spin(targetCapsule, _model.GetCapsules())
                 .Subscribe(_ =>

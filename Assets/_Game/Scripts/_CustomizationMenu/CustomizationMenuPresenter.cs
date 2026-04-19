@@ -21,6 +21,7 @@ namespace CustomizationMenu
             _view = view;
             _model = model;
 
+            _view.BindWallet(_model.Wallet);
             SetupSubscriptions();
         }
 

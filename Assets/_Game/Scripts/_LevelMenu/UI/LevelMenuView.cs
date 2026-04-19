@@ -1,3 +1,4 @@
+using Currency;
 using R3;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,10 @@ namespace LevelMenu
 {
     public class LevelMenuView : MonoBehaviour
     {
+        [SerializeField] private WalletView _walletView;
+
+        [Space]
+
         [SerializeField] private LevelButtonsLayout _levelButtonsLayout;
         [SerializeField] private LevelButton _levelButtonPrefab;
         [SerializeField] private LineRenderer _pathLine;
@@ -26,6 +31,11 @@ namespace LevelMenu
         public void PressSettingsButton() => _settingsButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressCustomizationButton() => _customizationButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressExitButton() => _exitButtonPressedSignalSubj.OnNext(Unit.Default);
+
+        public void BindWallet(Wallet wallet)
+        {
+            _walletView.Bind(wallet);
+        }
 
         public LevelButton CreateLevelButton()
         {
