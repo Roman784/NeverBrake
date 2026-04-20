@@ -23,9 +23,7 @@ namespace CMS
 
         private void OnValidate()
         {
-#if UNITY_EDITOR
             SetCarIds();
-#endif
         }
 
         private void SetCarIds()
@@ -34,7 +32,9 @@ namespace CMS
             for (int i = 0; i < AllCarsCMS.Length; i++)
             {
                 AllCarsCMS[i].SetId(i);
+#if UNITY_EDITOR
                 EditorUtility.SetDirty(AllCarsCMS[i]);
+#endif
             }
         }
     }

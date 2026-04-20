@@ -1,7 +1,12 @@
+using Cysharp.Threading.Tasks;
+using R3;
+
 namespace Gameplay
 {
     public class MovementCarBehavior : CarBehavior
     {
+        private CompositeDisposable _disposables;
+
         public MovementCarBehavior(CarBehaviorHandler handler, Car car) : base(handler, car)
         {
         }
@@ -9,6 +14,12 @@ namespace Gameplay
         public override void Enter()
         {
             base.Enter();
+
+            _disposables = new CompositeDisposable();
+
+            _car.CollisionRegister.CollidedWithTrapSignal
+                .Subscribe(collider => _handler.SetCrashBehavior(collider))
+                .AddTo(_disposables);
 
             _car.View.SetActiveTireTracks(true);
         }
@@ -39,6 +50,12 @@ namespace Gameplay
 
             _car.Controller.ApplyMovement(deltaTime);
             _car.Controller.ApplyTurning(horizontalInput, deltaTime);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            _disposables.Dispose();
         }
     }
 }

@@ -1,5 +1,6 @@
 using CMS;
 using Currency;
+using Cysharp.Threading.Tasks;
 using GameRoot;
 using GameState;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace CustomizationMenu
         public IEnumerable<int> GetCarIds() => _allCarsCMS.Select(c => c.Id);
         public bool IsSelectedCarUnlocked() => IsUnlocked(SelectedCarId);
         public bool IsUnlocked(int carId) => _unlockedCarIds.Contains(carId);
-        public void SaveSelectedCarId() => Repository.SetSelectedCarId(SelectedCarId);
+        public async UniTask SaveSelectedCarId() => await Repository.SetSelectedCarId(SelectedCarId);
 
         public int GetCarIdByPreviewItem(CarPreviewItem item)
         {

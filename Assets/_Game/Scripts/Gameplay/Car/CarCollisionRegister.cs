@@ -1,76 +1,94 @@
-using Physics;
 using R3;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using Utils;
 
 namespace Gameplay
 {
     public class CarCollisionRegister : MonoBehaviour
     {
+        [Header("Tags")]
+        [SerializeField] private string _groundTag = "Ground";
+        [SerializeField] private string _waterTag = "Water";
         [SerializeField] private string _wallTag = "Wall";
         [SerializeField] private string _trapTag = "Trap";
-        [SerializeField] private string _waterTag = "Water";
         [SerializeField] private string _finishTag = "Finish";
 
-        [Space]
+        [Header("Check Settings")]
+        [SerializeField] private Vector3[] _checkPoints;
+        [SerializeField] private float _checkRadius;
 
-        [SerializeField] private SurfaceChecker _surfaceChecker;
+        private bool _isRegistrationEnabled;
+        private bool _isOnGround;
+        private bool _isOnWater;
 
-        private bool _canRegister;
+        private Subject<Collision2D> _collidedWithWallSignalSubj = new();
+        private Subject<Collider2D> _collidedWithTrapSignalSubj = new();
+        private Subject<Collider2D> _collidedWithFinishSignalSubj = new();
 
-        private Subject<Collision> _collidedWithWallSignalSubj = new();
-        private Subject<Collision> _collidedWithTrapSignalSubj = new();
-        private Subject<Collision> _collidedWithWaterSignalSubj = new();
-        private Subject<Collider> _collidedWithFinishSignalSubj = new();
+        public Observable<Collision2D> CollidedWithWallSignal => _collidedWithWallSignalSubj;
+        public Observable<Collider2D> CollidedWithTrapSignal => _collidedWithTrapSignalSubj;
+        public Observable<Collider2D> CollidedWithFinishSignal => _collidedWithFinishSignalSubj;
 
-        public Observable<Collision> CollidedWithWallSignal => _collidedWithWallSignalSubj;
-        public Observable<Collision> CollidedWithTrapSignal => _collidedWithTrapSignalSubj;
-        public Observable<Collision> CollidedWithWaterSignal => _collidedWithWaterSignalSubj;
-        public Observable<Collider> CollidedWithFinishignal => _collidedWithFinishSignalSubj;
-        
-        public void Enabled() => _canRegister = true;
-        public void Disable() => _canRegister = false;
-
-        public bool OnGround()
+        private void Update()
         {
-            if (!_canRegister) return false;
-            return _surfaceChecker.CheckGround(out var _);
+            UpdateSurfaceState();
         }
 
-        public bool OnWater()
+        public void EnableRegistration() => _isRegistrationEnabled = true;
+        public void DisableRegistration() => _isRegistrationEnabled = false;
+
+        public bool OnGround() => _isRegistrationEnabled && _isOnGround;
+        public bool OnWater() => _isRegistrationEnabled && _isOnWater && !_isOnGround;
+
+        private void UpdateSurfaceState()
         {
-            if (!_canRegister) return false;
-            return _surfaceChecker.CheckWater(out var _);
+            _isOnGround = false;
+            _isOnWater = false;
+
+            foreach (var point in _checkPoints)
+            {
+                var worldPoint = transform.TransformPoint(point);
+                var hits = Physics2D.OverlapCircleAll(worldPoint, _checkRadius);
+
+                foreach (var hit in hits)
+                {
+                    if (hit.CompareTag(_groundTag))
+                        _isOnGround = true;
+
+                    if (hit.CompareTag(_waterTag))
+                        _isOnWater = true;
+                }
+            }
         }
 
-        public float GetGroundHeight()
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (_surfaceChecker.TryGetGround(out var hit))
-                return hit.point.y;
-            return transform.position.y;
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (!_canRegister) return;
+            if (!_isRegistrationEnabled) return;
 
             if (collision.collider.CompareTag(_wallTag))
                 _collidedWithWallSignalSubj.OnNext(collision);
-
-            else if (collision.collider.CompareTag(_trapTag))
-                _collidedWithTrapSignalSubj.OnNext(collision);
-
-            else if (collision.collider.CompareTag(_waterTag))
-                _collidedWithWaterSignalSubj.OnNext(collision);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!_canRegister) return;
+            if (!_isRegistrationEnabled) return;
 
             if (other.CompareTag(_finishTag))
                 _collidedWithFinishSignalSubj.OnNext(other);
+
+            else if (other.CompareTag(_trapTag))
+                _collidedWithTrapSignalSubj.OnNext(other);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            if (_checkPoints == null) return;
+
+            foreach (var point in _checkPoints)
+            {
+                Gizmos.DrawSphere(transform.TransformPoint(point), _checkRadius);
+            }
         }
     }
 }

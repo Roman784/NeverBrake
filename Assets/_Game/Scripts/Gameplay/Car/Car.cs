@@ -37,7 +37,7 @@ namespace Gameplay
 
             _controller.Initialize(_view, _collisionRegister);
 
-            _collisionRegister.Enabled();
+            _collisionRegister.EnableRegistration();
             _behaviorHandler.SetIdleBehaviour();
         }
 

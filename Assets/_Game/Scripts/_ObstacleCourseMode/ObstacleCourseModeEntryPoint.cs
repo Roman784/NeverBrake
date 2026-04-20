@@ -26,6 +26,8 @@ namespace ObstacleCourseMode
             var levelPrefab = levelCMS.LevelPrefab;
             var level = Instantiate(levelPrefab);
 
+            await UniTask.Yield();
+
             // ========== Car ==========
 
             var carId = enterParams.CarId;

@@ -23,9 +23,7 @@ namespace CMS
 
         private void OnValidate()
         {
-#if UNITY_EDITOR
             SetLevelNumbers();
-#endif
         }
 
         private void SetLevelNumbers()
@@ -35,7 +33,9 @@ namespace CMS
             {
                 var number = i + 1;
                 AllLevelsCMS[i].SetNumber(number);
+#if UNITY_EDITOR
                 EditorUtility.SetDirty(AllLevelsCMS[i]);
+#endif
             }
         }
     }

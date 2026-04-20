@@ -45,8 +45,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Water
+    uniqueID: 2410284675
+    locked: 0
+  - name: Ground
+    uniqueID: 1669424073
+    locked: 0
   - name: Car
     uniqueID: 1430403
+    locked: 0
+  - name: Wall
+    uniqueID: 1051062381
     locked: 0
   - name: UI
     uniqueID: 3398343059

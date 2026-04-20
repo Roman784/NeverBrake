@@ -6,7 +6,7 @@ using Utils;
 
 namespace Gameplay
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class CarController : MonoBehaviour
     {
         [SerializeField] private float _forwardAcceleration;
@@ -35,7 +35,7 @@ namespace Gameplay
 
         [SerializeField] private float _boostImpulse;
 
-        private Rigidbody _rigidbody;
+        private Rigidbody2D _rigidbody;
 
         private CarView _view;
         private CarCollisionRegister _collisionRegister;
@@ -49,10 +49,10 @@ namespace Gameplay
         private float TurningSpeed => CalculateTurningSpeed();
 
         public void Initialize(
-            CarView view, 
+            CarView view,
             CarCollisionRegister collisionRegister)
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            _rigidbody = GetComponent<Rigidbody2D>();
 
             _view = view;
             _collisionRegister = collisionRegister;
@@ -61,11 +61,9 @@ namespace Gameplay
         public void Stop()
         {
             StopAllCoroutines();
-            _rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
-            _rigidbody.isKinematic = true;
-            transform.position = new Vector3(
-                transform.position.x, _collisionRegister.GetGroundHeight(), transform.position.z);
+            _rigidbody.linearVelocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
+            _rigidbody.bodyType = RigidbodyType2D.Static;
         }
 
         public void ApplyMovement(float deltaTime)
@@ -96,34 +94,39 @@ namespace Gameplay
 
         public void ApplyBoostImpulse()
         {
-            _rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.AddForce(transform.forward * _boostImpulse, ForceMode.Impulse);
+            _rigidbody.linearVelocity = Vector2.zero;
+            _rigidbody.AddForce(transform.up * _boostImpulse, ForceMode2D.Impulse);
         }
 
         private void LimitMaxSpeed()
         {
-            _rigidbody.maxLinearVelocity = _maxVelocity;
+            var velocity = _rigidbody.linearVelocity;
+            velocity.x = Mathf.Clamp(velocity.x, -_maxVelocity, _maxVelocity);
+            velocity.y = Mathf.Clamp(velocity.y, -_maxVelocity, _maxVelocity);
+            _rigidbody.linearVelocity = velocity;
         }
 
         private void ApplyForwardAcceleration(float deltaTime)
         {
-            var force = transform.forward * _forwardAcceleration * deltaTime;
-            _rigidbody.AddForce(force, ForceMode.Force);
+            var force = transform.up * _forwardAcceleration * deltaTime;
+            _rigidbody.AddForce(force, ForceMode2D.Force);
         }
 
         private void SuppressLateralVelocity(float deltaTime)
         {
-            var lateralVelocity = Vector3.Project(_rigidbody.linearVelocity, transform.right);
-            _rigidbody.AddForce(-lateralVelocity * _lateralFriction * deltaTime, ForceMode.Force);
+            var right = transform.right;
+            var lateralVelocity = Vector2.Dot(_rigidbody.linearVelocity, right) * right;
+            _rigidbody.AddForce(-lateralVelocity * _lateralFriction * deltaTime, ForceMode2D.Force);
         }
+
 
         private void ApplyBodyTurning(int horizontalInput, float deltaTime)
         {
             var step = horizontalInput * TurningSpeed;
-            var angle = transform.rotation.eulerAngles.y;
-            angle += step * deltaTime;
+            var angle = transform.rotation.eulerAngles.z;
+            angle -= step * deltaTime;
 
-            _rigidbody.MoveRotation(Quaternion.Euler(0f, angle, 0f));
+            _rigidbody.MoveRotation(Quaternion.Euler(0f, 0f, angle));
         }
 
         private void ApplyWheelsTurning(int horizontalInput, float deltaTime)
@@ -135,15 +138,14 @@ namespace Gameplay
 
         private IEnumerator JumpRoutine()
         {
-            _rigidbody.useGravity = false;
-            var initialY = transform.position.y;
+            var initialZ = transform.position.z;
             for (float time = 0f; time < _jumpDuration; time += Time.deltaTime)
             {
                 var progress = time / _jumpDuration;
-                var y = _jumpHeight * _jumpHeightCurve.Evaluate(progress);
-                
+                var z = _jumpHeight * _jumpHeightCurve.Evaluate(progress);
+
                 var newPosition = transform.position;
-                newPosition.y = initialY + y;
+                newPosition.z = initialZ - z;
 
                 transform.position = newPosition;
 
@@ -155,9 +157,8 @@ namespace Gameplay
 
         private void CompleteJump()
         {
-            _rigidbody.useGravity = true;
-            var velocity = _rigidbody.linearVelocity; velocity.y = 0f;
-            _rigidbody.linearVelocity = velocity;
+            var position = transform.position; position.z = 0f;
+            transform.position = position;
 
             _jumpCompletedSignalSubj.OnNext(Unit.Default);
             _jumpCompletedSignalSubj.OnCompleted();

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GameRoot;
 using R3;
 using System;
@@ -28,7 +29,7 @@ namespace CustomizationMenu
         private void SetupSubscriptions()
         {
             _view.SelectButtonPressedSignal
-                .Subscribe(_ => SaveSelectionAndLeave())
+                .SubscribeAwait(async (_, _) => await SaveSelectionAndLeave())
                 .AddTo(_disposables);
 
             _view.GachaButtonPressedSignal
@@ -84,10 +85,10 @@ namespace CustomizationMenu
             _model.SelectedCarId = id;
         }
 
-        private void SaveSelectionAndLeave()
+        private async UniTask SaveSelectionAndLeave()
         {
             if (_model.IsSelectedCarUnlocked())
-                _model.SaveSelectedCarId();
+                await _model.SaveSelectedCarId();
         }
 
         private void OpenGachaPopUp()

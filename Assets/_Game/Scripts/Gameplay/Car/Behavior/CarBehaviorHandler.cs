@@ -68,14 +68,14 @@ namespace Gameplay
             SetBehavior(behavior);
         }
 
-        public void SetCrashBehavior(Collision collision)
+        public void SetCrashBehavior(Collider2D collider)
         {
             var behavior = GetBehavior<CrashCarBehavior>();
-            behavior.SetParams(collision);
+            behavior.SetParams(collider);
             SetBehavior(behavior);
         }
 
-        public void SetFinishBehavior(Collider collider)
+        public void SetFinishBehavior(Collider2D collider)
         {
             var behavior = GetBehavior<FinishCarBehavior>();
             behavior.SetParams(collider);

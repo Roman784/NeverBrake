@@ -7,26 +7,26 @@ namespace Gameplay
 {
     public class CrashCarBehavior : CarBehavior
     {
-        private Collision _collision;
+        private Collider2D _collider;
         private IDisposable _crashVFXCompletedSignal;
 
         public CrashCarBehavior(CarBehaviorHandler handler, Car car) : base(handler, car)
         {
         }
 
-        public void SetParams(Collision collision)
+        public void SetParams(Collider2D collider)
         {
-            _collision = collision;
+            _collider = collider;
         }
 
         public override void Enter()
         {
             _car.Controller.Stop();
-            _car.CollisionRegister.Disable();
+            _car.CollisionRegister.DisableRegistration();
             _car.View.SetActiveTireTracks(false);
 
             _crashVFXCompletedSignal = 
-                _car.View.PlayCrashVFX(_collision.contacts[0].point)
+                _car.View.PlayCrashVFX(_car.transform.position)
                     .Subscribe(_ => G.SceneProvider.RestartScene());
 
             G.Camera.Shaker.StrongShake();

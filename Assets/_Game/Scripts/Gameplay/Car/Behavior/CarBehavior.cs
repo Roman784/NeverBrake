@@ -25,15 +25,7 @@ namespace Gameplay
                 .Subscribe(collision => HandleCollisionWithWall(collision))
                 .AddTo(_disposables);
 
-            _car.CollisionRegister.CollidedWithTrapSignal
-                .Subscribe(collision => _handler.SetCrashBehavior(collision))
-                .AddTo(_disposables);
-
-            //_car.CollisionRegister.CollidedWithWaterSignal
-            //    .Subscribe(collision => _handler.SetDrownBehavior())
-            //    .AddTo(_disposables);
-
-            _car.CollisionRegister.CollidedWithFinishignal
+            _car.CollisionRegister.CollidedWithFinishSignal
                 .Subscribe(collieder => _handler.SetFinishBehavior(collieder))
                 .AddTo(_disposables);
         }
@@ -51,7 +43,7 @@ namespace Gameplay
             _disposables?.Dispose();
         }
 
-        private void HandleCollisionWithWall(Collision collision)
+        private void HandleCollisionWithWall(Collision2D collision)
         {
             var contact = collision.contacts[0];
             _car.View.PlayCollisionVFX(contact.point, contact.normal);

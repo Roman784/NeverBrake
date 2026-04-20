@@ -21,8 +21,7 @@ namespace Gameplay
         {
             if (_target == null) return;
             
-            var trackPosition = _target.position + Vector3.up * 10;
-            trackPosition.y = _transform.position.y;
+            var trackPosition = _target.position + Vector3.forward * -6;
 
             _transform.position = trackPosition;
         }

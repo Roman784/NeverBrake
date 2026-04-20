@@ -6,14 +6,14 @@ namespace Gameplay
 {
     public class FinishCarBehavior : CarBehavior
     {
-        private Collider _collider;
+        private Collider2D _collider;
         private Tween _portalSuctionTween;
 
         public FinishCarBehavior(CarBehaviorHandler handler, Car car) : base(handler, car)
         {
         }
 
-        public void SetParams(Collider collider)
+        public void SetParams(Collider2D collider)
         {
             _collider = collider;
         }
@@ -22,7 +22,7 @@ namespace Gameplay
         {
             if (_collider.TryGetComponent<FinishPortal>(out var portal))
             {
-                _car.CollisionRegister.Disable();
+                _car.CollisionRegister.DisableRegistration();
                 _car.Controller.Stop();
 
                 _car.View.SetActiveTireTracks(false);
