@@ -37,9 +37,8 @@ namespace Gameplay
             _landingSeq?.Kill(true);
             _landingSeq = DOTween.Sequence();
 
-            _landingSeq.Append(_root.DOScale(0.8f, 0.05f).SetEase(Ease.OutQuart));
-            _landingSeq.AppendInterval(0.05f);
-            _landingSeq.Append(_root.DOScale(1f, 0.25f).SetEase(Ease.OutQuad));
+            _landingSeq.Append(_root.DOScale(0.8f, 0.05f).SetEase(Ease.OutQuad));
+            _landingSeq.Append(_root.DOScale(1f, 0.15f).SetEase(Ease.OutBack));
         }
 
         public void SetActiveTireTracks(bool value)
@@ -58,9 +57,8 @@ namespace Gameplay
             _boostSeq = DOTween.Sequence();
 
             _boostSeq.Append(_root.DOScaleY(1.15f, 0.1f).SetEase(Ease.OutQuad));
-            _boostSeq.Join(_root.DOScaleX(0.9f, 0.1f).SetEase(Ease.OutQuad));
-            _boostSeq.AppendInterval(0.1f);
-            _boostSeq.Append(_root.DOScale(1f, 0.4f).SetEase(Ease.InQuad));
+            _boostSeq.Join(_root.DOScaleX(0.85f, 0.1f).SetEase(Ease.OutQuad));
+            _boostSeq.Append(_root.DOScale(1f, 0.3f).SetEase(Ease.InQuad));
         }
 
         public Tween PlayPortalSuctionAnimation(Vector2 portalCenter)

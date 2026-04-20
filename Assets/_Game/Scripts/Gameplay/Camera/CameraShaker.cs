@@ -1,16 +1,16 @@
 using DG.Tweening;
-using Gameplay;
+using UnityEngine;
 
 namespace Gameplay
 {
-    public class CameraShaker
+    public class CameraShaker : MonoBehaviour
     {
-        private UnityEngine.Camera _camera;
+        private Camera _camera;
         private Tween _shakeTween;
 
-        public CameraShaker(UnityEngine.Camera camera)
+        public void Awake()
         {
-            _camera = camera;
+            _camera = Camera.main;
         }
 
         public void WeakShake()

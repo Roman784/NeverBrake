@@ -38,7 +38,6 @@ namespace Gameplay
         private Rigidbody2D _rigidbody;
 
         private CarView _view;
-        private CarCollisionRegister _collisionRegister;
 
         private float _turnInputDuration;
         private int _lastHorizontalInput;
@@ -48,14 +47,11 @@ namespace Gameplay
 
         private float TurningSpeed => CalculateTurningSpeed();
 
-        public void Initialize(
-            CarView view,
-            CarCollisionRegister collisionRegister)
+        public void Initialize(CarView view)
         {
             _rigidbody = GetComponent<Rigidbody2D>();
 
             _view = view;
-            _collisionRegister = collisionRegister;
         }
 
         public void Stop()
@@ -148,6 +144,7 @@ namespace Gameplay
                 newPosition.z = initialZ - z;
 
                 transform.position = newPosition;
+                transform.localScale = Vector3.one + Vector3.one * -newPosition.z / 2f;
 
                 yield return null;
             }
@@ -159,6 +156,7 @@ namespace Gameplay
         {
             var position = transform.position; position.z = 0f;
             transform.position = position;
+            transform.localScale = Vector3.one;
 
             _jumpCompletedSignalSubj.OnNext(Unit.Default);
             _jumpCompletedSignalSubj.OnCompleted();

@@ -815,7 +815,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 2
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -968,10 +968,10 @@ MonoBehaviour:
   _finishTag: Finish
   _checkPoints:
   - {x: 0, y: 0, z: 0.1}
-  - {x: -0.25, y: 0.6, z: 0.1}
-  - {x: 0.25, y: 0.6, z: 0.1}
-  - {x: -0.25, y: -0.6, z: 0.1}
-  - {x: 0.25, y: -0.6, z: 0.1}
+  - {x: -0.2, y: 0.5, z: 0.1}
+  - {x: 0.2, y: 0.5, z: 0.1}
+  - {x: -0.2, y: -0.5, z: 0.1}
+  - {x: 0.2, y: -0.5, z: 0.1}
   _checkRadius: 0.25
 --- !u!1 &7045587392828914957
 GameObject:

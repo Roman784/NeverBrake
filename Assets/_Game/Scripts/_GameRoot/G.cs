@@ -23,7 +23,7 @@ namespace GameRoot
 
         // ========== GAMEPLAY ==========
 
-        public static Gameplay.Camera Camera;
+        public static Gameplay.GameplayCamera Camera;
 
         // ========== PROPERTIES ==========
 

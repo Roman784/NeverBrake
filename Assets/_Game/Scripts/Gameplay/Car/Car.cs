@@ -35,7 +35,7 @@ namespace Gameplay
 
             _behaviorHandler = new CarBehaviorHandler(this);
 
-            _controller.Initialize(_view, _collisionRegister);
+            _controller.Initialize(_view);
 
             _collisionRegister.EnableRegistration();
             _behaviorHandler.SetIdleBehaviour();
