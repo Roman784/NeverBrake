@@ -13,6 +13,8 @@ namespace ObstacleCourseMode
 
         protected override async UniTask Run(ObstacleCourseModeEnterParams enterParams)
         {
+            await UniTask.Yield();
+
             // ========== Level ==========
 
             var levelNumber = enterParams.LevelNumber;
