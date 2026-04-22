@@ -23,6 +23,7 @@ namespace Gameplay
         private CarBehaviorHandler _behaviorHandler;
 
         private Subject<Unit> _failedSignalSubj = new();
+        private Subject<Unit> _finishReachedSignalSubj = new();
 
         public CarView View => _view;
         public CarController Controller => _controller;
@@ -30,6 +31,7 @@ namespace Gameplay
         public CarInput Input => _input;
 
         public Observable<Unit> FailedSignal => _failedSignalSubj;
+        public Observable<Unit> FinishReachedSignal => _finishReachedSignalSubj;
 
         public void Initialize(CarInput input)
         {
@@ -43,10 +45,21 @@ namespace Gameplay
             _behaviorHandler.SetIdleBehaviour();
         }
 
+        public void StartMovement()
+        {
+            _behaviorHandler.SetMovementBehavior();
+        }
+
         public void OnFailed()
         {
             _failedSignalSubj.OnNext(Unit.Default);
             _failedSignalSubj.OnCompleted();
+        }
+
+        public void OnFinishReached()
+        {
+            _finishReachedSignalSubj.OnNext(Unit.Default);
+            _finishReachedSignalSubj.OnCompleted();
         }
 
         private void Update()

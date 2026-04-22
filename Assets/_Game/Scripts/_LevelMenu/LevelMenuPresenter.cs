@@ -62,9 +62,8 @@ namespace LevelMenu
                 {
                     createdButton.Unlock();
 
-                    var bestTime = _model.IsLevelPassed(number) ?
-                        $"{_model.GetLevelBestTime(number):F2}" : "--";
-                    var deathCount = _model.GetLevelDeathCount(number).ToString();
+                    var bestTime = _model.GetLevelBestTime(number);
+                    var deathCount = _model.GetLevelDeathCount(number);
                     createdButton.SetStats(true, bestTime, deathCount);
                 }
 

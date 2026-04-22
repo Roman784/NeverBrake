@@ -11,6 +11,7 @@ namespace ObstacleCourseMode
         [SerializeField] private ObstacleCourseModeView _view;
 
         private ObstacleCourseModePresenter _presenter;
+        private bool _isStarted;
 
         protected override async UniTask Run(ObstacleCourseModeEnterParams enterParams)
         {
@@ -56,6 +57,10 @@ namespace ObstacleCourseMode
                 enterParams: enterParams,
                 car: car);
             _presenter = new ObstacleCourseModePresenter(_view, model);
+
+            // ========== Start Lvel ==========
+
+            _presenter.HandleLevelStart();
 
             await UniTask.Yield();
         }

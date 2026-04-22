@@ -28,6 +28,8 @@ namespace Gameplay
                 _car.View.PlayPortalSuctionAnimation(portal.CenterPosition);
                 
                 G.Camera.Zoom();
+
+                _car.OnFinishReached();
             }
         }
 

@@ -15,15 +15,5 @@ namespace Gameplay
 
             _car.View.SetActiveTireTracks(false);
         }
-
-        public override void Update(float deltaTime)
-        {
-            base.Update(deltaTime);
-
-            if (_car.Input.ShouldStartMoving())
-            {
-                _handler.SetMovementBehavior();
-            }
-        }
     }
 }

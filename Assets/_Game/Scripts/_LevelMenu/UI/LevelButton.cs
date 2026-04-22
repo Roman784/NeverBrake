@@ -2,6 +2,7 @@ using DG.Tweening;
 using R3;
 using TMPro;
 using UnityEngine;
+using Utils;
 
 namespace LevelMenu
 {
@@ -38,10 +39,10 @@ namespace LevelMenu
             _numberView.text = number.ToString();
         }
 
-        public void SetStats(bool active, string bestScore = "", string deathCount = "")
+        public void SetStats(bool active, int bestTime = 0, int deathCount = 0)
         {
-            _bestScoreView.text = bestScore;
-            _deathCountView.text = deathCount;
+            _bestScoreView.text = bestTime.ToTimeFormat();
+            _deathCountView.text = deathCount.ToString();
 
             var bestScoreTransform = _bestScoreView.GetComponent<RectTransform>();
             var deathCountTransform = _deathCountView.GetComponent<RectTransform>();

@@ -30,7 +30,7 @@ namespace LevelMenu
         public bool IsLevelUnlocked(int number) => number <= LastPassedLevelNumber + 1;
         public void AddLevelButtonNumber(LevelButton button, int number) => _numbersMap[button] = number;
 
-        public float GetLevelBestTime(int number) => Repository.GetBestTime(number) / 100f;
+        public int GetLevelBestTime(int number) => Repository.GetBestTime(number);
         public int GetLevelDeathCount(int number) => Repository.GetDeathCount(number);
 
         public int GetSelectedLevelNumber()

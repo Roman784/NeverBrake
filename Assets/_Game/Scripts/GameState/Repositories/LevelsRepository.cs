@@ -36,6 +36,13 @@ namespace GameState
             return 0;
         }
 
+        public IEnumerable<int> GetPassedLevelNumbers()
+        {
+            return LevelsData
+                .Where(l => l.IsPassed)
+                .Select(l => l.Number);
+        }
+
         public int GetBestTime(int levelNumber)
         {
             if (_levelsMap.TryGetValue(levelNumber, out var levelData))
@@ -50,20 +57,20 @@ namespace GameState
             return 0;
         }
 
-        public void SetOrAddLevelIsPassed(int levelNumber, bool isPassed)
+        public async UniTask SetOrAddLevelIsPassed(int levelNumber, bool isPassed)
         {
             AddNewLevelIfItDoesNotExist(levelNumber);
 
             _levelsMap[levelNumber].IsPassed = isPassed;
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
 
-        public void SetOrAddLevelBestTime(int levelNumber, int time)
+        public async UniTask SetOrAddLevelBestTime(int levelNumber, int time)
         {
             AddNewLevelIfItDoesNotExist(levelNumber);
 
             _levelsMap[levelNumber].BestTime = time;
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
 
         public async UniTask SetOrAddLevelDeathCount(int levelNumber, int count)

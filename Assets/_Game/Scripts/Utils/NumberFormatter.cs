@@ -9,6 +9,11 @@ namespace Utils
             return FormatCoins(coins);
         }
 
+        public static string ToTimeFormat(this int time)
+        {
+            return time > 0 ? $"{time / 100f:F2}" : "--";
+        }
+
         public static string FormatCoins(int coins)
         {
             return $"{TextIcons.Coin} {FormatCurrency(coins)}";

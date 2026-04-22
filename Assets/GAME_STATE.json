@@ -17,14 +17,14 @@
             {
                 "Number": 2,
                 "IsPassed": true,
-                "BestTime": 23321,
+                "BestTime": 233210,
                 "DeathCount": 32
             },
             {
                 "Number": 0,
                 "IsPassed": false,
-                "BestTime": 0,
-                "DeathCount": 4
+                "BestTime": 1320,
+                "DeathCount": 34
             }
         ]
     },
