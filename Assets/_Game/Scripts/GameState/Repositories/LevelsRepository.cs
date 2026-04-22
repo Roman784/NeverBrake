@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -65,12 +66,12 @@ namespace GameState
             _gameStateProvider.SaveGameState();
         }
 
-        public void SetOrAddLevelDeathCount(int levelNumber, int count)
+        public async UniTask SetOrAddLevelDeathCount(int levelNumber, int count)
         {
             AddNewLevelIfItDoesNotExist(levelNumber);
 
             _levelsMap[levelNumber].DeathCount = count;
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
 
         private void AddNewLevelIfItDoesNotExist(int levelNumber)

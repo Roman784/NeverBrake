@@ -22,10 +22,14 @@ namespace Gameplay
         private CarInput _input;
         private CarBehaviorHandler _behaviorHandler;
 
+        private Subject<Unit> _failedSignalSubj = new();
+
         public CarView View => _view;
         public CarController Controller => _controller;
         public CarCollisionRegister CollisionRegister => _collisionRegister;
         public CarInput Input => _input;
+
+        public Observable<Unit> FailedSignal => _failedSignalSubj;
 
         public void Initialize(CarInput input)
         {
@@ -35,10 +39,14 @@ namespace Gameplay
 
             _behaviorHandler = new CarBehaviorHandler(this);
 
-            _controller.Initialize(_view);
-
             _collisionRegister.EnableRegistration();
             _behaviorHandler.SetIdleBehaviour();
+        }
+
+        public void OnFailed()
+        {
+            _failedSignalSubj.OnNext(Unit.Default);
+            _failedSignalSubj.OnCompleted();
         }
 
         private void Update()

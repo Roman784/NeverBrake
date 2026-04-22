@@ -50,6 +50,8 @@ namespace Gameplay
 
             _car.Controller.ApplyMovement(deltaTime);
             _car.Controller.ApplyTurning(horizontalInput, deltaTime);
+            _car.View.ApplyWheelsTurning(
+                _car.Controller.GetWheelsTurning(horizontalInput, deltaTime));
         }
 
         public override void Exit()

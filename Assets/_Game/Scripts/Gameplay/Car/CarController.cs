@@ -37,8 +37,6 @@ namespace Gameplay
 
         private Rigidbody2D _rigidbody;
 
-        private CarView _view;
-
         private float _turnInputDuration;
         private int _lastHorizontalInput;
         private float _wheelsAngle;
@@ -47,11 +45,9 @@ namespace Gameplay
 
         private float TurningSpeed => CalculateTurningSpeed();
 
-        public void Initialize(CarView view)
+        public void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-
-            _view = view;
         }
 
         public void Stop()
@@ -77,7 +73,6 @@ namespace Gameplay
             _lastHorizontalInput = horizontalInput;
 
             ApplyBodyTurning(horizontalInput, deltaTime);
-            ApplyWheelsTurning(horizontalInput, deltaTime);
         }
 
         public Observable<Unit> Jump()
@@ -92,6 +87,12 @@ namespace Gameplay
         {
             _rigidbody.linearVelocity = Vector2.zero;
             _rigidbody.AddForce(transform.up * _boostImpulse, ForceMode2D.Impulse);
+        }
+
+        public float GetWheelsTurning(int horizontalInput, float deltaTime)
+        {
+            var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
+            return Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
         }
 
         private void LimitMaxSpeed()
@@ -123,13 +124,6 @@ namespace Gameplay
             angle -= step * deltaTime;
 
             _rigidbody.MoveRotation(Quaternion.Euler(0f, 0f, angle));
-        }
-
-        private void ApplyWheelsTurning(int horizontalInput, float deltaTime)
-        {
-            var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
-            _wheelsAngle = Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
-            _view.ApplyWheelsTurning(_wheelsAngle);
         }
 
         private IEnumerator JumpRoutine()

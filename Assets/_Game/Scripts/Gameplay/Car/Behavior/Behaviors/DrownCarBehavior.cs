@@ -14,12 +14,11 @@ namespace Gameplay
         public override void Enter()
         {
             _car.View.SetActiveTireTracks(false);
-
-            _fallingIntoWaterTween = 
-                _car.View.PlayFallingIntoWaterAnimation()
-                .OnComplete(() => G.SceneProvider.RestartScene());
+            _car.View.PlayFallingIntoWaterAnimation();
             
             G.Camera.Zoom();
+
+            _car.OnFailed();
         }
 
         public override void Update(float deltaTime) { }

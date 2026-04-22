@@ -38,6 +38,8 @@ namespace Gameplay
 
             var horizontalInput = _car.Input.GetHorizontalInput();
             _car.Controller.ApplyTurning(horizontalInput, deltaTime);
+            _car.View.ApplyWheelsTurning(
+                _car.Controller.GetWheelsTurning(horizontalInput, deltaTime));
         }
 
         public override void Exit()

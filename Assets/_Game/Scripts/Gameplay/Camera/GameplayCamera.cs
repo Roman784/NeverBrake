@@ -26,7 +26,7 @@ namespace Gameplay
 
         public void Zoom()
         {
-            _tracker.Break();
+            _tracker.DisableLookAhead();
 
             var end = _camera.orthographicSize - _camera.orthographicSize * _zoomStrenght;
             DOTween.To

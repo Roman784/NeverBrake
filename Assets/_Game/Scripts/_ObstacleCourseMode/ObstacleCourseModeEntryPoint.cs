@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Gameplay;
 using GameRoot;
 using UnityEngine;
+using R3;
 
 namespace ObstacleCourseMode
 {
@@ -51,11 +52,17 @@ namespace ObstacleCourseMode
 
             // ========== MVP ==========
 
-            var model = new ObstacleCourseModeModel(_view);
-            _presenter = new ObstacleCourseModePresenter(model);
-            _view.Init(_presenter);
+            var model = new ObstacleCourseModeModel(
+                enterParams: enterParams,
+                car: car);
+            _presenter = new ObstacleCourseModePresenter(_view, model);
 
             await UniTask.Yield();
+        }
+
+        private void OnDestroy()
+        {
+            _presenter?.Dispose();
         }
     }
 }
