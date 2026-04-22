@@ -75,6 +75,9 @@ namespace ObstacleCourseMode
 
             if (!_model.IsLevelPassed || _model.GetCurrentTime() < _model.BestTime)
                 await _model.SaveNewBestTime(_model.GetCurrentTime());
+
+            await _model.PassLevel();
+
             DisplayUI();
 
             await UniTask.Delay(2000);

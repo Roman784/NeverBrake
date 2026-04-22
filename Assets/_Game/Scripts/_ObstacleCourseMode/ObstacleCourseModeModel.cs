@@ -57,5 +57,10 @@ namespace ObstacleCourseMode
             if (!_isTimerStarted) return 0;
             return Mathf.CeilToInt(Time.time * 100) - _startTime;
         }
+
+        public async UniTask PassLevel()
+        {
+            await Repository.SetOrAddLevelIsPassed(LevelNumber, true);
+        }
     }
 }

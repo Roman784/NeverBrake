@@ -22,8 +22,8 @@
             },
             {
                 "Number": 0,
-                "IsPassed": false,
-                "BestTime": 1320,
+                "IsPassed": true,
+                "BestTime": 1382,
                 "DeathCount": 34
             }
         ]
