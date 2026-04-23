@@ -46,9 +46,15 @@
             },
             {
                 "Number": 6,
-                "IsPassed": false,
-                "BestTime": 0,
-                "DeathCount": 4
+                "IsPassed": true,
+                "BestTime": 1182,
+                "DeathCount": 5
+            },
+            {
+                "Number": 7,
+                "IsPassed": true,
+                "BestTime": 1161,
+                "DeathCount": 0
             }
         ]
     },

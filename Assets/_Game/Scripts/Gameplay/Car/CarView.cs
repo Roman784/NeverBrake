@@ -16,19 +16,29 @@ namespace Gameplay
 
         [Space]
 
+        [SerializeField] private float _wheelsTurningSpeed;
+        [SerializeField] private float _maxWheelsTurning;
+
+        [Space]
+
         [SerializeField] private Transform _boostVFXPoint;
         [SerializeField] private VFX _boostVFXPrefab;
         [SerializeField] private VFX _collisionVFXPrefab;
         [SerializeField] private VFX _crashVFXPrefab;
 
+        private float _wheelsAngle;
+
         private Sequence _landingSeq;
         private Sequence _boostSeq;
 
-        public void ApplyWheelsTurning(float angle)
+        public void ApplyWheelsTurning(float horizontalInput, float turningDuration, float deltaTime)
         {
+            var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, turningDuration * 1.5f);
+            _wheelsAngle = Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
+
             foreach (var wheel in _wheels)
             {
-                wheel.localRotation = Quaternion.Euler(0f, 0f, angle);
+                wheel.localRotation = Quaternion.Euler(0f, 0f, _wheelsAngle);
             }
         }
 

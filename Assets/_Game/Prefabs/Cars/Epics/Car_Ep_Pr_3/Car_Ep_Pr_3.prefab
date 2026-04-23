@@ -856,6 +856,8 @@ MonoBehaviour:
   _tireTracks:
   - {fileID: 4315612111740195820}
   - {fileID: 2942208424859470424}
+  _wheelsTurningSpeed: 10
+  _maxWheelsTurning: 90
   _boostVFXPoint: {fileID: 4958051441815068910}
   _boostVFXPrefab: {fileID: 6274685203801075039, guid: ae5e9afa7a3b0d744b20a6fd224235b9, type: 3}
   _collisionVFXPrefab: {fileID: 9004367569648579983, guid: 7b18e359a4821c54499970ea5016755e, type: 3}
@@ -872,7 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf72e6ab181941429dc10c41ffe5685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CarController
-  _forwardAcceleration: 750
+  _forwardAcceleration: 850
   _maxVelocity: 20
   _lateralFriction: 2
   _minTurningSpeed: 90
@@ -902,8 +904,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _wheelsTurningSpeed: 10
-  _maxWheelsTurning: 90
   _jumpHeight: 1
   _jumpDuration: 0.75
   _jumpHeightCurve:

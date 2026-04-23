@@ -22,11 +22,6 @@ namespace Gameplay
 
         [Space]
 
-        [SerializeField] private float _wheelsTurningSpeed;
-        [SerializeField] private float _maxWheelsTurning;
-
-        [Space]
-
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpDuration;
         [SerializeField] private AnimationCurve _jumpHeightCurve;
@@ -39,10 +34,10 @@ namespace Gameplay
 
         private float _turnInputDuration;
         private int _lastHorizontalInput;
-        private float _wheelsAngle;
 
         private Subject<Unit> _jumpCompletedSignalSubj = new();
 
+        public float TurnInputDuration => _turnInputDuration;
         private float TurningSpeed => CalculateTurningSpeed();
 
         public void Awake()
@@ -89,11 +84,11 @@ namespace Gameplay
             _rigidbody.AddForce(transform.up * _boostImpulse, ForceMode2D.Impulse);
         }
 
-        public float GetWheelsTurning(int horizontalInput, float deltaTime)
-        {
-            var angle = -horizontalInput * Mathf.Lerp(0, _maxWheelsTurning, _turnInputDuration * 1.5f);
-            return Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
-        }
+        //public float GetWheelsTurning(int horizontalInput, float deltaTime)
+        //{
+        //    var angle = -horizontalInput * Mathf.Lerp(0, 1, _turnInputDuration * 1.5f);
+        //    return Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
+        //}
 
         private void LimitMaxSpeed()
         {
