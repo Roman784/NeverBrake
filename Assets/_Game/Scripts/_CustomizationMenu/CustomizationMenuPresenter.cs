@@ -87,8 +87,10 @@ namespace CustomizationMenu
 
         private async UniTask SaveSelectionAndLeave()
         {
-            if (_model.IsSelectedCarUnlocked())
-                await _model.SaveSelectedCarId();
+            if (!_model.IsSelectedCarUnlocked()) return;
+
+            await _model.SaveSelectedCarId();
+            G.SceneProvider.OpenLevelMenu();
         }
 
         private void OpenGachaPopUp()

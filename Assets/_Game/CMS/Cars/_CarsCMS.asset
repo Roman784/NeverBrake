@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarsCMS
   AllCarsCMS:
   - {fileID: 11400000, guid: 24cb061bfc0360b4d949211fe48f76c5, type: 2}
-  - {fileID: 11400000, guid: b6b931fabdd1e61488f998d3dc14c711, type: 2}
-  - {fileID: 11400000, guid: 1a4a1799174e8754d8817dd330e09c84, type: 2}
-  - {fileID: 11400000, guid: aa90df4440b060e478a04de0a812e978, type: 2}
-  - {fileID: 11400000, guid: 77a4a4d7e59e45f41a3403ef87c79a9e, type: 2}
-  - {fileID: 11400000, guid: 77a3c29db0146a247b20b8cd44cd74ca, type: 2}
-  - {fileID: 11400000, guid: 75e25656c7e44194b849187cf7fe735e, type: 2}
-  - {fileID: 11400000, guid: 3d6a3a03b2906034f92b4e2aa3334c8b, type: 2}
-  - {fileID: 11400000, guid: f8ff0d01ccaea9647809fb8723479447, type: 2}
-  - {fileID: 11400000, guid: e86a5fdc7c64a78478b6e77b1df976d0, type: 2}
-  - {fileID: 11400000, guid: bca54d6cb02400c4d953dc7fae13b4a9, type: 2}
+  - {fileID: 11400000, guid: 4ceffd12a386d9f44915f9c73e0eec4a, type: 2}
+  - {fileID: 11400000, guid: 1310203c7aa84c24e824da9665c2673f, type: 2}
+  - {fileID: 11400000, guid: 4a032db6e5126a645b1e9044768faef2, type: 2}
+  - {fileID: 11400000, guid: cefe471766f33ae4fab3d8b09bcc24e4, type: 2}
+  - {fileID: 11400000, guid: 078831eadd088dc4d83deb4ff605bbea, type: 2}
+  - {fileID: 11400000, guid: 26aaf38d3768ae94ba03d869f71aee30, type: 2}
+  - {fileID: 11400000, guid: 596df42a8cb261a4c9f71b6b0153322a, type: 2}
+  - {fileID: 11400000, guid: bc0608d419d91d84f8be85ffe328a1c4, type: 2}
+  - {fileID: 11400000, guid: 4ad8e2c31daa06d4cad343056b68ca60, type: 2}
+  - {fileID: 11400000, guid: 1406bb26b174eee4e86d811c4723b121, type: 2}
+  - {fileID: 11400000, guid: 6bc654ae51d45ac4b86391c7b04262ad, type: 2}
   InputsCMS: {fileID: 11400000, guid: 1a48096d2338a024cad15fa9ca12df60, type: 2}

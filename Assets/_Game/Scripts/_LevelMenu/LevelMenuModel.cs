@@ -17,27 +17,33 @@ namespace LevelMenu
 
         private Dictionary<LevelButton, int> _numbersMap = new();
 
-        private LevelsRepository Repository => G.Repository.Levels;
+        private LevelsRepository LevelsRepository => G.Repository.Levels;
+        private CarsRepository CarsRepository => G.Repository.Cars;
 
         public LevelMenuModel()
         {
             Wallet = G.Wallet;
             LevelsCount = G.RootCMS.LevelsCMS.LevelCount;
-            LastPassedLevelNumber = Repository.GetLastPassedLevelNumber();
+            LastPassedLevelNumber = LevelsRepository.GetLastPassedLevelNumber();
         }
 
         public bool IsLevelPassed(int number) => number == LastPassedLevelNumber;
         public bool IsLevelUnlocked(int number) => number <= LastPassedLevelNumber + 1;
         public void AddLevelButtonNumber(LevelButton button, int number) => _numbersMap[button] = number;
 
-        public int GetLevelBestTime(int number) => Repository.GetBestTime(number);
-        public int GetLevelDeathCount(int number) => Repository.GetDeathCount(number);
+        public int GetLevelBestTime(int number) => LevelsRepository.GetBestTime(number);
+        public int GetLevelDeathCount(int number) => LevelsRepository.GetDeathCount(number);
 
         public int GetSelectedLevelNumber()
         {
             if (_numbersMap.TryGetValue(SelectedLevelButton, out var number))
                 return number;
             return 1;
+        }
+
+        public int GetSelectedCarId()
+        {
+            return CarsRepository.GetSelectedCarId();
         }
 
         public IEnumerable<Vector3> GetLevelButtonPositions()

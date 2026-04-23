@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82717a90d9af784191c3c130fa7090a, type: 3}
+  m_Name: Com_Bl_4_CarCMS
+  m_EditorClassIdentifier: Assembly-CSharp::CMS.CarCMS
+  Prefab: {fileID: -1642605613554031101, guid: 134855a3615b5324ea9866f45a853ce4, type: 3}
+  PreviewPrefab: {fileID: 2479930033388642652, guid: f0060f4919f63b44a97cf4a3f4879da4, type: 3}
+  Rarity: 0
