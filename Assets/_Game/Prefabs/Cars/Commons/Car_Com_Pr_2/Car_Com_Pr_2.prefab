@@ -707,7 +707,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1535631050, guid: 35798235e3ef43148abc5b0b5399d400, type: 3}
+  m_Sprite: {fileID: 1731175844, guid: 35798235e3ef43148abc5b0b5399d400, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 7296389268005444467}
   - component: {fileID: 2772314438794171973}
   m_Layer: 0
-  m_Name: Car_Com_Bl_4
+  m_Name: Car_Com_Pr_2
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
