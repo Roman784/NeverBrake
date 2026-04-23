@@ -64,7 +64,7 @@ namespace GachaMenu
         {
             foreach (var item in _model.Pool.Items)
             {
-                var createdCapsule = _view.CreateCapsule(item.Rarity, item.RewardPreview);
+                var createdCapsule = _view.CreateCapsule(item.Rarity, item.RewardPreviewPrefab);
                 _model.AddCapsule(createdCapsule, item.RewardId);
             }
             _view.ClearContainerAndLayOutCapsules(_model.GetCapsules());

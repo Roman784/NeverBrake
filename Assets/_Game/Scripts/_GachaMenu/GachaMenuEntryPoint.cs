@@ -26,7 +26,7 @@ namespace GachaMenu
                     {
                         RewardId = carCMS.Id,
                         Rarity = carCMS.Rarity,
-                        RewardPreview = carCMS.Preview
+                        RewardPreviewPrefab = carCMS.PreviewPrefab.gameObject
                     })
                     .ToArray()
             };

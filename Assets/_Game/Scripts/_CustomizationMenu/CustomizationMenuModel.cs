@@ -17,7 +17,7 @@ namespace CustomizationMenu
 
         private List<int> _unlockedCarIds;
         private CarCMS[] _allCarsCMS;
-        private Dictionary<CarPreviewItem, int> _carPreviewItemsMap = new();
+        private Dictionary<SkinPreview, int> _carPreviewsMap = new();
 
         private CarsRepository Repository => G.Repository.Cars;
 
@@ -37,15 +37,15 @@ namespace CustomizationMenu
         public bool IsUnlocked(int carId) => _unlockedCarIds.Contains(carId);
         public async UniTask SaveSelectedCarId() => await Repository.SetSelectedCarId(SelectedCarId);
 
-        public int GetCarIdByPreviewItem(CarPreviewItem item)
+        public int GetCarIdByPreview(SkinPreview preview)
         {
-            if (_carPreviewItemsMap.TryGetValue(item, out var id)) return id;
+            if (_carPreviewsMap.TryGetValue(preview, out var id)) return id;
             return 0;
         }
 
-        public CarPreviewItem GetCarPreviewItem(int carId)
+        public SkinPreview GetCarPreview(int carId)
         {
-            return _carPreviewItemsMap.FirstOrDefault(p => p.Value == carId).Key;
+            return _carPreviewsMap.FirstOrDefault(p => p.Value == carId).Key;
         }
 
         public IEnumerable<int> GetLockedCarIds()
@@ -62,16 +62,16 @@ namespace CustomizationMenu
             return Rarity.Common;
         }
 
-        public Sprite GetCarPreview(int carId)
+        public SkinPreview GetCarPreviewPrefab(int carId)
         {
             var carCMS = _allCarsCMS.FirstOrDefault(c => c.Id == carId);
-            if (carCMS != null) return carCMS.Preview;
+            if (carCMS != null) return carCMS.PreviewPrefab;
             return null;
         }
 
-        public void AddCarPreviewItem(CarPreviewItem item, int carId)
+        public void AddCarPreview(SkinPreview preview, int carId)
         {
-            _carPreviewItemsMap[item] = carId;
+            _carPreviewsMap[preview] = carId;
         }
     }
 }

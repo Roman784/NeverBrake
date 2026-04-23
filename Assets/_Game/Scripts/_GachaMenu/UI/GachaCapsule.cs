@@ -34,10 +34,11 @@ namespace GachaMenu
 
         [Space]
 
-        [SerializeField] private Image _rewardPreviewView;
+        [SerializeField] private Transform _rewardPreviewContainer;
 
         private bool _isOpened;
         private RectTransform _rectTransform;
+        private GameObject _rewardPreviewPrefab;
         private Subject<Unit> _pressedSignalSubj = new();
         private Subject<Unit> _openedSignalSubj = new();
 
@@ -48,7 +49,6 @@ namespace GachaMenu
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _rewardPreviewView.gameObject.SetActive(false);
         }
 
         public void Press() => _pressedSignalSubj.OnNext(Unit.Default);
@@ -66,10 +66,9 @@ namespace GachaMenu
             }
         }
 
-        public void SetRewardPreview(Sprite sprite)
+        public void SetRewardPreviewPrefab(GameObject prefab)
         {
-            _rewardPreviewView.sprite = sprite;
-            _rewardPreviewView.SetNativeSize();
+            _rewardPreviewPrefab = prefab;
         }
 
         public void SetFade(float t)
@@ -101,11 +100,17 @@ namespace GachaMenu
 
             seq.JoinCallback(() =>
             {
-                _rewardPreviewView.gameObject.SetActive(true);
+                CreateRewardPreview();
 
                 _openedSignalSubj.OnNext(Unit.Default);
                 _openedSignalSubj.OnCompleted();
             });
+        }
+
+        private void CreateRewardPreview()
+        {
+            var createdPreview = Instantiate(_rewardPreviewPrefab, _rewardPreviewContainer, false);
+            createdPreview.GetComponentInChildren<Shadow>().enabled = false;
         }
     }
 }

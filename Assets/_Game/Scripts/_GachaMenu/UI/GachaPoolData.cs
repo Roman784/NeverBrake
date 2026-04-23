@@ -20,6 +20,6 @@ namespace GachaMenu
     {
         public int RewardId;
         public Rarity Rarity;
-        public Sprite RewardPreview;
+        public GameObject RewardPreviewPrefab;
     }
 }

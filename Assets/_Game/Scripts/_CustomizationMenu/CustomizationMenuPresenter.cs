@@ -43,7 +43,7 @@ namespace CustomizationMenu
             _view.ScrollEndedSignal
                 .Subscribe(_ =>
                 {
-                    SelectCarId(_view.GetSelectedItem());
+                    SelectCarId(_view.GetSelectedPreview());
                 })
                 .AddTo(_disposables);
         }
@@ -57,10 +57,8 @@ namespace CustomizationMenu
         {
             foreach (var carId in _model.GetCarIds())
             {
-                var createdPreview = _view.CreateItem();
-                _model.AddCarPreviewItem(createdPreview, carId);
-
-                createdPreview.SetIcon(_model.GetCarPreview(carId));
+                var previewPrefab = _model.GetCarPreviewPrefab(carId);
+                var createdPreview = _view.CreateCarPreview(previewPrefab);
                 createdPreview.SetLock(!_model.IsUnlocked(carId));
 
                 createdPreview.PressedSignal
@@ -69,19 +67,21 @@ namespace CustomizationMenu
                         SelectCarId(createdPreview);
                         ScrollToSelected(false);
                     });
+
+                _model.AddCarPreview(createdPreview, carId);
             }
         }
 
         public void ScrollToSelected(bool instant = true)
         {
-            var previewItem = _model.GetCarPreviewItem(_model.SelectedCarId);
-            if (previewItem != null)
-                _view.ScrollTo(previewItem, instant);
+            var preview = _model.GetCarPreview(_model.SelectedCarId);
+            if (preview != null)
+                _view.ScrollTo(preview, instant);
         }
 
-        private void SelectCarId(CarPreviewItem previewItem)
+        private void SelectCarId(SkinPreview preview)
         {
-            var id = _model.GetCarIdByPreviewItem(previewItem);
+            var id = _model.GetCarIdByPreview(preview);
             _model.SelectedCarId = id;
         }
 

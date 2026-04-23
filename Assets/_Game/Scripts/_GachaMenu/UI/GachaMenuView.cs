@@ -72,11 +72,11 @@ namespace GachaMenu
             _spinCostView.text = cost.ToCoinsFormat();
         }
 
-        public GachaCapsule CreateCapsule(Rarity rarity, Sprite rewardPreview)
+        public GachaCapsule CreateCapsule(Rarity rarity, GameObject rewardPreviewPrefab)
         {
             var createdCapsule = Instantiate(_capsulePrefab);
             createdCapsule.SetRarity(rarity);
-            createdCapsule.SetRewardPreview(rewardPreview);
+            createdCapsule.SetRewardPreviewPrefab(rewardPreviewPrefab);
             return createdCapsule;
         }
 

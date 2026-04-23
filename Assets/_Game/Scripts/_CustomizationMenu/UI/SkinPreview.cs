@@ -5,9 +5,9 @@ using UnityEngine.UI;
 namespace CustomizationMenu
 {
     [RequireComponent(typeof(RectTransform))]
-    public class CarPreviewItem : MonoBehaviour
+    public class SkinPreview: MonoBehaviour
     {
-        [SerializeField] private Image _iconView;
+        [SerializeField] private RectTransform _root;
         [SerializeField] private GameObject _fadeView;
 
         private RectTransform _rectTransform;
@@ -26,21 +26,15 @@ namespace CustomizationMenu
             _pressedSignalSubj.OnNext(Unit.Default);
         }
 
-        public void SetIcon(Sprite sprite)
-        {
-            _iconView.sprite = sprite;
-        }
-
         public void SetLock(bool isLocked)
         {
             _fadeView.SetActive(isLocked);
         }
 
-        public void SetTransform(float scale, float positionY)
+        public void SetRootYPosition(float positionY)
         {
-            transform.localScale = Vector3.one * scale;
-            _iconView.transform.localPosition = 
-                new Vector3(_iconView.transform.localPosition.x, positionY);
+            _root.transform.localPosition = 
+                new Vector3(_root.transform.localPosition.x, positionY);
         }
     }
 }

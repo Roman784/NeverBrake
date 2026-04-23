@@ -1,7 +1,9 @@
 using Currency;
 using DG.Tweening;
+using NUnit.Framework.Internal.Commands;
 using R3;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -18,7 +20,6 @@ namespace CustomizationMenu
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private GridLayoutGroup _contentGrid;
         [SerializeField] private PointerDetector _pointerDetector;
-        [SerializeField] private CarPreviewItem _itemPrefab;
 
         [Space]
 
@@ -35,7 +36,7 @@ namespace CustomizationMenu
 
         private const float DISTANCE_NORMALIZATION = 32f;
 
-        private readonly List<CarPreviewItem> _items = new();
+        private readonly List<SkinPreview> _previews = new();
 
         private Tween _snapTween;
         private bool _isSnapping;
@@ -79,22 +80,22 @@ namespace CustomizationMenu
 
         public void OnScrollChanged(Vector2 _)
         {
-            UpdateItemTransforms();
+            UpdatePreviewTransforms();
             TrySnapToNearest();
         }
 
-        public CarPreviewItem CreateItem()
+        public SkinPreview CreateCarPreview(SkinPreview prefab)
         {
-            var item = Instantiate(_itemPrefab, _contentGrid.transform);
-            _items.Add(item);
+            var item = Instantiate(prefab, _contentGrid.transform);
+            _previews.Add(item);
 
-            UpdateItemTransforms();
+            UpdatePreviewTransforms();
             return item;
         }
 
-        public void ScrollTo(CarPreviewItem item, bool instant = true)
+        public void ScrollTo(SkinPreview preview, bool instant = true)
         {
-            var index = _items.IndexOf(item);
+            var index = _previews.IndexOf(preview);
 
             if (instant)
             {
@@ -106,9 +107,9 @@ namespace CustomizationMenu
             SnapTo(index);
         }
 
-        public CarPreviewItem GetSelectedItem()
+        public SkinPreview GetSelectedPreview()
         {
-            return _items[GetNearestItemIndex()];
+            return _previews[GetNearestPreviewIndex()];
         }
 
         // ==================== Snap ====================
@@ -119,7 +120,7 @@ namespace CustomizationMenu
             if (!_pointerDetector.IsPointerUp) return;
             if (Mathf.Abs(_scrollRect.velocity.x) >= SNAP_VELOCITY_THRESHOLD) return;
 
-            int index = GetNearestItemIndex();
+            int index = GetNearestPreviewIndex();
             SnapTo(index);
         }
 
@@ -159,8 +160,8 @@ namespace CustomizationMenu
             float totalWidth =
                 _contentGrid.padding.left +
                 _contentGrid.padding.right +
-                _contentGrid.cellSize.x * _items.Count +
-                _contentGrid.spacing.x * (_items.Count - 1);
+                _contentGrid.cellSize.x * _previews.Count +
+                _contentGrid.spacing.x * (_previews.Count - 1);
 
             float itemCenter =
                 _contentGrid.padding.left +
@@ -172,30 +173,31 @@ namespace CustomizationMenu
 
         // ==================== Items ====================
 
-        private void UpdateItemTransforms()
+        private void UpdatePreviewTransforms()
         {
             Canvas.ForceUpdateCanvases();
 
-            foreach (var item in _items)
+            foreach (var preview in _previews)
             {
-                float distance = Mathf.Abs(item.transform.position.x);
+                float distance = Mathf.Abs(preview.transform.position.x);
                 float t = Mathf.Clamp01(1f - distance / DISTANCE_NORMALIZATION);
 
                 float scale = Mathf.Lerp(SCALE_MIN, SCALE_MAX, t);
                 float y = Mathf.Lerp(POSITION_Y_MIN, POSITION_Y_MAX, t);
 
-                item.SetTransform(scale, y);
+                preview.transform.localScale = Vector3.one * scale;
+                preview.SetRootYPosition(y);
             }
         }
 
-        private int GetNearestItemIndex()
+        private int GetNearestPreviewIndex()
         {
             int index = 0;
             float minDistance = float.MaxValue;
 
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < _previews.Count; i++)
             {
-                float distance = Mathf.Abs(_items[i].transform.position.x);
+                float distance = Mathf.Abs(_previews[i].transform.position.x);
 
                 if (distance < minDistance)
                 {
@@ -213,7 +215,7 @@ namespace CustomizationMenu
         {
             foreach (Transform child in _contentGrid.transform)
             {
-                if (child.GetComponent<CarPreviewItem>() != null)
+                if (child.GetComponent<SkinPreview>() != null)
                     Destroy(child.gameObject);
             }
         }
