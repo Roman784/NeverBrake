@@ -8,7 +8,8 @@ namespace CustomizationMenu
     public class SkinPreview: MonoBehaviour
     {
         [SerializeField] private RectTransform _root;
-        [SerializeField] private GameObject _fadeView;
+        [SerializeField] private Image _fadeView;
+        [SerializeField] private Color _fadeColor;
 
         private RectTransform _rectTransform;
         private Subject<Unit> _pressedSignalSubj = new();
@@ -19,6 +20,7 @@ namespace CustomizationMenu
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            _fadeView.color = _fadeColor;
         }
 
         public void Press()
@@ -28,7 +30,7 @@ namespace CustomizationMenu
 
         public void SetLock(bool isLocked)
         {
-            _fadeView.SetActive(isLocked);
+            _fadeView.gameObject.SetActive(isLocked);
         }
 
         public void SetRootYPosition(float positionY)

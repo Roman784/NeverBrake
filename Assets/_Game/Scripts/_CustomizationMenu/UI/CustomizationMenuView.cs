@@ -86,11 +86,11 @@ namespace CustomizationMenu
 
         public SkinPreview CreateCarPreview(SkinPreview prefab)
         {
-            var item = Instantiate(prefab, _contentGrid.transform);
-            _previews.Add(item);
+            var createdPreview = Instantiate(prefab, _contentGrid.transform);
+            _previews.Add(createdPreview);
 
             UpdatePreviewTransforms();
-            return item;
+            return createdPreview;
         }
 
         public void ScrollTo(SkinPreview preview, bool instant = true)

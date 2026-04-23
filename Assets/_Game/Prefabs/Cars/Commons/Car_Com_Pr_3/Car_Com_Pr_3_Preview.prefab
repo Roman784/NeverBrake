@@ -202,7 +202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomizationMenu.CarPreviewItem
   _root: {fileID: 3319988711775779115}
-  _fadeView: {fileID: 7023900733905733302}
+  _fadeView: {fileID: 2899579914353805851}
+  _fadeColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
 --- !u!114 &4858249016434075806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +389,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 152}
+  m_SizeDelta: {x: 100, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1869778761494917750
 CanvasRenderer:
