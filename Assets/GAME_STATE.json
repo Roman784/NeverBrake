@@ -4,7 +4,7 @@
         "MusicVolume": 1.0
     },
     "Currency": {
-        "Coins": 1410064857
+        "Coins": 1410064757
     },
     "Levels": {
         "LevelsData": [
@@ -24,7 +24,7 @@
                 "Number": 0,
                 "IsPassed": true,
                 "BestTime": 1382,
-                "DeathCount": 34
+                "DeathCount": 37
             },
             {
                 "Number": 3,
@@ -48,7 +48,7 @@
                 "Number": 6,
                 "IsPassed": false,
                 "BestTime": 0,
-                "DeathCount": 3
+                "DeathCount": 4
             }
         ]
     },
@@ -69,7 +69,9 @@
             30,
             5,
             9,
-            26
+            26,
+            4,
+            8
         ]
     }
 }

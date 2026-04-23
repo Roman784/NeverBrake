@@ -12,9 +12,10 @@ namespace GameRoot
     {
         private readonly SceneLoader _sceneLoader;
 
-        private SceneEnterParams _currentSceneParams;
         private Action _currentSceneOpenAction;
-        private Action _previousSceneOpenAction;
+
+        private string _lastSceneName;
+        private Action _lastSceneOpenAction;
 
         public SceneProvider(UIRoot uiRoot)
         {
@@ -23,7 +24,7 @@ namespace GameRoot
 
         public void OpenPreviousScene()
         {
-            _previousSceneOpenAction?.Invoke();
+            _lastSceneOpenAction?.Invoke();
         }
 
         public void OpenLevelMenu()
@@ -59,7 +60,12 @@ namespace GameRoot
             where TEntryPoint : SceneEntryPoint
             where TEnterParams : SceneEnterParams
         {
-            _previousSceneOpenAction = _currentSceneOpenAction;
+            if (enterParams.SceneName != _lastSceneName)
+            {
+                _lastSceneName = enterParams.SceneName;
+                _lastSceneOpenAction = _currentSceneOpenAction;
+            }
+
             _currentSceneOpenAction = CreateSceneOpenAction<TEntryPoint, TEnterParams>(enterParams);
             _currentSceneOpenAction.Invoke();
         }
@@ -70,7 +76,6 @@ namespace GameRoot
         {
             return () =>
             {
-                _currentSceneParams = enterParams;
                 _sceneLoader.LoadAndRunScene
                     <TEntryPoint, TEnterParams>(enterParams);
             };

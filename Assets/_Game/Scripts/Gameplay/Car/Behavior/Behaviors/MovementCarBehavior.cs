@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using R3;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -52,6 +53,7 @@ namespace Gameplay
             _car.Controller.ApplyTurning(horizontalInput, deltaTime);
             _car.View.ApplyWheelsTurning(
                 _car.Controller.GetWheelsTurning(horizontalInput, deltaTime));
+            Debug.Log(_car.Controller.GetWheelsTurning(horizontalInput, deltaTime));
         }
 
         public override void Exit()
