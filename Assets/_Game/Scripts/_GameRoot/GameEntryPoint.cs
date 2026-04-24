@@ -33,6 +33,8 @@ namespace GameRoot
             G.SceneProvider = new SceneProvider(G.UIRoot);
             G.AudioProvider = new AudioProvider();
             G.Wallet = new Wallet();
+            G.ToastsProvider = new ToastsProvider();
+            G.ToastFactory = new ToastFactory();
             G.PopUpsProvider = new PopUpsProvider();
             G.PopUpFactory = new PopUpFactory();
 
@@ -87,7 +89,8 @@ namespace GameRoot
             }
 #endif
 
-            G.SceneProvider.OpenObstacleCourseMode(0, 0);
+            G.Repository.Currency.AddCoins(10000); // TEMP
+            G.SceneProvider.OpenLevelMenu();
         }
     }
 }

@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using GameRoot;
 using R3;
 using System;
+using System.Collections;
 using System.Linq;
 using UI;
 using UnityEngine;

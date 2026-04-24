@@ -22,12 +22,6 @@ namespace CustomizationMenu
             await UniTask.Yield();
         }
 
-        private void Update()
-        {
-            Canvas.ForceUpdateCanvases();
-
-        }
-
         private void OnDestroy()
         {
             _presenter?.Dispose();

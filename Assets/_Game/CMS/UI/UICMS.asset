@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: UICMS
   m_EditorClassIdentifier: 
   Root: {fileID: 7702238020924992235, guid: 377f9ba9cc9f0414b9ec601c009f52d8, type: 3}
-  GachaPopUpPrefab: {fileID: 4446769910169055163, guid: 42ea22db1a17af84cbd055b0ca0f369d, type: 3}
+  GetPrizeToastPrefab: {fileID: 2881443392850776866, guid: 33576f5bbe8b84746b96c7c377230219, type: 3}

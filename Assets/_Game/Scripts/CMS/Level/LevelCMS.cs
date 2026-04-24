@@ -9,9 +9,7 @@ namespace CMS
                      order = 1)]
     public class LevelCMS : ScriptableObject
     {
-        public int Number { get; private set; }
+        public int Number;
         public Level LevelPrefab;
-
-        public void SetNumber(int number) => Number = Mathf.Clamp(number, 1, number);
     }
 }

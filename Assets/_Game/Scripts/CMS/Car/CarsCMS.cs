@@ -1,6 +1,7 @@
 using Gameplay;
 using System;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,12 +27,13 @@ namespace CMS
             SetCarIds();
         }
 
+        [ContextMenu("Set Ids")]
         private void SetCarIds()
         {
             if (AllCarsCMS == null || AllCarsCMS.Length == 0) return;
             for (int i = 0; i < AllCarsCMS.Length; i++)
             {
-                AllCarsCMS[i].SetId(i);
+                AllCarsCMS[i].Id = i;
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(AllCarsCMS[i]);
 #endif

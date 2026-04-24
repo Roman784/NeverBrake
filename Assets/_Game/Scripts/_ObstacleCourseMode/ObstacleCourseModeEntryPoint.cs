@@ -69,5 +69,17 @@ namespace ObstacleCourseMode
         {
             _presenter?.Dispose();
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+                G.ToastsProvider
+                    .PrepareGetPrizeToast()
+                    .PrepareGetPrizeToast()
+                    .PrepareGetPrizeToast()
+                    .PrepareGetPrizeToast()
+                    .PrepareGetPrizeToast()
+                    .Open().Forget();
+        }
     }
 }

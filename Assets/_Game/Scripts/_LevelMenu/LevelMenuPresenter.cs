@@ -112,7 +112,6 @@ namespace LevelMenu
 
         private void OpenSettings()
         {
-
         }
 
         public void OpenCustomizationMenu()

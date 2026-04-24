@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82717a90d9af784191c3c130fa7090a, type: 3}
   m_Name: LeviathansCross_CarCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarCMS
+  Id: 34
   Prefab: {fileID: -1642605613554031101, guid: 97b94c597107a064ca0ddb07f6280a20, type: 3}
   PreviewPrefab: {fileID: 2479930033388642652, guid: 2ddf7719bb5504c4bbddb041de4f7ed8, type: 3}
   Rarity: 3

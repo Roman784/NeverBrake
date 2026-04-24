@@ -9,8 +9,10 @@ namespace UI
     {
         [SerializeField] private Transform _fullscreenUIContainer;
         [SerializeField] private LoadingScreen _loadingScreen;
+        [SerializeField] private ToastsRoot _toastsRoot;
         [SerializeField] private PopUpsRoot _popUpsRoot;
 
+        public ToastsRoot ToastsRoot => _toastsRoot;
         public PopUpsRoot PopUpsRoot => _popUpsRoot;
 
         public IEnumerator ShowLoadingScreen()
@@ -31,6 +33,7 @@ namespace UI
         public void ClearAllContainers()
         {
             ClearContainer(_fullscreenUIContainer);
+            _toastsRoot.ClearContainer();
             _popUpsRoot.ClearContainer();
         }
 

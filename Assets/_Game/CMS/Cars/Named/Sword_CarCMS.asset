@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82717a90d9af784191c3c130fa7090a, type: 3}
   m_Name: Sword_CarCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarCMS
+  Id: 35
   Prefab: {fileID: -1642605613554031101, guid: 2224b75c4de90484783891a2358dd2fe, type: 3}
   PreviewPrefab: {fileID: 2479930033388642652, guid: a708db7cd74eb5045ab5aed2190803a3, type: 3}
   Rarity: 3

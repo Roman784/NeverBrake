@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82717a90d9af784191c3c130fa7090a, type: 3}
   m_Name: Rar_Bl_1_CarCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CarCMS
+  Id: 12
   Prefab: {fileID: -1642605613554031101, guid: d62143c9cc42bed4f8d2f94832fad983, type: 3}
   PreviewPrefab: {fileID: 2479930033388642652, guid: aafc00172385dab42a5ca413100c0716, type: 3}
   Rarity: 1

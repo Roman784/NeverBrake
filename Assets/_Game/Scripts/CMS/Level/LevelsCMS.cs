@@ -32,7 +32,7 @@ namespace CMS
             for (int i = 0; i < AllLevelsCMS.Length; i++)
             {
                 var number = i + 1;
-                AllLevelsCMS[i].SetNumber(number);
+                AllLevelsCMS[i].Number = number;
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(AllLevelsCMS[i]);
 #endif

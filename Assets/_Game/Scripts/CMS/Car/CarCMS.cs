@@ -10,11 +10,9 @@ namespace CMS
                      order = 1)]
     public class CarCMS : ScriptableObject
     {
-        public int Id { get; private set; }
+        public int Id;
         public Car Prefab;
         public SkinPreview PreviewPrefab;
         public Rarity Rarity;
-
-        public void SetId(int id) => Id = id;
     }
 }

@@ -4,7 +4,7 @@
         "MusicVolume": 1.0
     },
     "Currency": {
-        "Coins": 1410064757
+        "Coins": 0
     },
     "Levels": {
         "LevelsData": [
@@ -12,72 +12,26 @@
                 "Number": 1,
                 "IsPassed": true,
                 "BestTime": 326,
-                "DeathCount": 544
+                "DeathCount": 543
             },
             {
                 "Number": 2,
                 "IsPassed": true,
-                "BestTime": 233210,
+                "BestTime": 23321,
                 "DeathCount": 32
             },
             {
                 "Number": 0,
-                "IsPassed": true,
-                "BestTime": 1382,
-                "DeathCount": 37
-            },
-            {
-                "Number": 3,
-                "IsPassed": true,
-                "BestTime": 1435,
-                "DeathCount": 0
-            },
-            {
-                "Number": 4,
-                "IsPassed": true,
-                "BestTime": 1198,
-                "DeathCount": 3
-            },
-            {
-                "Number": 5,
-                "IsPassed": true,
-                "BestTime": 1502,
-                "DeathCount": 1
-            },
-            {
-                "Number": 6,
-                "IsPassed": true,
-                "BestTime": 1182,
-                "DeathCount": 5
-            },
-            {
-                "Number": 7,
-                "IsPassed": true,
-                "BestTime": 1161,
-                "DeathCount": 0
+                "IsPassed": false,
+                "BestTime": 0,
+                "DeathCount": 2
             }
         ]
     },
     "Cars": {
-        "SelectedCarId": 26,
+        "SelectedCarId": 0,
         "UnlockedCarIds": [
-            0,
-            1,
-            21,
-            10,
-            3,
-            11,
-            22,
-            15,
-            6,
-            17,
-            2,
-            30,
-            5,
-            9,
-            26,
-            4,
-            8
+            0
         ]
     }
 }

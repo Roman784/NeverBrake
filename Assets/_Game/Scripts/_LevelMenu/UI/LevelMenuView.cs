@@ -1,7 +1,9 @@
 using Currency;
+using GameRoot;
 using R3;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 

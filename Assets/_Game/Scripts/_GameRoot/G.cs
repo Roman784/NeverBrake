@@ -18,6 +18,8 @@ namespace GameRoot
         public static SceneProvider SceneProvider;
         public static AudioProvider AudioProvider;
         public static Wallet Wallet;
+        public static ToastsProvider ToastsProvider;
+        public static ToastFactory ToastFactory;
         public static PopUpsProvider PopUpsProvider;
         public static PopUpFactory PopUpFactory;
 

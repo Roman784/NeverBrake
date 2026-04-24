@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d16bc017b73d8945bb7964e4e3e5174, type: 3}
   m_Name: LevelCMS 2
   m_EditorClassIdentifier: Assembly-CSharp::CMS.LevelCMS
+  Number: 2
   LevelPrefab: {fileID: 6005273519515250756, guid: d67ac14c00f82f049842ceb3cfc9da85, type: 3}
