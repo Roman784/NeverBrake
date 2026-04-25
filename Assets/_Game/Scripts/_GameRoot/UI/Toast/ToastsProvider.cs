@@ -39,6 +39,13 @@ namespace UI
 
         public void RemoveToast(Toast toast) => _preparedToasts.Remove(toast);
 
+        public TotalCoinsToast PrepareTotalCoinsToast()
+        {
+            var createdToast = G.ToastFactory.Create(UICMS.TotalCoinsToastPrefab);
+            RegisterToast(createdToast);
+            return createdToast;
+        }
+
         public CoinsReceivedToast PrepareCoinsReceivedToast(int receivedCoins)
         {
             var createdToast = G.ToastFactory.Create(UICMS.CoinsReceivedToastPrefab);

@@ -75,6 +75,7 @@ namespace ObstacleCourseMode
             if (Input.GetKeyDown(KeyCode.O))
             {
                 var toastsProvider = G.ToastsProvider;
+                toastsProvider.PrepareTotalCoinsToast();
                 toastsProvider.PrepareCoinsReceivedToast(10);
 
                 toastsProvider.PrepareCoinsForAdToast()
@@ -82,7 +83,22 @@ namespace ObstacleCourseMode
                     .Subscribe(toast =>
                     {
                         var randomCoins = Random.Range(40, 49);
-                        G.Repository.Currency.AddCoins(randomCoins);
+                        G.Wallet.AddCoins(randomCoins).Forget();
+                        toast.CloseSignal.Subscribe(_ =>
+                        {
+                            G.ToastsProvider.PrepareCoinsReceivedToast(randomCoins);
+                            G.ToastsProvider.Open().Forget();
+                        })
+                        .AddTo(this);
+                    })
+                    .AddTo(this);
+
+                toastsProvider.PrepareGiftToast()
+                    .GiftReceivedSignal
+                    .Subscribe(toast =>
+                    {
+                        var randomCoins = Random.Range(40, 49);
+                        G.Wallet.AddCoins(randomCoins).Forget();
                         toast.CloseSignal.Subscribe(_ =>
                         {
                             G.ToastsProvider.PrepareCoinsReceivedToast(randomCoins);
@@ -93,21 +109,6 @@ namespace ObstacleCourseMode
                     .AddTo(this);
 
                 toastsProvider.PreparePrizeToast();
-
-                toastsProvider.PrepareGiftToast()
-                    .GiftReceivedSignal
-                    .Subscribe(toast =>
-                    {
-                        var randomCoins = Random.Range(40, 49);
-                        G.Repository.Currency.AddCoins(randomCoins);
-                        toast.CloseSignal.Subscribe(_ =>
-                        {
-                            G.ToastsProvider.PrepareCoinsReceivedToast(randomCoins);
-                            G.ToastsProvider.Open().Forget();
-                        })
-                        .AddTo(this);
-                    })
-                    .AddTo(this);
 
                 toastsProvider.Open().Forget();
             }

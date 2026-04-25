@@ -10,7 +10,10 @@ namespace UI
 
         public void SetCoins(int coins)
         {
-            _messageView.text = $"{TextIcons.Coin}\tYou got <color=#FFE849>{coins}</color> coins!\t{TextIcons.Coin}"; // Loc
+            _messageView.text = 
+                $"{TextIcons.Coin}  " +
+                $"You got <color=#FFE849>{coins}</color> coins! " +
+                $"{TextIcons.Coin}"; // Loc
         }
     }
 }

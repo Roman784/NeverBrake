@@ -12,6 +12,7 @@ namespace GameRoot
         public UIRoot Root;
 
         [Header("Toasts")]
+        public TotalCoinsToast TotalCoinsToastPrefab;
         public CoinsReceivedToast CoinsReceivedToastPrefab;
         public CoinsForAdToast CoinsForAdToastPrefab;
         public PrizeToast PrizeToastPrefab;

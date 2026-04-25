@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UICMS
   m_EditorClassIdentifier: 
   Root: {fileID: 7702238020924992235, guid: 377f9ba9cc9f0414b9ec601c009f52d8, type: 3}
+  TotalCoinsToastPrefab: {fileID: 1629606883525051500, guid: b33230a7517259c4bb84ecbef361e815, type: 3}
   CoinsReceivedToastPrefab: {fileID: 1845634469109659333, guid: 045770b9404063e4b952db0c79f6dffd, type: 3}
   CoinsForAdToastPrefab: {fileID: 1604259020916969083, guid: 139381d05448f81439511c5a3bbcb94f, type: 3}
   PrizeToastPrefab: {fileID: 2881443392850776866, guid: 33576f5bbe8b84746b96c7c377230219, type: 3}
