@@ -35,11 +35,32 @@ namespace UI
             catch (OperationCanceledException) { }
         }
 
-        public ToastsProvider PrepareGetPrizeToast()
+        public ToastsProvider PrepareCoinsReceivedToast(int receivedCoins)
         {
-            var createdToast = G.ToastFactory.Create(UICMS.GetPrizeToastPrefab);
+            var createdToast = G.ToastFactory.Create(UICMS.CoinsReceivedToastPrefab);
+            createdToast.SetCoins(receivedCoins);
             _preparedToasts.Add(createdToast);
+            return this;
+        }
 
+        public ToastsProvider PrepareCoinsForAdToast()
+        {
+            var createdToast = G.ToastFactory.Create(UICMS.CoinsForAdToastPrefab);
+            _preparedToasts.Add(createdToast);
+            return this;
+        }
+
+        public ToastsProvider PreparePrizeToast()
+        {
+            var createdToast = G.ToastFactory.Create(UICMS.PrizeToastPrefab);
+            _preparedToasts.Add(createdToast);
+            return this;
+        }
+
+        public ToastsProvider PrepareGiftToast()
+        {
+            var createdToast = G.ToastFactory.Create(UICMS.GiftToastPrefab);
+            _preparedToasts.Add(createdToast);
             return this;
         }
     }

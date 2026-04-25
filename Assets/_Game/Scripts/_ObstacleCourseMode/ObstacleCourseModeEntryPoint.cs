@@ -74,11 +74,10 @@ namespace ObstacleCourseMode
         {
             if (Input.GetKeyDown(KeyCode.O))
                 G.ToastsProvider
-                    .PrepareGetPrizeToast()
-                    .PrepareGetPrizeToast()
-                    .PrepareGetPrizeToast()
-                    .PrepareGetPrizeToast()
-                    .PrepareGetPrizeToast()
+                    .PrepareCoinsReceivedToast(10)
+                    .PrepareCoinsForAdToast()
+                    .PreparePrizeToast()
+                    .PrepareGiftToast()
                     .Open().Forget();
         }
     }

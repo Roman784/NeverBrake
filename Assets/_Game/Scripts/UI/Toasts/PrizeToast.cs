@@ -2,7 +2,7 @@ using GameRoot;
 
 namespace UI
 {
-    public class GetPrizeToast : Toast
+    public class PrizeToast : Toast
     {
         public void OpenGachaMenu()
         {
