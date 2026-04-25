@@ -3,6 +3,7 @@ using GameRoot;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using R3;
 
 namespace UI
 {
@@ -31,37 +32,46 @@ namespace UI
 
                     await UniTask.Delay(150, cancellationToken: token);
                 }
+                _preparedToasts.Clear();
             }
             catch (OperationCanceledException) { }
         }
 
-        public ToastsProvider PrepareCoinsReceivedToast(int receivedCoins)
+        public void RemoveToast(Toast toast) => _preparedToasts.Remove(toast);
+
+        public CoinsReceivedToast PrepareCoinsReceivedToast(int receivedCoins)
         {
             var createdToast = G.ToastFactory.Create(UICMS.CoinsReceivedToastPrefab);
             createdToast.SetCoins(receivedCoins);
-            _preparedToasts.Add(createdToast);
-            return this;
+            RegisterToast(createdToast);
+            return createdToast;
         }
 
-        public ToastsProvider PrepareCoinsForAdToast()
+        public CoinsForAdToast PrepareCoinsForAdToast()
         {
             var createdToast = G.ToastFactory.Create(UICMS.CoinsForAdToastPrefab);
-            _preparedToasts.Add(createdToast);
-            return this;
+            RegisterToast(createdToast);
+            return createdToast;
         }
 
-        public ToastsProvider PreparePrizeToast()
+        public PrizeToast PreparePrizeToast()
         {
             var createdToast = G.ToastFactory.Create(UICMS.PrizeToastPrefab);
-            _preparedToasts.Add(createdToast);
-            return this;
+            RegisterToast(createdToast);
+            return createdToast;
         }
 
-        public ToastsProvider PrepareGiftToast()
+        public GiftToast PrepareGiftToast()
         {
             var createdToast = G.ToastFactory.Create(UICMS.GiftToastPrefab);
-            _preparedToasts.Add(createdToast);
-            return this;
+            RegisterToast(createdToast);
+            return createdToast;
+        }
+
+        private void RegisterToast(Toast toast)
+        {
+            _preparedToasts.Add(toast);
+            toast.CloseSignal.Subscribe(t => RemoveToast(t));
         }
     }
 }

@@ -33,13 +33,23 @@ namespace UI
             _rootCanvasGroup.interactable = false;
 
             _openingSeq?.Kill(true);
-            _rootCanvasGroup.DOFade(0f, 0.15f).SetEase(Ease.OutQuad);
+            _rootCanvasGroup.DOFade(0f, 0.25f).SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    _closeSignalSubj.OnNext(this);
+                    _closeSignalSubj.OnCompleted();
+                });
         }
 
         public void Destroy()
         {
-            _openingSeq?.Kill(true);
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            _openingSeq?.Kill(true);
+            _rootCanvasGroup.DOKill();
         }
     }
 }
