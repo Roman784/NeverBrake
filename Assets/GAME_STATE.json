@@ -4,7 +4,7 @@
         "MusicVolume": 1.0
     },
     "Currency": {
-        "Coins": 523
+        "Coins": 520
     },
     "Levels": {
         "LevelsData": [
@@ -29,9 +29,10 @@
         ]
     },
     "Cars": {
-        "SelectedCarId": 0,
+        "SelectedCarId": 18,
         "UnlockedCarIds": [
-            0
+            0,
+            18
         ]
     }
 }
