@@ -1,4 +1,5 @@
 using GameRoot;
+using UnityEngine;
 
 namespace UI
 {
@@ -12,6 +13,14 @@ namespace UI
         public void OpenLevelMenu()
         {
             G.SceneProvider.OpenLevelMenu();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || 
+                Input.GetKeyUp(KeyCode.UpArrow))
+                RestartLevel();
+
         }
     }
 }

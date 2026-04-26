@@ -19,18 +19,18 @@ namespace Gameplay
         private bool _isRegistrationEnabled;
         private bool _isOnGround;
         private bool _isOnWater;
+        private bool _isTouchTrap;
 
         private Subject<Collision2D> _collidedWithWallSignalSubj = new();
-        private Subject<Collider2D> _collidedWithTrapSignalSubj = new();
         private Subject<Collider2D> _collidedWithFinishSignalSubj = new();
 
         public Observable<Collision2D> CollidedWithWallSignal => _collidedWithWallSignalSubj;
-        public Observable<Collider2D> CollidedWithTrapSignal => _collidedWithTrapSignalSubj;
         public Observable<Collider2D> CollidedWithFinishSignal => _collidedWithFinishSignalSubj;
 
         private void Update()
         {
-            UpdateSurfaceState();
+            if (_isRegistrationEnabled)
+                UpdateSurfaceState();
         }
 
         public void EnableRegistration() => _isRegistrationEnabled = true;
@@ -38,11 +38,13 @@ namespace Gameplay
 
         public bool OnGround() => _isRegistrationEnabled && _isOnGround;
         public bool OnWater() => _isRegistrationEnabled && _isOnWater && !_isOnGround;
+        public bool IsTouchTrap() => _isTouchTrap;
 
         private void UpdateSurfaceState()
         {
             _isOnGround = false;
             _isOnWater = false;
+            _isTouchTrap = false;
 
             foreach (var point in _checkPoints)
             {
@@ -56,6 +58,9 @@ namespace Gameplay
 
                     if (hit.CompareTag(_waterTag))
                         _isOnWater = true;
+
+                    if (hit.CompareTag(_trapTag))
+                        _isTouchTrap = true;
                 }
             }
         }
@@ -74,9 +79,6 @@ namespace Gameplay
 
             if (other.CompareTag(_finishTag))
                 _collidedWithFinishSignalSubj.OnNext(other);
-
-            else if (other.CompareTag(_trapTag))
-                _collidedWithTrapSignalSubj.OnNext(other);
         }
 
         private void OnDrawGizmos()

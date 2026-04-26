@@ -6,8 +6,6 @@ namespace Gameplay
 {
     public class MovementCarBehavior : CarBehavior
     {
-        private CompositeDisposable _disposables;
-
         public MovementCarBehavior(CarBehaviorHandler handler, Car car) : base(handler, car)
         {
         }
@@ -15,19 +13,18 @@ namespace Gameplay
         public override void Enter()
         {
             base.Enter();
-
-            _disposables = new CompositeDisposable();
-
-            _car.CollisionRegister.CollidedWithTrapSignal
-                .Subscribe(collider => _handler.SetCrashBehavior(collider))
-                .AddTo(_disposables);
-
             _car.View.SetActiveTireTracks(true);
         }
 
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
+
+            if (_car.CollisionRegister.IsTouchTrap())
+            {
+                _handler.SetCrashBehavior();
+                return;
+            }
 
             var shouldJump = _car.Input.ShouldJump();
             if (shouldJump && _car.CollisionRegister.OnGround())
@@ -53,12 +50,6 @@ namespace Gameplay
             _car.Controller.ApplyTurning(horizontalInput, deltaTime);
             _car.View.ApplyWheelsTurning(
                 horizontalInput, _car.Controller.TurnInputDuration, deltaTime);
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-            _disposables.Dispose();
         }
     }
 }
