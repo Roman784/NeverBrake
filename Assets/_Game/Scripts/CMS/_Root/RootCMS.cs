@@ -14,5 +14,6 @@ namespace CMS
         public LevelsCMS LevelsCMS;
         public CarsCMS CarsCMS;
         public GachaCMS GachaCMS;
+        public CurrencyCMS CurrencyCMS;
     }
 }

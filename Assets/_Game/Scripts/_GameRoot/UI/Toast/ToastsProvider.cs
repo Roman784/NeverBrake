@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using R3;
+using Random = UnityEngine.Random;
 
 namespace UI
 {
@@ -58,6 +59,21 @@ namespace UI
         {
             var createdToast = G.ToastFactory.Create(CMS.CoinsForAdToastPrefab);
             RegisterToast(createdToast);
+
+            createdToast
+                .AdWatchedSignal
+                .SubscribeAwait(async (toast, _) =>
+                {
+                    var coinsScatter = G.RootCMS.CurrencyCMS.CoinsScatterForAd;
+                    var randomCoins = Random.Range(coinsScatter.x, coinsScatter.y);
+                    await G.Wallet.AddCoins(randomCoins);
+                    toast.CloseSignal.SubscribeAwait(async (_, _) =>
+                    {
+                        G.ToastsProvider.PrepareCoinsReceivedToast(randomCoins);
+                        await G.ToastsProvider.Open();
+                    });
+                });
+
             return createdToast;
         }
 
@@ -72,6 +88,21 @@ namespace UI
         {
             var createdToast = G.ToastFactory.Create(CMS.GiftToastPrefab);
             RegisterToast(createdToast);
+
+            createdToast
+                .GiftReceivedSignal
+                .SubscribeAwait(async (toast, _) =>
+                {
+                    var coinsScatter = G.RootCMS.CurrencyCMS.CoinsScatterForGift;
+                    var randomCoins = Random.Range(coinsScatter.x, coinsScatter.y);
+                    await G.Wallet.AddCoins(randomCoins);
+                    toast.CloseSignal.SubscribeAwait(async (_, _) =>
+                    {
+                        G.ToastsProvider.PrepareCoinsReceivedToast(randomCoins);
+                        await G.ToastsProvider.Open();
+                    });
+                });
+
             return createdToast;
         }
 

@@ -87,7 +87,8 @@ namespace ObstacleCourseMode
                     .AdWatchedSignal
                     .Subscribe(toast =>
                     {
-                        var randomCoins = Random.Range(40, 49);
+                        var coinsScatter = G.RootCMS.CurrencyCMS.CoinsScatterForAd;
+                        var randomCoins = Random.Range(coinsScatter.x, coinsScatter.y);
                         G.Wallet.AddCoins(randomCoins).Forget();
                         toast.CloseSignal.Subscribe(_ =>
                         {
@@ -102,7 +103,8 @@ namespace ObstacleCourseMode
                     .GiftReceivedSignal
                     .Subscribe(toast =>
                     {
-                        var randomCoins = Random.Range(40, 49);
+                        var coinsScatter = G.RootCMS.CurrencyCMS.CoinsScatterForGift;
+                        var randomCoins = Random.Range(coinsScatter.x, coinsScatter.y);
                         G.Wallet.AddCoins(randomCoins).Forget();
                         toast.CloseSignal.Subscribe(_ =>
                         {

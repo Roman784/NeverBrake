@@ -2,7 +2,9 @@ using Cysharp.Threading.Tasks;
 using GameRoot;
 using R3;
 using System;
+using UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ObstacleCourseMode
 {
@@ -84,6 +86,7 @@ namespace ObstacleCourseMode
             await UniTask.Delay(2000);
 
             G.PopUpsProvider.OpenLevelPassingPopUp();
+            await OpenLevelPassingToasts();
         }
 
         private async UniTask HandleLevelFailure()
@@ -96,6 +99,18 @@ namespace ObstacleCourseMode
             await UniTask.Delay(1000);
 
             G.PopUpsProvider.OpenLevelFailurePopUp();
+        }
+
+        private async UniTask OpenLevelPassingToasts()
+        {
+            var toastsProvider = G.ToastsProvider;
+            toastsProvider.PrepareTotalCoinsToast();
+            toastsProvider.PrepareCoinsReceivedToast(10);
+            toastsProvider.PrepareCoinsForAdToast();
+            toastsProvider.PrepareGiftToast();
+            toastsProvider.PreparePrizeToast();
+
+            await toastsProvider.Open();
         }
 
         // ================ UI ================

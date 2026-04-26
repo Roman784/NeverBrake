@@ -18,3 +18,4 @@ MonoBehaviour:
   LevelsCMS: {fileID: 11400000, guid: 1ac99244695143045840952fbf37c30d, type: 2}
   CarsCMS: {fileID: 11400000, guid: ad9b4591eb67f3c4b82a70cefc96fe07, type: 2}
   GachaCMS: {fileID: 11400000, guid: ca791584c44ba634b834bc0e65bdf1cb, type: 2}
+  CurrencyCMS: {fileID: 11400000, guid: 1984013640fccd74aac2adc2c7a8374c, type: 2}
