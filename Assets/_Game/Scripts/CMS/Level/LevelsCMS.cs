@@ -9,6 +9,10 @@ namespace CMS
                      order = 0)]
     public class LevelsCMS : ScriptableObject
     {
+        public int TimerCollisionPenalty;
+
+        [Space]
+
         public LevelCMS DebugLevelCMS;
         public LevelCMS[] AllLevelsCMS;
 

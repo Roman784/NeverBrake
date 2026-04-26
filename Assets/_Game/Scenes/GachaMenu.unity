@@ -1423,7 +1423,7 @@ GameObject:
   - component: {fileID: 1666940354}
   - component: {fileID: 1666940358}
   m_Layer: 0
-  m_Name: ExitBtn
+  m_Name: RestartBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1509,7 +1509,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7347453599883567273}
         m_TargetAssemblyTypeName: GachaMenu.GachaMenuView, Assembly-CSharp
-        m_MethodName: PressExitButton
+        m_MethodName: PressRestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1539,7 +1539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7399dab99021a1f41b5b0f1c288b7b4f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9503ca9b07809674f8e4321cc2f90744, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2198,7 +2198,7 @@ MonoBehaviour:
   _spinBtn: {fileID: 1178341861}
   _equipBtn: {fileID: 1366932667}
   _customizationBtn: {fileID: 1586203617}
-  _exitBtn: {fileID: 1666940352}
+  _restartBtn: {fileID: 1666940352}
   _noMoreView: {fileID: 1883182159}
 --- !u!114 &7347453599883567274
 MonoBehaviour:

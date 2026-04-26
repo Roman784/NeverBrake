@@ -31,7 +31,7 @@ namespace GachaMenu
         [SerializeField] private GameObject _spinBtn;
         [SerializeField] private GameObject _equipBtn;
         [SerializeField] private GameObject _customizationBtn;
-        [SerializeField] private GameObject _exitBtn;
+        [SerializeField] private GameObject _restartBtn;
 
         [Space]
 
@@ -42,12 +42,12 @@ namespace GachaMenu
         private Subject<Unit> _spinButtonPressedSignalSubj = new();
         private Subject<Unit> _equipButtonPressedSignalSubj = new();
         private Subject<Unit> _customizationButtonPressedSignalSubj = new();
-        private Subject<Unit> _exitButtonPressedSignalSubj = new();
+        private Subject<Unit> _restartButtonPressedSignalSubj = new();
 
         public Observable<Unit> SpinButtonPressedSignal => _spinButtonPressedSignalSubj;
         public Observable<Unit> EquipButtonPressedSignal => _equipButtonPressedSignalSubj;
         public Observable<Unit> CustomizationButtonPressedSignal => _customizationButtonPressedSignalSubj;
-        public Observable<Unit> ExitButtonPressedSignal => _exitButtonPressedSignalSubj;
+        public Observable<Unit> RestartButtonPressedSignal => _restartButtonPressedSignalSubj;
 
         private void Awake()
         {
@@ -55,12 +55,13 @@ namespace GachaMenu
             
             _noMoreView.SetActive(false);
             _equipBtn.SetActive(false);
+            _restartBtn.SetActive(false);
         }
 
         public void PressSpinButton() => _spinButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressEquipButton() => _equipButtonPressedSignalSubj.OnNext(Unit.Default);
         public void PressCustomizationButton() => _customizationButtonPressedSignalSubj.OnNext(Unit.Default);
-        public void PressExitButton() => _exitButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void PressRestartButton() => _restartButtonPressedSignalSubj.OnNext(Unit.Default);
 
         public void BindWallet(Wallet wallet)
         {
@@ -90,10 +91,10 @@ namespace GachaMenu
         {
             _noMoreView.SetActive(true);
             _customizationBtn.SetActive(true);
-            _exitBtn.SetActive(true);
 
             _spinBtn.SetActive(false);
             _equipBtn.SetActive(false);
+            _restartBtn.SetActive(false);
         }
 
         public Observable<Unit> Spin(
@@ -104,14 +105,14 @@ namespace GachaMenu
 
             _spinBtn.SetActive(false);
             _customizationBtn.SetActive(false);
-            _exitBtn.SetActive(false);
+            _restartBtn.SetActive(false);
 
             targetCapsule.OpenedSignal
                 .Subscribe(_ =>
                 {
                     _equipBtn.SetActive(true);
                     _customizationBtn.SetActive(true);
-                    _exitBtn.SetActive(true);
+                    _restartBtn.SetActive(true);
                 });
 
             StartCoroutine(

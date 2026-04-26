@@ -66,7 +66,7 @@ namespace GachaMenu
         private async UniTask EquipCarAndExit(int id)
         {
             await G.Repository.Cars.SetSelectedCarId(id);
-            G.SceneProvider.OpenPreviousScene();
+            G.SceneProvider.OpenLevelMenu();
         }
     }
 }

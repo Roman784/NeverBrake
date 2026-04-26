@@ -4,7 +4,7 @@
         "MusicVolume": 1.0
     },
     "Currency": {
-        "Coins": 1155
+        "Coins": 905
     },
     "Levels": {
         "LevelsData": [
@@ -24,15 +24,26 @@
                 "Number": 0,
                 "IsPassed": true,
                 "BestTime": 1287,
-                "DeathCount": 12
+                "DeathCount": 21
+            },
+            {
+                "Number": 3,
+                "IsPassed": true,
+                "BestTime": 1635,
+                "DeathCount": 1
             }
         ]
     },
     "Cars": {
-        "SelectedCarId": 18,
+        "SelectedCarId": 25,
         "UnlockedCarIds": [
             0,
-            18
+            18,
+            12,
+            30,
+            7,
+            4,
+            25
         ]
     }
 }

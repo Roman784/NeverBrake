@@ -38,6 +38,11 @@ namespace ObstacleCourseMode
             _model.Car.FailedSignal
                 .SubscribeAwait(async (_, _) => await HandleLevelFailure())
                 .AddTo(_disposables);
+
+            _model.Car.CollisionRegister.CollidedWithWallSignal
+                .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => HandleTimerPenalty())
+                .AddTo(_disposables);
         }
 
         // ================ Level Start ================
@@ -111,6 +116,15 @@ namespace ObstacleCourseMode
             toastsProvider.PreparePrizeToast();
 
             await toastsProvider.Open();
+        }
+
+        // ================ Timer Penalty ================
+
+        private void HandleTimerPenalty()
+        {
+            var penaltyValue = _model.TimerCollisionPenalty;
+            _model.IncreaseTotalTimerPenalty(penaltyValue);
+            _view.DisplayTimerPenalty(penaltyValue);
         }
 
         // ================ UI ================

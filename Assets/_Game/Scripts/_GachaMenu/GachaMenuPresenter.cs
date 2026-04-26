@@ -55,8 +55,8 @@ namespace GachaMenu
                 .Subscribe(_ => OpenCustomizationMenu())
                 .AddTo(_disposables);
 
-            _view.ExitButtonPressedSignal
-                .Subscribe(_ => ExitFromMenu())
+            _view.RestartButtonPressedSignal
+                .Subscribe(_ => RestartScene())
                 .AddTo(_disposables);
         }
 
@@ -118,9 +118,9 @@ namespace GachaMenu
             G.SceneProvider.OpenCustomizationMenu();
         }
 
-        private void ExitFromMenu()
+        private void RestartScene()
         {
-            G.SceneProvider.OpenPreviousScene();
+            G.SceneProvider.RestartScene();
         }
     }
 }

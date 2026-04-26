@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd7c5d7e36dc624d9d3f816699c8168, type: 3}
   m_Name: _LevelsCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.LevelsCMS
+  TimerCollisionPenalty: 50
   DebugLevelCMS: {fileID: 11400000, guid: db617d2dc507c4d479eb96b81f40d352, type: 2}
   AllLevelsCMS:
   - {fileID: 11400000, guid: d4266b8395846c14d8ccbf55d60c86b8, type: 2}

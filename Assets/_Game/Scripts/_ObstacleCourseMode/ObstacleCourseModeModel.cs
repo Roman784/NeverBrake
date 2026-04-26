@@ -14,9 +14,11 @@ namespace ObstacleCourseMode
         public bool IsLevelPassed { get; private set; }
         public int DeathCount { get; private set; }
         public int BestTime { get; private set; }
+        public int TimerCollisionPenalty { get; private set; }
 
         private bool _isTimerStarted;
         private int _startTime;
+        private int _totalTimerPenalty;
 
         private int LevelNumber => EnterParams.LevelNumber;
         private LevelsRepository Repository => G.Repository.Levels;
@@ -32,6 +34,7 @@ namespace ObstacleCourseMode
             IsLevelPassed = Repository.GetPassedLevelNumbers().Any(l => l == LevelNumber);
             DeathCount = Repository.GetDeathCount(LevelNumber);
             BestTime = Repository.GetBestTime(LevelNumber);
+            TimerCollisionPenalty = G.RootCMS.LevelsCMS.TimerCollisionPenalty;
         }
 
         public async UniTask SaveNewBestTime(int time)
@@ -52,10 +55,15 @@ namespace ObstacleCourseMode
             _isTimerStarted = true;
         }
 
+        public void IncreaseTotalTimerPenalty(int value)
+        {
+            _totalTimerPenalty += value;
+        }
+
         public int GetCurrentTime()
         {
             if (!_isTimerStarted) return 0;
-            return Mathf.CeilToInt(Time.time * 100) - _startTime;
+            return Mathf.CeilToInt(Time.time * 100) - _startTime + _totalTimerPenalty;
         }
 
         public async UniTask PassLevel()
