@@ -93,9 +93,9 @@ namespace ObstacleCourseMode
             await _model.IncreaseDeathCount();
             DisplayUI();
 
-            await UniTask.Delay(2000);
+            await UniTask.Delay(1000);
 
-            _model.SceneProvider.RestartScene();
+            G.PopUpsProvider.OpenLevelFailurePopUp();
         }
 
         // ================ UI ================

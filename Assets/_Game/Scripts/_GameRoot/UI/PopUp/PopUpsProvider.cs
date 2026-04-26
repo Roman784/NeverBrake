@@ -14,5 +14,12 @@ namespace UI
             createdPopUp.Open();
             return createdPopUp;
         }
+
+        public LevelFailurePopUp OpenLevelFailurePopUp()
+        {
+            var createdPopUp = Factory.Create(CMS.LevelFailurePopUpPrefab);
+            createdPopUp.Open();
+            return createdPopUp;
+        }
     }
 }

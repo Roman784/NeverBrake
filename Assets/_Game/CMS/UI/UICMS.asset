@@ -19,3 +19,4 @@ MonoBehaviour:
   PrizeToastPrefab: {fileID: 2881443392850776866, guid: 33576f5bbe8b84746b96c7c377230219, type: 3}
   GiftToastPrefab: {fileID: 3990875242631218041, guid: c6d145d7f347f054f9b32b490e143b7b, type: 3}
   LevelPassingPopUpPrefab: {fileID: 6778457812519679841, guid: c94fc6774dcea4340b2d9b970ddd1949, type: 3}
+  LevelFailurePopUpPrefab: {fileID: 1361571299320947433, guid: d5235dc3c87d6dc4d801c61e45066146, type: 3}

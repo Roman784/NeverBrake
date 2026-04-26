@@ -2,14 +2,8 @@ using GameRoot;
 
 namespace UI
 {
-    public class LevelPassingPopUp : PopUp
+    public class LevelFailurePopUp : PopUp
     {
-        public void Continue()
-        {
-            // TODO: open next level.
-            Close();
-        }
-
         public void RestartLevel()
         {
             G.SceneProvider.RestartScene();

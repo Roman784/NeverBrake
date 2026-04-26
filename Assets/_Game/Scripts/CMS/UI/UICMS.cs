@@ -20,5 +20,6 @@ namespace GameRoot
 
         [Header("Pop Ups")]
         public LevelPassingPopUp LevelPassingPopUpPrefab;
+        public LevelFailurePopUp LevelFailurePopUpPrefab;
     }
 }
