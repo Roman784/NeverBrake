@@ -72,6 +72,11 @@ namespace ObstacleCourseMode
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                G.PopUpsProvider.OpenLevelPassingPopUp();
+            }
+
             if (Input.GetKeyDown(KeyCode.O))
             {
                 var toastsProvider = G.ToastsProvider;

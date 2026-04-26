@@ -5,8 +5,14 @@ namespace UI
 {
     public class PopUpsProvider
     {
-        private PopUpFactory _popUpFactory;
-
+        private PopUpFactory Factory => G.PopUpFactory;
         private UICMS CMS => G.RootCMS.UICMS;
+
+        public LevelPassingPopUp OpenLevelPassingPopUp()
+        {
+            var createdPopUp = Factory.Create(CMS.LevelPassingPopUpPrefab);
+            createdPopUp.Open();
+            return createdPopUp;
+        }
     }
 }

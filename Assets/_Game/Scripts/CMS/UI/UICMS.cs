@@ -17,5 +17,8 @@ namespace GameRoot
         public CoinsForAdToast CoinsForAdToastPrefab;
         public PrizeToast PrizeToastPrefab;
         public GiftToast GiftToastPrefab;
+
+        [Header("Pop Ups")]
+        public LevelPassingPopUp LevelPassingPopUpPrefab;
     }
 }

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using GameRoot;
 using R3;
 using System;
 using UnityEngine;
@@ -82,7 +83,7 @@ namespace ObstacleCourseMode
 
             await UniTask.Delay(2000);
 
-            _model.SceneProvider.RestartScene();
+            G.PopUpsProvider.OpenLevelPassingPopUp();
         }
 
         private async UniTask HandleLevelFailure()

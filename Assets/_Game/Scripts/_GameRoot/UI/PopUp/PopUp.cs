@@ -7,16 +7,7 @@ namespace UI
 {
     public abstract class PopUp : MonoBehaviour
     {
-        [SerializeField] protected CanvasGroup _rootView;
-
-        [Space]
-
-        [SerializeField] private float _initialScale = 0.9f;
-        [SerializeField] protected TweenData _openTweenData = 
-            new TweenData { Duration = 0.1f, Ease = Ease.OutBack };
-        [SerializeField]
-        protected TweenData _closeTweenData =
-            new TweenData { Duration = 0.1f, Ease = Ease.OutBack };
+        [SerializeField] protected RectTransform _rootView;
 
         private Subject<Unit> _closeSignalSubj = new();
         private Tweener _openTween;
@@ -25,25 +16,25 @@ namespace UI
 
         public virtual PopUp SetInitialViewState()
         {
-            _rootView.transform.localScale = Vector3.one * _initialScale;
+            _rootView.pivot = new Vector2(0.5f, 1f);
+            _rootView.anchoredPosition = Vector2.zero;
             return this;
         }
 
         public virtual void Open()
         {
-            _openTween = _rootView.transform
-                .DOScale(1, _openTweenData.Duration)
-                .SetEase(_openTweenData.Ease);
+            _openTween = _rootView
+                .DOPivotY(0f, 0.4f)
+                .SetEase(Ease.OutExpo);
         }
 
         public virtual void Close()
         {
-            _rootView.DOFade(0, _closeTweenData.Duration)
-                .SetEase(_closeTweenData.Ease)
+            _rootView
+                .DOPivotY(1f, 0.2f)
+                .SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {
-                    _rootView.gameObject.SetActive(false);
-
                     _closeSignalSubj.OnNext(Unit.Default);
                     _closeSignalSubj.OnCompleted();
                 });
@@ -51,8 +42,13 @@ namespace UI
 
         public void Destroy()
         {
-            _openTween?.Kill();
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            _openTween?.Kill();
+            _rootView.DOKill();
         }
     }
 }
