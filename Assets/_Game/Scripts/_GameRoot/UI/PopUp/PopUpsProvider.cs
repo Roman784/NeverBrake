@@ -8,6 +8,13 @@ namespace UI
         private PopUpFactory Factory => G.PopUpFactory;
         private UICMS CMS => G.RootCMS.UICMS;
 
+        public PausePopUp OpenPausePopUp()
+        {
+            var createdPopUp = Factory.Create(CMS.PausePopUpPrefab);
+            createdPopUp.Open();
+            return createdPopUp;
+        }
+
         public LevelPassingPopUp OpenLevelPassingPopUp()
         {
             var createdPopUp = Factory.Create(CMS.LevelPassingPopUpPrefab);

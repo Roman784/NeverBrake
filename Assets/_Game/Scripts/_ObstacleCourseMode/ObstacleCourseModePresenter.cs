@@ -4,7 +4,6 @@ using R3;
 using System;
 using UI;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace ObstacleCourseMode
 {
@@ -31,6 +30,10 @@ namespace ObstacleCourseMode
 
         private void SetupSubscriptions()
         {
+            _view.PauseButtonPressedSignal
+                .Subscribe(_ => HandlePause())
+                .AddTo(_disposables);
+
             _model.Car.FinishReachedSignal
                 .SubscribeAwait(async (_, _) => await HandleLevelPassing())
                 .AddTo(_disposables);
@@ -128,6 +131,14 @@ namespace ObstacleCourseMode
         }
 
         // ================ UI ================
+
+        private void HandlePause()
+        {
+            G.PopUpsProvider.OpenPausePopUp()
+                .CloseSignal
+                .Subscribe(_ => G.PauseProvider.Unpause());
+            G.PauseProvider.Pause();
+        }
 
         private void DisplayUI()
         {

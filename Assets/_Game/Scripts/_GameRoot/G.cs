@@ -3,6 +3,7 @@ using CMS;
 using Currency;
 using Gameplay;
 using GameState;
+using Pause;
 using UI;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace GameRoot
         public static ToastFactory ToastFactory;
         public static PopUpsProvider PopUpsProvider;
         public static PopUpFactory PopUpFactory;
+        public static PauseProvider PauseProvider;
 
         // ========== GAMEPLAY ==========
 

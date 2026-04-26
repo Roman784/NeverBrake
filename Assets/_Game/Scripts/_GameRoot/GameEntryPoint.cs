@@ -3,6 +3,7 @@ using CMS;
 using Currency;
 using Cysharp.Threading.Tasks;
 using GameState;
+using Pause;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,6 +38,7 @@ namespace GameRoot
             G.ToastFactory = new ToastFactory();
             G.PopUpsProvider = new PopUpsProvider();
             G.PopUpFactory = new PopUpFactory();
+            G.PauseProvider = new PauseProvider();
 
             StartGame();
         }

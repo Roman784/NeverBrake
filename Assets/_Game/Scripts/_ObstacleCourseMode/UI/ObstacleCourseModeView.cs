@@ -1,4 +1,5 @@
 using DG.Tweening;
+using R3;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -15,11 +16,16 @@ namespace ObstacleCourseMode
         private RectTransform _penaltyViewRectTransform;
         private Sequence _penaltySeq;
 
+        private Subject<Unit> _pauseButtonPressedSignalSubj = new();
+        public Observable<Unit> PauseButtonPressedSignal => _pauseButtonPressedSignalSubj;
+
         private void Awake()
         {
             _penaltyViewRectTransform = _penaltyTimeView.GetComponent<RectTransform>();
             _penaltyViewRectTransform.localScale = Vector2.zero;
         }
+
+        public void PressPauseButton() => _pauseButtonPressedSignalSubj.OnNext(Unit.Default);
 
         public void DisplayDeathCount(int count) => _deathCountView.text = count.ToString();
         public void DisplayBestTime(int time) => _bestTimeView.text = time.ToTimeFormat();
