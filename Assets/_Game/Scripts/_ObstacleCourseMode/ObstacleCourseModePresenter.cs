@@ -27,9 +27,15 @@ namespace ObstacleCourseMode
             DisplayUI();
 
             _view.Enable();
+
+            G.PauseProvider.Register(this);
         }
 
-        public void Dispose() => _disposables.Dispose();
+        public void Dispose()
+        {
+            _disposables.Dispose();
+            G.PauseProvider.Remove(this);
+        }
 
         private void SetupSubscriptions()
         {
@@ -141,7 +147,8 @@ namespace ObstacleCourseMode
         {
             G.PopUpsProvider.OpenPausePopUp()
                 .CloseSignal
-                .Subscribe(_ => G.PauseProvider.Unpause());
+                .Subscribe(_ => G.PauseProvider.Unpause())
+                .AddTo(_disposables);
             G.PauseProvider.Pause();
         }
 

@@ -35,9 +35,7 @@ namespace GameRoot
             G.AudioProvider = new AudioProvider();
             G.Wallet = new Wallet();
             G.ToastsProvider = new ToastsProvider();
-            G.ToastFactory = new ToastFactory();
             G.PopUpsProvider = new PopUpsProvider();
-            G.PopUpFactory = new PopUpFactory();
             G.PauseProvider = new PauseProvider();
 
             StartGame();

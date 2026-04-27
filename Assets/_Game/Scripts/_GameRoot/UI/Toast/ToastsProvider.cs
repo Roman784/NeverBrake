@@ -10,6 +10,8 @@ namespace UI
 {
     public class ToastsProvider
     {
+        private ToastFactory _factory;
+
         private UICMS CMS => G.RootCMS.UICMS;
 
         private List<Toast> _preparedToasts = new();
@@ -42,14 +44,14 @@ namespace UI
 
         public TotalCoinsToast PrepareTotalCoinsToast()
         {
-            var createdToast = G.ToastFactory.Create(CMS.TotalCoinsToastPrefab);
+            var createdToast = _factory.Create(CMS.TotalCoinsToastPrefab);
             RegisterToast(createdToast);
             return createdToast;
         }
 
         public CoinsReceivedToast PrepareCoinsReceivedToast(int receivedCoins)
         {
-            var createdToast = G.ToastFactory.Create(CMS.CoinsReceivedToastPrefab);
+            var createdToast = _factory.Create(CMS.CoinsReceivedToastPrefab);
             createdToast.SetCoins(receivedCoins);
             RegisterToast(createdToast);
             return createdToast;
@@ -57,7 +59,7 @@ namespace UI
 
         public CoinsForAdToast PrepareCoinsForAdToast()
         {
-            var createdToast = G.ToastFactory.Create(CMS.CoinsForAdToastPrefab);
+            var createdToast = _factory.Create(CMS.CoinsForAdToastPrefab);
             RegisterToast(createdToast);
 
             createdToast
@@ -79,14 +81,14 @@ namespace UI
 
         public PrizeToast PreparePrizeToast()
         {
-            var createdToast = G.ToastFactory.Create(CMS.PrizeToastPrefab);
+            var createdToast = _factory.Create(CMS.PrizeToastPrefab);
             RegisterToast(createdToast);
             return createdToast;
         }
 
         public GiftToast PrepareGiftToast()
         {
-            var createdToast = G.ToastFactory.Create(CMS.GiftToastPrefab);
+            var createdToast = _factory.Create(CMS.GiftToastPrefab);
             RegisterToast(createdToast);
 
             createdToast

@@ -20,9 +20,7 @@ namespace GameRoot
         public static AudioProvider AudioProvider;
         public static Wallet Wallet;
         public static ToastsProvider ToastsProvider;
-        public static ToastFactory ToastFactory;
         public static PopUpsProvider PopUpsProvider;
-        public static PopUpFactory PopUpFactory;
         public static PauseProvider PauseProvider;
 
         // ========== GAMEPLAY ==========

@@ -9,10 +9,13 @@ namespace UI
     {
         [SerializeField] protected RectTransform _rootView;
 
-        private Subject<Unit> _closeSignalSubj = new();
-        private Tweener _openTween;
+        private Subject<PopUp> _openSignalSubj = new();
+        private Subject<PopUp> _closeSignalSubj = new();
 
-        public Observable<Unit> CloseSignal => _closeSignalSubj;
+        private Tweener _showTween;
+
+        public Observable<PopUp> OpenSignal => _openSignalSubj;
+        public Observable<PopUp> CloseSignal => _closeSignalSubj;
 
         public virtual PopUp SetInitialViewState()
         {
@@ -21,23 +24,37 @@ namespace UI
             return this;
         }
 
-        public virtual void Open()
+        public void Open()
         {
-            _openTween = _rootView
-                .DOPivotY(0f, 0.4f)
-                .SetEase(Ease.OutExpo);
+            Show().OnComplete(() =>
+            {
+                _openSignalSubj.OnNext(this);
+                _openSignalSubj.OnCompleted();
+            });
         }
 
-        public virtual void Close()
+        public void Close()
         {
-            _rootView
+            Hide().OnComplete(() =>
+            {
+                _closeSignalSubj.OnNext(this);
+                _closeSignalSubj.OnCompleted();
+            });
+        }
+
+        public virtual Tween Show()
+        {
+            _showTween = _rootView
+                .DOPivotY(0f, 0.4f)
+                .SetEase(Ease.OutExpo);
+            return _showTween;
+        }
+
+        public virtual Tween Hide()
+        {
+            return _rootView
                 .DOPivotY(1f, 0.2f)
-                .SetEase(Ease.OutQuad)
-                .OnComplete(() =>
-                {
-                    _closeSignalSubj.OnNext(Unit.Default);
-                    _closeSignalSubj.OnCompleted();
-                });
+                .SetEase(Ease.OutQuad);
         }
 
         public void Destroy()
@@ -47,7 +64,7 @@ namespace UI
 
         private void OnDestroy()
         {
-            _openTween?.Kill();
+            _showTween?.Kill();
             _rootView.DOKill();
         }
     }

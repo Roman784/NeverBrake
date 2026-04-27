@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using R3;
+using System.Linq;
+using DG.Tweening;
 
 namespace UI
 {
@@ -8,23 +10,41 @@ namespace UI
     {
         [SerializeField] private Transform _popUpsContainer;
 
-        private Queue<PopUp> _popUps = new();
+        private List<PopUp> _popUps = new();
+
+        private PopUp LastPopUp => _popUps.Last();
+
+        public void OpenLast()
+        {
+            if (_popUps.Count == 0) return;
+
+            if (_popUps.Count > 1)
+                _popUps[_popUps.Count - 2].Hide().OnComplete(() =>
+                {
+                    LastPopUp.Open();
+                });
+            else
+                LastPopUp.Open();
+        }
 
         public void AttachPopUp(PopUp popUp)
         {
-            _popUps.Enqueue(popUp);
+            _popUps.Add(popUp);
             popUp.transform.SetParent(_popUpsContainer, false);
 
-            popUp.CloseSignal.Subscribe(_ => DestroyTopPopUp());
+            popUp.CloseSignal
+                .Subscribe(_ => DestroyTopPopUp())
+                .AddTo(popUp);
         }
 
         public void DestroyTopPopUp()
         {
-            var popUp = _popUps.Dequeue();
+            var popUp = LastPopUp;
+            _popUps.Remove(popUp);
             popUp.Destroy();
 
             if (_popUps.Count > 0)
-                _popUps.Peek().Open();
+                LastPopUp.Show();
         }
 
         public void ClearContainer()

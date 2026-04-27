@@ -6,7 +6,17 @@ namespace Pause
     {
         private List<IPaused> _pauseds = new();
 
-        public void Register(IPaused paused) => _pauseds.Add(paused); 
+        public void Register(IPaused paused)
+        {
+            if (paused == null) return;
+            _pauseds.Add(paused);
+        }
+
+        public void Remove(IPaused paused)
+        {
+            if (paused == null) return;
+            _pauseds.Remove(paused);
+        }
 
         public void Pause()
         {

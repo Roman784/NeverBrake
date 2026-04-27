@@ -5,27 +5,34 @@ namespace UI
 {
     public class PopUpsProvider
     {
-        private PopUpFactory Factory => G.PopUpFactory;
+        private PopUpFactory _factory;
+
+        private PopUpsRoot Root => G.UIRoot.PopUpsRoot;
         private UICMS CMS => G.RootCMS.UICMS;
+
+        public PopUpsProvider()
+        {
+            _factory = new PopUpFactory();
+        }
 
         public PausePopUp OpenPausePopUp()
         {
-            var createdPopUp = Factory.Create(CMS.PausePopUpPrefab);
-            createdPopUp.Open();
+            var createdPopUp = _factory.Create(CMS.PausePopUpPrefab);
+            Root.OpenLast();
             return createdPopUp;
         }
 
         public LevelPassingPopUp OpenLevelPassingPopUp()
         {
-            var createdPopUp = Factory.Create(CMS.LevelPassingPopUpPrefab);
-            createdPopUp.Open();
+            var createdPopUp = _factory.Create(CMS.LevelPassingPopUpPrefab);
+            Root.OpenLast();
             return createdPopUp;
         }
 
         public LevelFailurePopUp OpenLevelFailurePopUp()
         {
-            var createdPopUp = Factory.Create(CMS.LevelFailurePopUpPrefab);
-            createdPopUp.Open();
+            var createdPopUp = _factory.Create(CMS.LevelFailurePopUpPrefab);
+            Root.OpenLast();
             return createdPopUp;
         }
     }

@@ -1,3 +1,4 @@
+using GameRoot;
 using Pause;
 using R3;
 using UnityEngine;
@@ -42,6 +43,8 @@ namespace Gameplay
 
             _collisionRegister.EnableRegistration();
             _behaviorHandler.SetIdleBehaviour();
+
+            G.PauseProvider.Register(this);
         }
 
         public void Pause()
@@ -86,6 +89,7 @@ namespace Gameplay
         private void OnDestroy()
         {
             _behaviorHandler?.Dispose();
+            G.PauseProvider.Remove(this);
         }
     }
 }
