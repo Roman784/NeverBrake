@@ -94,6 +94,13 @@ namespace ObstacleCourseMode
             _view.Disable();
             StopTimer();
 
+            var coinsForLevelPassing = 0;
+            if (!_model.IsLevelPassed)
+            {
+                coinsForLevelPassing = _model.GetCoinsForLevelPassing();
+                await _model.Wallet.AddCoins(coinsForLevelPassing);
+            }
+
             if (!_model.IsLevelPassed || _model.GetCurrentTime() < _model.BestTime)
                 await _model.SaveNewBestTime(_model.GetCurrentTime());
 
@@ -104,7 +111,7 @@ namespace ObstacleCourseMode
             await UniTask.Delay(2000);
 
             G.PopUpsProvider.OpenLevelPassingPopUp();
-            await OpenLevelPassingToasts();
+            await OpenLevelPassingToasts(coinsForLevelPassing);
         }
 
         private async UniTask HandleLevelFailure()
@@ -120,11 +127,12 @@ namespace ObstacleCourseMode
             G.PopUpsProvider.OpenLevelFailurePopUp();
         }
 
-        private async UniTask OpenLevelPassingToasts()
+        private async UniTask OpenLevelPassingToasts(int coinsForLevelPassing)
         {
             var toastsProvider = G.ToastsProvider;
             toastsProvider.PrepareTotalCoinsToast();
-            toastsProvider.PrepareCoinsReceivedToast(10);
+            if (coinsForLevelPassing > 0)
+                toastsProvider.PrepareCoinsReceivedToast(coinsForLevelPassing);
             toastsProvider.PrepareCoinsForAdToast();
             toastsProvider.PrepareGiftToast();
             toastsProvider.PreparePrizeToast();
@@ -171,7 +179,6 @@ namespace ObstacleCourseMode
             _view.DisplayDeathCount(_model.DeathCount);
             _view.DisplayBestTime(_model.BestTime);
             _view.DisplayCurrentTime(_model.GetCurrentTime());
-
         }
     }
 }

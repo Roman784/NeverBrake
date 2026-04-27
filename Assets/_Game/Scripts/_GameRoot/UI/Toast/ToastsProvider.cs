@@ -17,6 +17,11 @@ namespace UI
         private List<Toast> _preparedToasts = new();
         private CancellationTokenSource _cts;
 
+        public ToastsProvider()
+        {
+            _factory = new ToastFactory();
+        }
+
         public async UniTask Open()
         {
             _cts?.Cancel();

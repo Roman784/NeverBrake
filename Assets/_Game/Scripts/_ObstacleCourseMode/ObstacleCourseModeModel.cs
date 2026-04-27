@@ -1,3 +1,4 @@
+using Currency;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using GameRoot;
@@ -15,13 +16,16 @@ namespace ObstacleCourseMode
         public int DeathCount { get; private set; }
         public int BestTime { get; private set; }
         public int TimerCollisionPenalty { get; private set; }
+        public Wallet Wallet { get; private set; }
+        
+        private Vector2Int _coinsScatterForLevelPassing;
 
         private bool _isTimerStarted;
+        private bool _isTimerPaused;
         private int _startTime;
         private int _totalTimerPenalty;
         private int _pauseStartTime;
         private int _totalPausedDuration;
-        private bool _isPaused;
 
         private int LevelNumber => EnterParams.LevelNumber;
         private LevelsRepository Repository => G.Repository.Levels;
@@ -38,6 +42,9 @@ namespace ObstacleCourseMode
             DeathCount = Repository.GetDeathCount(LevelNumber);
             BestTime = Repository.GetBestTime(LevelNumber);
             TimerCollisionPenalty = G.RootCMS.LevelsCMS.TimerCollisionPenalty;
+            
+            Wallet = G.Wallet;
+            _coinsScatterForLevelPassing = G.RootCMS.CurrencyCMS.CoinsScatterForLevelPassing;
         }
 
         public async UniTask SaveNewBestTime(int time)
@@ -67,7 +74,7 @@ namespace ObstacleCourseMode
         {
             if (!_isTimerStarted) return;
             
-            _isPaused = true;
+            _isTimerPaused = true;
             _pauseStartTime = Mathf.CeilToInt(Time.time * 100);
         }
 
@@ -75,7 +82,7 @@ namespace ObstacleCourseMode
         {
             if (!_isTimerStarted) return;
 
-            _isPaused = false;
+            _isTimerPaused = false;
             int now = Mathf.CeilToInt(Time.time * 100);
             _totalPausedDuration += now - _pauseStartTime;
         }
@@ -86,7 +93,7 @@ namespace ObstacleCourseMode
 
             var now = Mathf.CeilToInt(Time.time * 100);
             var pausedTime = _totalPausedDuration;
-            if (_isPaused)
+            if (_isTimerPaused)
                 pausedTime += now - _pauseStartTime;
 
             return now - _startTime - pausedTime + _totalTimerPenalty;
@@ -95,6 +102,11 @@ namespace ObstacleCourseMode
         public async UniTask PassLevel()
         {
             await Repository.SetOrAddLevelIsPassed(LevelNumber, true);
+        }
+
+        public int GetCoinsForLevelPassing()
+        {
+            return Random.Range(_coinsScatterForLevelPassing.x, _coinsScatterForLevelPassing.y);
         }
     }
 }

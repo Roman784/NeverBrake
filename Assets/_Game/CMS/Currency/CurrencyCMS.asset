@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a0c1145e04ba0448e95620d9bfd795, type: 3}
   m_Name: CurrencyCMS
   m_EditorClassIdentifier: Assembly-CSharp::CMS.CurrencyCMS
+  CoinsScatterForLevelPassing: {x: 20, y: 30}
   CoinsScatterForGift: {x: 45, y: 49}
   CoinsScatterForAd: {x: 50, y: 60}

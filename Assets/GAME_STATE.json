@@ -4,38 +4,14 @@
         "MusicVolume": 0.0
     },
     "Currency": {
-        "Coins": 905
+        "Coins": 931
     },
     "Levels": {
         "LevelsData": [
             {
-                "Number": 1,
-                "IsPassed": true,
-                "BestTime": 326,
-                "DeathCount": 543
-            },
-            {
-                "Number": 2,
-                "IsPassed": true,
-                "BestTime": 23321,
-                "DeathCount": 32
-            },
-            {
                 "Number": 0,
                 "IsPassed": true,
-                "BestTime": 1287,
-                "DeathCount": 43
-            },
-            {
-                "Number": 3,
-                "IsPassed": true,
-                "BestTime": 1635,
-                "DeathCount": 1
-            },
-            {
-                "Number": 4,
-                "IsPassed": false,
-                "BestTime": 0,
+                "BestTime": 1388,
                 "DeathCount": 1
             }
         ]
