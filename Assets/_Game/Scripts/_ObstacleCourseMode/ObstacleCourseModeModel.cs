@@ -65,12 +65,16 @@ namespace ObstacleCourseMode
 
         public void PauseTimer()
         {
+            if (!_isTimerStarted) return;
+            
             _isPaused = true;
             _pauseStartTime = Mathf.CeilToInt(Time.time * 100);
         }
 
         public void UnpauseTimer()
         {
+            if (!_isTimerStarted) return;
+
             _isPaused = false;
             int now = Mathf.CeilToInt(Time.time * 100);
             _totalPausedDuration += now - _pauseStartTime;
