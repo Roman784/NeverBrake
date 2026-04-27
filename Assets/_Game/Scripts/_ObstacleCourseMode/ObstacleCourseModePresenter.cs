@@ -25,6 +25,8 @@ namespace ObstacleCourseMode
 
             SetupSubscriptions();
             DisplayUI();
+
+            _view.Enable();
         }
 
         public void Dispose() => _disposables.Dispose();
@@ -83,6 +85,7 @@ namespace ObstacleCourseMode
 
         private async UniTask HandleLevelPassing()
         {
+            _view.Disable();
             StopTimer();
 
             if (!_model.IsLevelPassed || _model.GetCurrentTime() < _model.BestTime)
@@ -100,6 +103,7 @@ namespace ObstacleCourseMode
 
         private async UniTask HandleLevelFailure()
         {
+            _view.Disable();
             StopTimer();
 
             await _model.IncreaseDeathCount();
@@ -143,11 +147,13 @@ namespace ObstacleCourseMode
 
         public void Pause()
         {
+            _view.Disable();
             _model.PauseTimer();
         }
 
         public void Unpause()
         {
+            _view.Enable();
             _model.UnpauseTimer();
         }
 

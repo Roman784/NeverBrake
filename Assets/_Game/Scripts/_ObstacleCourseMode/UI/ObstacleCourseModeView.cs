@@ -16,6 +16,8 @@ namespace ObstacleCourseMode
         private RectTransform _penaltyViewRectTransform;
         private Sequence _penaltySeq;
 
+        private bool _isEnabled;
+
         private Subject<Unit> _pauseButtonPressedSignalSubj = new();
         public Observable<Unit> PauseButtonPressedSignal => _pauseButtonPressedSignalSubj;
 
@@ -25,7 +27,14 @@ namespace ObstacleCourseMode
             _penaltyViewRectTransform.localScale = Vector2.zero;
         }
 
-        public void PressPauseButton() => _pauseButtonPressedSignalSubj.OnNext(Unit.Default);
+        public void Enable() => _isEnabled = true;
+        public void Disable() => _isEnabled = false;
+
+        public void PressPauseButton()
+        {
+            if (!_isEnabled) return;
+            _pauseButtonPressedSignalSubj.OnNext(Unit.Default);
+        }
 
         public void DisplayDeathCount(int count) => _deathCountView.text = count.ToString();
         public void DisplayBestTime(int time) => _bestTimeView.text = time.ToTimeFormat();
@@ -42,7 +51,6 @@ namespace ObstacleCourseMode
             _penaltySeq = DOTween.Sequence();
             _penaltySeq.Append(_penaltyTimeView.DOFade(1, 0));
             _penaltySeq.Append(_penaltyViewRectTransform.DOScale(1, 0.15f).SetEase(Ease.OutBack));
-            //_penaltySeq.AppendInterval(0.15f);
             _penaltySeq.Append(_penaltyViewRectTransform.DOAnchorPosY(-32, 0.25f).SetEase(Ease.InBack));
             _penaltySeq.Join(_penaltyTimeView.DOFade(0, 0.35f).SetEase(Ease.InQuad));
         }
