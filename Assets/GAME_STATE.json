@@ -1,7 +1,7 @@
 {
     "Audio": {
-        "SoundVolume": 1.0,
-        "MusicVolume": 1.0
+        "SoundVolume": 0.0,
+        "MusicVolume": 0.0
     },
     "Currency": {
         "Coins": 905
@@ -24,7 +24,7 @@
                 "Number": 0,
                 "IsPassed": true,
                 "BestTime": 1287,
-                "DeathCount": 35
+                "DeathCount": 38
             },
             {
                 "Number": 3,

@@ -15,6 +15,13 @@ namespace UI
             _factory = new PopUpFactory();
         }
 
+        public SettingsPopUp OpenSettingsPopUp()
+        {
+            var createdPopUp = _factory.Create(CMS.SettingsPopUpPrefab);
+            Root.OpenLast();
+            return createdPopUp;
+        }
+
         public PausePopUp OpenPausePopUp()
         {
             var createdPopUp = _factory.Create(CMS.PausePopUpPrefab);

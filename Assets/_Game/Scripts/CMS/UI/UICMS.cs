@@ -19,6 +19,7 @@ namespace GameRoot
         public GiftToast GiftToastPrefab;
 
         [Header("Pop Ups")]
+        public SettingsPopUp SettingsPopUpPrefab;
         public PausePopUp PausePopUpPrefab;
         public LevelPassingPopUp LevelPassingPopUpPrefab;
         public LevelFailurePopUp LevelFailurePopUpPrefab;

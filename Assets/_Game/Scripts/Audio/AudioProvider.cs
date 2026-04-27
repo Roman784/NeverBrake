@@ -22,7 +22,7 @@ namespace Audio
         private AudioRepository Repository => G.Repository.Audio;
         private AudioSourcer SourcerPrefab => G.RootCMS.AudioCMS.SourcerPrefab;
 
-        public void Init()
+        public AudioProvider()
         {
             _loopedSourcers = new Dictionary<int, AudioSourcer>();
             MusicVolume = new ReactiveProperty<float>(Repository.GetMusicVolume());

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace GameState
@@ -23,16 +24,16 @@ namespace GameState
             return State.MusicVolume;
         }
 
-        public void SetSoundVolume(float volume)
+        public async UniTask SetSoundVolume(float volume)
         {
             State.SoundVolume = Mathf.Clamp01(volume);
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
 
-        public void SetMusicVolume(float volume)
+        public async UniTask SetMusicVolume(float volume)
         {
             State.MusicVolume = Mathf.Clamp01(volume);
-            _gameStateProvider.SaveGameState();
+            await _gameStateProvider.SaveGameState();
         }
     }
 }
