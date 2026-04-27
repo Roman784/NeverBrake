@@ -1,15 +1,12 @@
-using DG.Tweening;
-using GameRoot;
+using Pause;
 using R3;
 using UnityEngine;
-using Utils;
-using static UnityEngine.LowLevelPhysics2D.PhysicsShape;
 
 namespace Gameplay
 {
     [RequireComponent(typeof(CarController))]
     [RequireComponent(typeof(CarCollisionRegister))]
-    public class Car : MonoBehaviour
+    public class Car : MonoBehaviour, IPaused
     {
         [SerializeField] private CarView _view;
 
@@ -24,6 +21,8 @@ namespace Gameplay
 
         private Subject<Unit> _failedSignalSubj = new();
         private Subject<Unit> _finishReachedSignalSubj = new();
+
+        public bool IsPaused { get; private set; }
 
         public CarView View => _view;
         public CarController Controller => _controller;
@@ -43,6 +42,18 @@ namespace Gameplay
 
             _collisionRegister.EnableRegistration();
             _behaviorHandler.SetIdleBehaviour();
+        }
+
+        public void Pause()
+        {
+            IsPaused = true;
+            Controller.Pause();
+        }
+
+        public void Unpause()
+        {
+            IsPaused = false;
+            Controller.Unpause();
         }
 
         public void StartMovement()

@@ -19,6 +19,9 @@ namespace ObstacleCourseMode
         private bool _isTimerStarted;
         private int _startTime;
         private int _totalTimerPenalty;
+        private int _pauseStartTime;
+        private int _totalPausedDuration;
+        private bool _isPaused;
 
         private int LevelNumber => EnterParams.LevelNumber;
         private LevelsRepository Repository => G.Repository.Levels;
@@ -60,10 +63,29 @@ namespace ObstacleCourseMode
             _totalTimerPenalty += value;
         }
 
+        public void PauseTimer()
+        {
+            _isPaused = true;
+            _pauseStartTime = Mathf.CeilToInt(Time.time * 100);
+        }
+
+        public void UnpauseTimer()
+        {
+            _isPaused = false;
+            int now = Mathf.CeilToInt(Time.time * 100);
+            _totalPausedDuration += now - _pauseStartTime;
+        }
+
         public int GetCurrentTime()
         {
             if (!_isTimerStarted) return 0;
-            return Mathf.CeilToInt(Time.time * 100) - _startTime + _totalTimerPenalty;
+
+            var now = Mathf.CeilToInt(Time.time * 100);
+            var pausedTime = _totalPausedDuration;
+            if (_isPaused)
+                pausedTime += now - _pauseStartTime;
+
+            return now - _startTime - pausedTime + _totalTimerPenalty;
         }
 
         public async UniTask PassLevel()

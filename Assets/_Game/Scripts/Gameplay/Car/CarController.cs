@@ -1,3 +1,4 @@
+using Pause;
 using R3;
 using System;
 using System.Collections;
@@ -7,7 +8,7 @@ using Utils;
 namespace Gameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class CarController : MonoBehaviour
+    public class CarController : MonoBehaviour, IPaused
     {
         [SerializeField] private float _forwardAcceleration;
         [SerializeField] private float _maxVelocity;
@@ -35,6 +36,9 @@ namespace Gameplay
         private float _turnInputDuration;
         private int _lastHorizontalInput;
 
+        private bool _isPaused;
+        private Vector3 _velocityBeforePause;
+
         private Subject<Unit> _jumpCompletedSignalSubj = new();
 
         public float TurnInputDuration => _turnInputDuration;
@@ -43,6 +47,19 @@ namespace Gameplay
         public void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        public void Pause()
+        {
+            _isPaused = true;
+            _velocityBeforePause = _rigidbody.linearVelocity;
+            _rigidbody.linearVelocity = Vector3.zero;
+        }
+
+        public void Unpause()
+        {
+            _isPaused = false;
+            _rigidbody.linearVelocity = _velocityBeforePause;
         }
 
         public void Stop()
@@ -84,12 +101,6 @@ namespace Gameplay
             _rigidbody.AddForce(transform.up * _boostImpulse, ForceMode2D.Impulse);
         }
 
-        //public float GetWheelsTurning(int horizontalInput, float deltaTime)
-        //{
-        //    var angle = -horizontalInput * Mathf.Lerp(0, 1, _turnInputDuration * 1.5f);
-        //    return Mathf.Lerp(_wheelsAngle, angle, _wheelsTurningSpeed * deltaTime);
-        //}
-
         private void LimitMaxSpeed()
         {
             var velocity = _rigidbody.linearVelocity;
@@ -124,7 +135,8 @@ namespace Gameplay
         private IEnumerator JumpRoutine()
         {
             var initialZ = transform.position.z;
-            for (float time = 0f; time < _jumpDuration; time += Time.deltaTime)
+            var time = 0f;
+            while (time < _jumpDuration)
             {
                 var progress = time / _jumpDuration;
                 var z = _jumpHeight * _jumpHeightCurve.Evaluate(progress);
@@ -135,6 +147,9 @@ namespace Gameplay
                 transform.position = newPosition;
                 transform.localScale = Vector3.one + Vector3.one * -newPosition.z / 2f;
 
+                if (!_isPaused)
+                    time += Time.deltaTime;
+                
                 yield return null;
             }
 

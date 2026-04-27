@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using GameRoot;
+using Pause;
 using R3;
 using System;
 using UI;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace ObstacleCourseMode
 {
-    public class ObstacleCourseModePresenter : IDisposable
+    public class ObstacleCourseModePresenter : IDisposable, IPaused
     {
         private ObstacleCourseModeView _view;
         private ObstacleCourseModeModel _model;
@@ -130,7 +131,7 @@ namespace ObstacleCourseMode
             _view.DisplayTimerPenalty(penaltyValue);
         }
 
-        // ================ UI ================
+        // ================ Pause ================
 
         private void HandlePause()
         {
@@ -139,6 +140,18 @@ namespace ObstacleCourseMode
                 .Subscribe(_ => G.PauseProvider.Unpause());
             G.PauseProvider.Pause();
         }
+
+        public void Pause()
+        {
+            _model.PauseTimer();
+        }
+
+        public void Unpause()
+        {
+            _model.UnpauseTimer();
+        }
+
+        // ================ UI ================
 
         private void DisplayUI()
         {

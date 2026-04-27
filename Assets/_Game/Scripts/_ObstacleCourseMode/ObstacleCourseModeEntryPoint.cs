@@ -43,6 +43,7 @@ namespace ObstacleCourseMode
 
             var prefab = G.RootCMS.CarsCMS.GetCarCMS(carId).Prefab;
             var car = CarFactory.Create(prefab, level.CarSpawnPosition, level.CarSpawnRotation);
+            G.PauseProvider.Register(car);
 
             // ========== Camera ==========
 
@@ -57,6 +58,7 @@ namespace ObstacleCourseMode
                 enterParams: enterParams,
                 car: car);
             _presenter = new ObstacleCourseModePresenter(_view, model);
+            G.PauseProvider.Register(_presenter);
 
             // ========== Start Lvel ==========
 

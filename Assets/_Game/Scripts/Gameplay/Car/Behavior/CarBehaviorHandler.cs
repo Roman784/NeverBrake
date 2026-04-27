@@ -31,11 +31,13 @@ namespace Gameplay
 
         public void Update(float deltaTime)
         {
+            if (_car.IsPaused) return;
             _currentBehavior?.Update(deltaTime);
         }
 
         public void FixedUpdate(float deltaTime)
         {
+            if (_car.IsPaused) return;
             _currentBehavior?.FixedUpdate(deltaTime);
         }
 
